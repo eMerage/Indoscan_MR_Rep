@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Indoscan Rep</string>
+
+
+    <string name="exmaincat_prompt">Main Category</string>
+    <string-array name="exmaincat_arr">
+        <item>Category 1</item>
+        <item>Category 2</item>
+    </string-array>
+
+</resources>

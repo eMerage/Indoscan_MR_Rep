@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2a3f54</color>
+    <color name="colorPrimaryDark">#253546</color>
+    <color name="colorAccent">#be8d3f</color>
+
+
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorgold">#edb04f</color>
+    <color name="colorgolddark">#be8d3f</color>
+
+
+    <color name="colorbackground">#e7e7e7</color>
+    <color name="color_edittext_background">#00000000</color>
+
+    <color name="colorHint">#c1c1c1</color>
+    <color name="colorGreen">#27ae60</color>
+    <color name="colorRed">#c0392b</color>
+</resources>

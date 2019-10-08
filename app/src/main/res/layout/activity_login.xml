@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:ProgressPicture="http://schemas.android.com/apk/res-auto">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_splash">
+
+
+        <ImageView
+            android:id="@+id/imageView_logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/logo_splash"
+            android:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/relativelayout_password"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="40dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_login_username"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularEdittext
+                    android:id="@+id/editText_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:ems="10"
+                    android:freezesText="true"
+                    android:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+                    android:hint="User Name"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="#476686"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/relativelayout_remember"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularEdittext
+                    android:id="@+id/editText_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#00000000"
+                    android:ems="10"
+                    android:freezesText="true"
+                    android:gravity="top|bottom|left|right|center_vertical|fill_vertical|center_horizontal|fill_horizontal|center|fill|start|end"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="#476686"
+                    android:textSize="17sp" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_remember"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@id/btn_login">
+
+
+            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                android:id="@+id/montserratLight3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/checkBox_rememberme"
+                android:text="Remember Me"
+                android:textColor="@color/colorgolddark"
+                android:layout_toLeftOf="@+id/checkBox_rememberme" />
+
+            <CheckBox
+                android:id="@+id/checkBox_rememberme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="35dp"
+                android:buttonTint="@color/colorgolddark"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularButton
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_above="@+id/textView8"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_selector_gold"
+            android:text="LOGIN"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/imageView4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:text="- OR -"
+            android:textColor="@color/colorgolddark" />
+
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/ic_fingerprint_gold" />
+
+
+
+
+    </RelativeLayout>
+
+
+    <include android:id="@+id/include_progres"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        layout="@layout/commen_progress_login"/>
+
+    <include android:id="@+id/include_nointernt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        layout="@layout/commen_nointernet_login"/>
+
+
+
+</RelativeLayout>

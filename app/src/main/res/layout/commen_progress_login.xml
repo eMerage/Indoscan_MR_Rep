@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#E6253546">
+
+        <com.tuyenmonkey.mkloader.MKLoader
+            android:id="@+id/proprogressview"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:mk_color="@color/colorgold"
+            app:mk_type="FishSpinner" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

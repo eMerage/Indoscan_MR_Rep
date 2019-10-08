@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativelayoutdailogmain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:text="Progress Report"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratRegular10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Year Target"
+                    android:layout_below="@+id/montserratRegular"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view"
+                    style="@style/CardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/montserratRegular10"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_header_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:elevation="5dp">
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular11"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Target"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_ytdtarget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular11"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="999999999.00"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular12"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular11"
+                            android:layout_toEndOf="@+id/montserratRegular11"
+                            android:layout_toRightOf="@+id/montserratRegular11"
+                            android:text="Achievement"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_ytdachievment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular12"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular11"
+                            android:layout_toRightOf="@+id/montserratRegular11"
+                            android:text="999999999.00"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular12"
+                            android:layout_toEndOf="@+id/montserratRegular12"
+                            android:layout_toRightOf="@+id/montserratRegular12"
+                            android:text="Percentage"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:layout_marginRight="5dp"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_ytdpresentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular13"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular12"
+                            android:layout_toRightOf="@+id/montserratRegular12"
+                            android:layout_marginRight="5dp"
+                            android:text="15%"
+                            android:textColor="#000" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratRegular101"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/card_view"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="This Month Target"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view2"
+                    style="@style/CardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/montserratRegular101"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_header_main2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:elevation="5dp">
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular111"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Target"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_monthlytarget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular111"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="999999999.00"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular121"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular111"
+                            android:layout_toEndOf="@+id/montserratRegular111"
+                            android:layout_toRightOf="@+id/montserratRegular111"
+                            android:text="Achievement"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_monthlychievment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular121"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular111"
+                            android:layout_toRightOf="@+id/montserratRegular111"
+                            android:text="999999999.00"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular131"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular121"
+                            android:layout_toEndOf="@+id/montserratRegular121"
+                            android:layout_toRightOf="@+id/montserratRegular121"
+                            android:layout_marginRight="5dp"
+                            android:text="Percentage"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_monthlypresentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular131"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular121"
+                            android:layout_toRightOf="@+id/montserratRegular121"
+                            android:layout_marginRight="5dp"
+                            android:text="15%"
+                            android:textColor="#000" />
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratRegular1011"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/card_view2"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Target Prediction"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view3"
+                    style="@style/CardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/montserratRegular1011"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_header_main22"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:elevation="5dp">
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular1111"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:text="Target Balance"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_predictionvalue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular1111"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:text="999999999.00"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular1211"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular1111"
+                            android:layout_toEndOf="@+id/montserratRegular1111"
+                            android:layout_toRightOf="@+id/montserratRegular1111"
+                            android:text="Percentage"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_predictionpresentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular1211"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular1111"
+                            android:layout_toRightOf="@+id/montserratRegular1111"
+                            android:text="999999999.00"
+                            android:textColor="#000" />
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratRegular29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/card_view3"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Promotion Budget"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view4"
+                    style="@style/CardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/montserratRegular29"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_header_main55"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:elevation="5dp">
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular1115"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Balance"
+                            android:textColor="#000" />
+
+
+                        <ImageView
+                            android:id="@+id/imageview_dialogtarget_promobalance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular1115"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:src="@drawable/ic_brightness_red" />
+
+                        
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular1215"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular1115"
+                            android:layout_toEndOf="@+id/montserratRegular1115"
+                            android:layout_toRightOf="@+id/montserratRegular1115"
+                            android:text="Next.M Budget"
+                            android:textColor="#000" />
+
+                        
+                        
+                        
+                        
+                        <ImageView android:id="@+id/imageview_dialogtarget_promonext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular1215"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_brightness_red"
+                            android:layout_toEndOf="@+id/montserratRegular1115"
+                            android:layout_toRightOf="@+id/montserratRegular1115"
+                          />
+                        
+                        
+                        
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular1315"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular1215"
+                            android:layout_toEndOf="@+id/montserratRegular1215"
+                            android:layout_toRightOf="@+id/montserratRegular1215"
+                            android:layout_marginRight="5dp"
+                            android:text="Tot.Budget"
+                            android:textColor="#000" />
+
+
+                        <ImageView android:id="@+id/imageview_dialogtarget_promototal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular1315"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_brightness_red"
+                            android:layout_toEndOf="@+id/montserratRegular1215"
+                            android:layout_toRightOf="@+id/montserratRegular1215"
+                            android:layout_marginRight="5dp"
+                          
+                            />
+
+
+
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratRegular30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/card_view4"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Average Sales Per Doctor"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_view5"
+                    style="@style/CardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/montserratRegular30"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp">
+
+                    <RelativeLayout
+                        android:id="@+id/relativeLayout_header_main77"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:elevation="5dp">
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular44"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:text="Doctors Count"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_doccount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular44"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="5dp"
+                            android:text="99999.00"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular66"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular44"
+                            android:layout_toEndOf="@+id/montserratRegular44"
+                            android:layout_toRightOf="@+id/montserratRegular44"
+                            android:text="Visit Count"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_visitcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular66"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular44"
+                            android:layout_toRightOf="@+id/montserratRegular44"
+                            android:text="9999.00"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular67"
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/montserratRegular66"
+                            android:layout_toEndOf="@+id/montserratRegular66"
+                            android:layout_toRightOf="@+id/montserratRegular66"
+                            android:text="Visit %"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_visitpresantage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/montserratRegular67"
+                            android:layout_marginTop="5dp"
+                            android:layout_toEndOf="@+id/montserratRegular66"
+                            android:layout_toRightOf="@+id/montserratRegular66"
+                            android:text="100.00"
+                            android:textColor="#000" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/montserratRegular69"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textview_dialogtarget_doccount"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginTop="10dp"
+                            android:text="Average Per Doctor"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#000" />
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                            android:id="@+id/textview_dialogtarget_avgperdoc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_below="@+id/montserratRegular69"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="20dp"
+                            android:text="999999999.00"
+                            android:textColor="#000" />
+
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</RelativeLayout>
+
+
+

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    style="@style/CardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_header_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:elevation="5dp">
+
+
+        <ImageView
+            android:id="@+id/imageView_btn_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textview_location"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_arrow_down"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_visits_poducts"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/textview_location"
+            android:layout_marginTop="15dp"
+            android:visibility="visible">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_products"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp" />
+        </RelativeLayout>
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/textview_visitno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativelayout_date"
+            android:layout_marginLeft="90dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/textview_doctor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textview_visitno"
+            android:layout_alignLeft="@+id/textview_visitno"
+            android:layout_alignTop="@+id/montserratRegular5"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/textview_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textview_visitno"
+            android:layout_alignLeft="@+id/textview_visitno"
+            android:layout_alignTop="@+id/montserratRegular6"
+            android:maxLines="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/montserratRegular3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativelayout_date"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Visit No : "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/montserratRegular5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/montserratRegular3"
+            android:layout_alignStart="@+id/montserratRegular3"
+            android:layout_alignLeft="@+id/montserratRegular3"
+            android:layout_marginTop="5dp"
+            android:text="Doctor : "
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/montserratRegular6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/montserratRegular5"
+            android:layout_alignStart="@+id/montserratRegular3"
+            android:layout_alignLeft="@+id/montserratRegular3"
+            android:layout_marginTop="5dp"
+            android:text="Location"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_date"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/colorAccent">
+
+            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                android:id="@+id/textview_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorWhite"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
+

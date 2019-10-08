@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/relativelayout_bottom_menu_bar"
+            android:layout_below="@+id/relativelayout_title_bar"
+            android:background="@color/colorPrimaryDark">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_visits"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/bg_background"
+                android:elevation="5dp"
+                android:visibility="visible">
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Select the Product"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerview_product"
+                            android:layout_below="@+id/textView1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/recyclerview_product"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Select the Doctors"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerview_doc"
+                            android:layout_below="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp" />
+
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/recyclerview_doc"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="No Of Prescription"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <RelativeLayout
+                            android:id="@+id/relativeLayout1"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_below="@+id/textView3">
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                                android:id="@+id/textView4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Monthly"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="13sp" />
+
+
+                            <EditText
+                                android:id="@+id/editText2"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/textView4"
+                                android:ems="10"
+                                android:layout_marginLeft="5dp"
+                                android:inputType="number"
+                                android:textSize="13sp"
+                                android:text=""
+                                android:hint="100"
+                                android:layout_toRightOf="@+id/textView4" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                                android:id="@+id/textView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toEndOf="@+id/editText2"
+                                android:text="Weekly"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="13sp"
+                                android:layout_toRightOf="@+id/editText2" />
+
+
+                            <EditText
+                                android:id="@+id/editText3"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/textView5"
+                                android:ems="10"
+                                android:textSize="13sp"
+                                android:layout_marginLeft="10dp"
+                                android:inputType="number"
+                                android:text=""
+                                android:hint="100"
+                                android:layout_toRightOf="@+id/textView5" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                                android:id="@+id/textView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toEndOf="@+id/editText3"
+                                android:text="Daily"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="13sp"
+                                android:layout_toRightOf="@+id/editText3" />
+
+
+                            <EditText
+                                android:id="@+id/editText4"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/textView6"
+                                android:ems="10"
+                                android:textSize="13sp"
+                                android:layout_marginLeft="10dp"
+                                android:inputType="number"
+                                android:text=""
+                                android:hint="100"
+                                android:layout_toRightOf="@+id/textView6" />
+
+
+
+
+
+                        </RelativeLayout>
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightButton
+                            android:id="@+id/btn_save_stat"
+                            android:layout_width="100dp"
+                            android:layout_height="35dp"
+                            android:layout_below="@+id/relativeLayout1"
+                            android:textSize="13sp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/bg_selector_gold"
+                            android:text="Add"
+                            android:textColor="@color/colorPrimaryDark" />
+
+
+                    </LinearLayout>
+                </ScrollView>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimaryDark">
+
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Pharmacy Visits"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/ic_navigation_menu" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_bottom_menu_bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark">
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottom_navigation_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                app:itemBackground="@color/colorPrimaryDark"
+                app:itemIconTint="@android:color/white"
+                app:itemTextColor="@android:color/white"
+                app:menu="@menu/bottom_navigation" />
+
+
+        </RelativeLayout>
+
+
+        <include
+            android:id="@+id/include_progres"
+            layout="@layout/commen_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/drawer"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="60dp"
+        android:background="@color/colorWhite"
+        android:layout_gravity="start">
+
+        <include
+            android:id="@+id/include_navigation"
+            layout="@layout/commen_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </android.support.design.widget.NavigationView>
+
+
+
+</android.support.v4.widget.DrawerLayout>

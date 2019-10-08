@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativelayoutdailogmain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="Today Summary"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="No of towns covered"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="10"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+
+
+                <ImageView
+                    android:id="@+id/ImageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/ic_file_download_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:id="@+id/relativeLayout2">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_towns"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="No of doctors visited"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="10"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+
+
+                <ImageView
+                    android:id="@+id/ImageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/ic_file_download_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:id="@+id/relativeLayout3">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_docs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="No of pharmacy visited"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="10"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+
+
+                <ImageView
+                    android:id="@+id/ImageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/ic_file_download_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:id="@+id/relativeLayout4">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_pharmacy"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp" />
+
+            </RelativeLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="No of orders collected"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="10"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Official mileage"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="100 KM"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Private mileage"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="50 KM"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Daily expenses"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="2500 LKR"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Achievement from above towns "
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="88%"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Achievement up to date(Spe)"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="88%"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium19"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Balance target(Spe)"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="500000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Not visited customers(today)"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="5"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+
+                android:layout_marginTop="5dp">
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/MontserratMedium23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="Not visited customers(total)"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:visibility="visible" />
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                    android:id="@+id/MontserratMedium24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginRight="10dp"
+                    android:text="5"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp" />
+            </RelativeLayout>
+
+
+            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightButton
+                android:id="@+id/btn_save_stat"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_below="@+id/relativeLayout6"
+                android:textSize="13sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_selector_gold"
+                android:text="Noted"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
+
+
+

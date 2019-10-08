@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    style="@style/CardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerVertical="true"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_header_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:elevation="5dp">
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+            android:id="@+id/textview_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview_rep"
+            android:layout_alignStart="@+id/textview_doctors_name"
+            android:layout_alignLeft="@+id/textview_doctors_name"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+            android:id="@+id/textview_rep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview_doctors_location"
+            android:layout_alignStart="@+id/textview_doctors_name"
+            android:layout_alignLeft="@+id/textview_doctors_name"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/textview_doctors_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview_doctors_spec"
+            android:layout_alignStart="@+id/textview_doctors_name"
+            android:layout_alignLeft="@+id/textview_doctors_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/textview_doctors_spec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview_doctors_name"
+            android:layout_alignStart="@+id/textview_doctors_name"
+            android:layout_alignLeft="@+id/textview_doctors_name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/textview_doctors_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/relativelayout_image"
+            android:layout_toRightOf="@+id/relativelayout_image"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/img_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_doctor"
+                app:civ_border_color="@color/colorWhite"
+                app:civ_border_width="1dp"
+                app:civ_shadow="true"
+                app:civ_shadow_color="#be8d3f"
+                app:civ_shadow_radius="1" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
+

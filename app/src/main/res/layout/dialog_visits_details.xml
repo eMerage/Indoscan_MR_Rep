@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativelayoutdailogmain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_background">
+
+
+        <RelativeLayout
+            android:id="@+id/relativelayout_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+
+            <ImageView
+                android:id="@+id/imageView_dialog_photo"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_photo_camera"
+                android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp" />
+
+            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratSemiBold
+                android:id="@+id/textView_noimage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:text="No Images"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/textView_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/montserratMedium6"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/montserratMedium6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativelayout_image"
+            android:layout_marginLeft="20dp"
+            android:text="Comments"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
+
+
+
+
+
+    </RelativeLayout>
+</RelativeLayout>
+
+
+

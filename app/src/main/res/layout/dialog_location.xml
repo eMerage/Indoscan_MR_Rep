@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativelayoutdailogmain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_background">
+
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+        android:id="@+id/textview_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textview_rep"
+        android:layout_alignLeft="@+id/textview_rep"
+        android:layout_alignTop="@+id/montserratRegular7"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+        android:id="@+id/montserratRegular7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_rep"
+        android:layout_alignStart="@+id/montserratRegular2"
+        android:layout_alignLeft="@+id/montserratRegular2"
+        android:layout_marginTop="5dp"
+        android:text="Location : "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+        android:id="@+id/textview_rep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/montserratRegular2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="80dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+        android:id="@+id/montserratRegular2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mapView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:text="Rep : "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+        android:id="@+id/textview_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textview_rep"
+        android:layout_alignLeft="@+id/textview_rep"
+        android:layout_alignTop="@+id/montserratRegular8"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+        android:id="@+id/montserratRegular8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_location"
+        android:layout_alignStart="@+id/montserratRegular2"
+        android:layout_alignLeft="@+id/montserratRegular2"
+        android:layout_marginTop="5dp"
+        android:text="Address : "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+        android:id="@+id/montserratRegular9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textview_address"
+        android:layout_alignStart="@+id/montserratRegular2"
+        android:layout_alignLeft="@+id/montserratRegular2"
+        android:layout_marginTop="5dp"
+        android:text="Status : "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+
+    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+        android:id="@+id/textview_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textview_rep"
+        android:layout_alignLeft="@+id/textview_rep"
+        android:layout_alignTop="@+id/montserratRegular9"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp" />
+
+
+</RelativeLayout>
+
+
+

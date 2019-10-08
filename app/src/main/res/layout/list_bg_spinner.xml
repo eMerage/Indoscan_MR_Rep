@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:gravity="center_vertical"
+        android:textSize="15sp"
+        android:textColor="#000"
+        android:padding="5dp"
+        android:background="@drawable/bg_spinner_background"/>

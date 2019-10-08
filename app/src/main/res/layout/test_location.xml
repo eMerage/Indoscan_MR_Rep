@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_doctors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:visibility="visible"
+            android:background="@drawable/bg_background"
+            android:elevation="5dp">
+
+
+            <RelativeLayout
+                android:id="@+id/relativelayout_serach_doc"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+
+                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                    android:id="@+id/montserratMedium252"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="DOCTORS"
+                    android:textColor="@color/colorPrimaryDark" />
+
+
+                <ImageView
+                    android:id="@+id/imageView_doc_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_search_black" />
+
+                <emerge.project.mrsolution_admin.ui.fonts.MontserratRegularAutoComlete
+                    android:id="@+id/autoCompleteTextView_rep"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toStartOf="@+id/imageView_doc_search"
+                    android:layout_toLeftOf="@+id/imageView_doc_search"
+                    android:layout_toEndOf="@+id/montserratMedium252"
+                    android:layout_toRightOf="@+id/montserratMedium252"
+                    android:hint="Search Doctors"
+                    android:paddingLeft="10dp"
+                    android:textColorHint="@color/colorHint"
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_doctors"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@+id/relativelayout_serach_doc"
+                android:background="@color/colorWhite" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="end|bottom"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_hospital" />
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
