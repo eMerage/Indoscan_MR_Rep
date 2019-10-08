@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -57,11 +59,7 @@ import emerge.project.mr_indoscan_rep.ui.adapters.navigation.NavigationAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 
-public class ExpensesActivity extends Activity implements  ExpensesView{
-
-
-
-
+public class ExpensesActivity extends Activity implements ExpensesView {
 
 
     static final int PICK_IMAGE_REQUEST = 3;
@@ -93,6 +91,18 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
     ImageView imageViewimage;
 
 
+    @BindView(R.id.editText_ref)
+    EditText editTextRef;
+
+
+    @BindView(R.id.editText_des)
+    EditText editTextDes;
+
+
+    @BindView(R.id.editText_amount)
+    EditText editTextAmount;
+
+
     Bitmap bitmap;
 
 
@@ -113,6 +123,10 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
     @BindView(R.id.recyclerView_iamges)
     RecyclerView recyclerViewIamges;
 
+    @BindView(R.id.include_progres)
+    View includeProgres;
+
+
 
     ExpensesImagesAdapter expensesImagesAdapter;
 
@@ -122,7 +136,6 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expences);
         ButterKnife.bind(this);
-
 
 
         bottomNavigationBar.setSelectedItemId(R.id.navigation_visits);
@@ -136,21 +149,18 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
         navigationItems.add(new Navigation("Products", R.drawable.ic_product_defult_small));
 
 
+
         navigationAdapter = new NavigationAdapter(this, navigationItems);
         listViewNavigation.setAdapter(navigationAdapter);
 
 
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewIamges.setLayoutManager(layoutManager);
         recyclerViewIamges.setItemAnimator(new DefaultItemAnimator());
         recyclerViewIamges.setNestedScrollingEnabled(false);
 
 
-
-
-
-        expensesPresenter =  new ExpensesPresenterImpli(this);
+        expensesPresenter = new ExpensesPresenterImpli(this);
 
         listViewNavigation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -162,12 +172,12 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ExpensesActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
                     startActivity(intent, bndlanimation);
                     finish();
-                }else if(position==2){
+                } else if (position == 2) {
                     Intent intent = new Intent(ExpensesActivity.this, PharmacyVisitsActivity.class);
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ExpensesActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
                     startActivity(intent, bndlanimation);
                     finish();
-                }else if(position==3){
+                } else if (position == 3) {
                     Intent intent = new Intent(ExpensesActivity.this, ProductsUnavailabilityActivity.class);
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ExpensesActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
                     startActivity(intent, bndlanimation);
@@ -177,14 +187,6 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
         });
 
 
-
-
-
-
-
-
-
-
     }
 
 
@@ -192,9 +194,28 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
     protected void onStart() {
         super.onStart();
 
+        includeProgres.setVisibility(View.VISIBLE);
         expensesPresenter.getExpensesCategory(this);
 
     }
+
+    @OnClick(R.id.btn_add_expen)
+    public void onClickAddExpenses(View view) {
+
+        includeProgres.setVisibility(View.VISIBLE);
+
+        Double billAmount = 0.0;
+        try {
+            billAmount = Double.valueOf(editTextAmount.getText().toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        expensesPresenter.postExpenses(this, filterDateStart, selectedCatID, selectedSubCatID, editTextRef.getText().toString(), editTextDes.getText().toString(),
+                billAmount,imagelist);
+
+    }
+
 
     @OnClick(R.id.imageView2)
     public void onClickSliderMenue(View view) {
@@ -221,8 +242,6 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
 
 
     }
-
-
 
 
     @Override
@@ -291,7 +310,6 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
         final DateRangeCalendarView calendarView = (DateRangeCalendarView) dialogCalander.findViewById(R.id.calendarView);
 
 
-
         String date = "";
 
         if (filterDateStart.isEmpty()) {
@@ -334,7 +352,6 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
 
             @Override
             public void onDateRangeSelected(Calendar startDate, Calendar endDate) {
-
 
 
             }
@@ -385,44 +402,50 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
     }
 
 
+    private class AddImages extends AsyncTask<Void, Void, Void> {
 
+        public AddImages() {
+        }
 
-    private class AddImages extends AsyncTask<Bitmap, String, String> {
-        protected String doInBackground(Bitmap... urls) {
+        @Override
+        protected Void doInBackground(Void... params) {
             imagelist.add(bitmap);
-            System.out.println("hhhhhhhhhhhhhhhhhhhhhh 1 ");
-
-            return "";
+            return null;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-
-        }
-        protected void onPostExecute(Long result) {
-            System.out.println("hhhhhhhhhhhhhhhhhhhhhh 2");
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            includeProgres.setVisibility(View.GONE);
             showImages();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            includeProgres.setVisibility(View.VISIBLE);
         }
     }
 
 
-    private void showImages(){
-        expensesImagesAdapter = new ExpensesImagesAdapter(this,imagelist);
-        System.out.println("hhhhhhhhhhhhhhhhhhhhhh 3");
+    private void showImages() {
+        expensesImagesAdapter = new ExpensesImagesAdapter(this, imagelist);
         recyclerViewIamges.setAdapter(expensesImagesAdapter);
 
     }
 
 
-
-
     @Override
     public void expensesCategoryList(ArrayList<ExpencesCategorys> list) {
+
+        includeProgres.setVisibility(View.GONE);
+
         expensesPresenter.getExpensesSubCategory(this);
 
         ExpensesCategorySpnninerAdaptar adapter = new ExpensesCategorySpnninerAdaptar(this, R.layout.textview_spinner, list);
-       spinnerMaincat.setAdapter(adapter); // this will set list of values to spinner
+        spinnerMaincat.setAdapter(adapter); // this will set list of values to spinner
 
-        spinnerMaincat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        spinnerMaincat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 ExpencesCategorys ex = (ExpencesCategorys) parent.getItemAtPosition(pos);
                 selectedCatID = ex.getId();
@@ -437,6 +460,7 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
 
     @Override
     public void expensesCategoryFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
         try {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Warning");
@@ -444,6 +468,7 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
             alertDialogBuilder.setPositiveButton("Re-Try",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
                             expensesPresenter.getExpensesCategory(ExpensesActivity.this);
                         }
                     });
@@ -462,6 +487,7 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
 
     @Override
     public void expensesCategoryNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
         Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
 
     }
@@ -469,10 +495,12 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
     @Override
     public void expensesSubCategoryList(ArrayList<ExpencesCategorys> subList) {
 
+        includeProgres.setVisibility(View.GONE);
+
         ExpensesCategorySpnninerAdaptar adapter = new ExpensesCategorySpnninerAdaptar(this, R.layout.textview_spinner, subList);
         spinnerSubcat.setAdapter(adapter); // this will set list of values to spinner
 
-        spinnerSubcat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        spinnerSubcat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 ExpencesCategorys ex = (ExpencesCategorys) parent.getItemAtPosition(pos);
                 selectedSubCatID = ex.getId();
@@ -485,37 +513,91 @@ public class ExpensesActivity extends Activity implements  ExpensesView{
         });
 
 
-
-
     }
 
     @Override
     public void expensesSubCategoryFail(String failMsg) {
-
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            expensesPresenter.getExpensesSubCategory(ExpensesActivity.this);
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void expensesSubCategoryNetworkFail() {
-
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void postExpensesError(String msg) {
-
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void postExpensesSuccess() {
-
+        includeProgres.setVisibility(View.GONE);
     }
 
     @Override
     public void postExpensesFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
 
+                            includeProgres.setVisibility(View.VISIBLE);
+                            Double billAmount = 0.0;
+                            try {
+                                billAmount = Double.valueOf(editTextAmount.getText().toString());
+                            } catch (NumberFormatException num) {
+
+                            }
+
+                            expensesPresenter.postExpenses(ExpensesActivity.this, filterDateStart, selectedCatID, selectedSubCatID, editTextRef.getText().toString(), editTextDes.getText().toString(),
+                                    billAmount,imagelist);
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void postExpensesNetworkFail() {
-
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
     }
 }

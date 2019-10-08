@@ -76,9 +76,41 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
     }
 
     @Override
-    public void postExpenses(Context context, String billdate, int catID, int subCatid, String ref, String description, Double billamount, ArrayList<Bitmap> imagelist, OnPostExpensesFinishedListener onPostExpensesFinishedListener) {
+    public void postExpenses(Context context, String billdate, int catID, int subCatid, String ref, String description, Double billamount, ArrayList<Bitmap> imagelist,
+                             OnPostExpensesFinishedListener onPostExpensesFinishedListener) {
 
-    }
+
+
+        if (!NetworkAvailability.isNetworkAvailable(context)) {
+            onPostExpensesFinishedListener.postExpensesNetworkFail();
+        } else if ((billdate.isEmpty())  ||  (billamount.equals(""))) {
+            onPostExpensesFinishedListener.postExpensesError("Please set the Bill Date");
+        } else if (catID == 0) {
+            onPostExpensesFinishedListener.postExpensesError("Please select the Category");
+        } else if (subCatid == 0) {
+            onPostExpensesFinishedListener.postExpensesError("Please select the Sub Category");
+        } else if (billamount == 0.0) {
+            onPostExpensesFinishedListener.postExpensesError("Please add bill value");
+        }else if (imagelist.size()==0) {
+            onPostExpensesFinishedListener.postExpensesError("Please add reference image");
+        } else {
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+        }
 }
 
 
