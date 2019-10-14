@@ -24,6 +24,7 @@ public interface ExpensesInteractor {
     }
     void getExpensesCategory(Context context, OnGetExpensesCategoryFinishedListener onGetExpensescategoryFinishedListener);
 
+
     interface OnGetExpensesSubCategoryFinishedListener {
         void expensesSubCategoryList(ArrayList<ExpencesCategorys> subList);
         void expensesSubCategoryFail(String failMsg);

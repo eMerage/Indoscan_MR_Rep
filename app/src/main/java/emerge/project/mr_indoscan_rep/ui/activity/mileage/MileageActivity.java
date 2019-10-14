@@ -1,13 +1,18 @@
 package emerge.project.mr_indoscan_rep.ui.activity.mileage;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.os.Build;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,11 +25,26 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
@@ -34,6 +54,8 @@ import butterknife.OnClick;
 import emerge.project.mr_indoscan_rep.R;
 import emerge.project.mr_indoscan_rep.ui.activity.doctors.DoctorsActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.expences.ExpensesActivity;
+import emerge.project.mr_indoscan_rep.ui.activity.expences.ExpensesPresenter;
+import emerge.project.mr_indoscan_rep.ui.activity.expences.ExpensesPresenterImpli;
 import emerge.project.mr_indoscan_rep.ui.activity.locations.LocationActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.visits.VisitsActivity;
@@ -46,7 +68,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Towns;
 
-public class MileageActivity extends Activity {
+public class MileageActivity extends Activity implements MileageView {
 
     static final int PICK_IMAGE_REQUEST = 3;
 
@@ -62,26 +84,80 @@ public class MileageActivity extends Activity {
     ListView listViewNavigation;
 
 
+    @BindView(R.id.relativelayout_day_start)
+    RelativeLayout relativelayoutDayStart;
+
+
+    @BindView(R.id.relativelayout_day_end)
+    RelativeLayout relativelayoutDayEnd;
+
+
     Bitmap bitmap;
 
     @BindView(R.id.imageView_payment_image)
     ImageView imageViewimage;
 
+
+    @BindView(R.id.include_progres)
+    View includeProgres;
+
+
+
+    @BindView(R.id.editText22)
+    View editTextDayStartODMeterReading;
+
+
+    @BindView(R.id.editText1)
+    View editTextCurrentDayODMeterReading;
+
+
+    @BindView(R.id.editText)
+    View editTextDayEndODMeterReading;
+
+
+    @BindView(R.id.editText3)
+    View editTextMileageForDay;
+
+    @BindView(R.id.editText4)
+    View editTextPrivertMileageForDay;
+
+
+
+
+    MileagePresenter mileagePresenter;
+
+
     NavigationAdapter navigationAdapter;
+    LocationRequest request;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private LocationCallback locationCallback;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
+    LatLng currentLocation = new LatLng(0.0, 0.0);
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mileage);
 
-
-
         ButterKnife.bind(this);
-
 
 
         bottomNavigationBar.setSelectedItemId(R.id.navigation_visits);
         bottomNavigationBar.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        request = new LocationRequest();
+
+
 
 
         ArrayList<Navigation> navigationItems = new ArrayList<Navigation>();
@@ -91,6 +167,7 @@ public class MileageActivity extends Activity {
         navigationItems.add(new Navigation("Products", R.drawable.ic_product_defult_small));
 
 
+        mileagePresenter = new MileagePresenterImpli(this);
 
         navigationAdapter = new NavigationAdapter(this, navigationItems);
         listViewNavigation.setAdapter(navigationAdapter);
@@ -115,8 +192,61 @@ public class MileageActivity extends Activity {
         });
 
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                makeRequest();
+
+            } else {
+                createLocationRequest();
+            }
+
+        } else {
+
+            createLocationRequest();
+        }
+
+
+
+
+/*
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.WRITE_CALENDAR
+            ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                makeRequest()
+            } else {
+                createLocationRequest()
+            }
+        } else {
+            createLocationRequest()
+        }*/
+
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    currentLocation =  new LatLng(location.getLatitude(),location.getLongitude());
+                }
+            }
+        };
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        includeProgres.setVisibility(View.VISIBLE);
+        mileagePresenter.checkDayStartMileage(this);
+
+    }
 
     @OnClick(R.id.btn_save_end)
     public void onClickDayEndSave(View view) {
@@ -141,6 +271,10 @@ public class MileageActivity extends Activity {
 
     }
 
+
+    private void makeRequest() {
+        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    }
 
     @OnClick(R.id.imageView2)
     public void onClickSliderMenue(View view) {
@@ -199,6 +333,46 @@ public class MileageActivity extends Activity {
         }
     };
 
+    protected void createLocationRequest() {
+        request = LocationRequest.create();
+        request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(request);
+
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+
+                }
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        startLocationUpdates();
+
+    }
+
+    private void startLocationUpdates() {
+        fusedLocationClient.requestLocationUpdates(request,
+                locationCallback,
+                Looper.getMainLooper());
+    }
 
     private void todaySummery(){
 
@@ -340,4 +514,111 @@ public class MileageActivity extends Activity {
 
     }
 
+    @Override
+    public void dayStartMileage() {
+        includeProgres.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void dayStartMileageFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.VISIBLE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            mileagePresenter.checkDayStartMileage(MileageActivity.this);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void dayStartMileageNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.VISIBLE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void postDayStartMileageError(String msg) {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void postDayStartMileageSuccess() {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setMessage("Day start mileage adding success");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, "Day start mileage adding success", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void postDayStartMileageFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                           // mileagePresenter.dsds
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void postDayStartMileageNetworkFail() {
+
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
 }
