@@ -37,6 +37,42 @@ public class MileageInteractorImpil implements MileageInteractor {
     @Override
     public void postDayStartMileage(Context context, int currentOdometerReading, int currentDayOdometerReading, Double latitude, Double longitude, OnpostDayStartMileageFinishedListener onpostDayStartMileageFinishedListener) {
 
+        if (!NetworkAvailability.isNetworkAvailable(context)) {
+            onpostDayStartMileageFinishedListener.postDayStartMileageNetworkFail();
+        } else if(currentOdometerReading==0){
+            onpostDayStartMileageFinishedListener.postDayStartMileageError("Please add previous day Odometer reading");
+        }else if(currentDayOdometerReading==0) {
+            onpostDayStartMileageFinishedListener.postDayStartMileageError("Please add current day Odometer reading");
+        }else {
+            onpostDayStartMileageFinishedListener.postDayStartMileageSuccess();
+
+        }
+
+    }
+
+    @Override
+    public void postDayEndMileage(Context context, int dayEndOdometerReading, int mileagePerDay, int privetMileagePerDay, Bitmap image, Double latitude, Double longitude,
+                                  OnPostDayEndMileageFinishedListener onPostDayEndMileageFinishedListener) {
+        if (!NetworkAvailability.isNetworkAvailable(context)) {
+            onPostDayEndMileageFinishedListener.postDayEndMileageNetworkFail();
+        } else if(dayEndOdometerReading==0){
+            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add day end Odometer reading");
+        }else if(mileagePerDay==0) {
+            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add mileage per day");
+        } else if(privetMileagePerDay==0) {
+            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add private mileage per day");
+        } else if(image==null) {
+            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add image of the meeter");
+        } else {
+            onPostDayEndMileageFinishedListener.postDayEndMileageSuccess();
+        }
+
+    }
+
+    @Override
+    public void getDetailsSummary(OnDetailsSummaryFinishedListener onDetailsSummaryFinishedListener) {
+
+
     }
 
 

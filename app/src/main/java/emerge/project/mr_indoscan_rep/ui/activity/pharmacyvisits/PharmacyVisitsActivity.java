@@ -15,7 +15,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,17 +41,19 @@ import emerge.project.mr_indoscan_rep.ui.activity.mileage.MileageActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.products.ProductsUnavailabilityActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.visits.VisitsActivity;
 import emerge.project.mr_indoscan_rep.ui.adapters.navigation.NavigationAdapter;
+import emerge.project.mr_indoscan_rep.ui.adapters.pharmacy.PharmacyAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.pharmacy.PharmacyDoctorAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.pharmacy.ProductAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
+import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class PharmacyVisitsActivity extends Activity {
+public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsView {
 
 
     @BindView(R.id.drawer_layout)
@@ -69,6 +74,27 @@ public class PharmacyVisitsActivity extends Activity {
     RecyclerView recyclerviewDoc;
 
 
+    @BindView(R.id.recyclerview_pharmacy)
+    RecyclerView recyclerviewPharmacy;
+
+
+
+    @BindView(R.id.autoCompleteTextView_pha)
+    AutoCompleteTextView autoTextViewPha;
+
+
+    @BindView(R.id.autoCompleteTextView_pro)
+    AutoCompleteTextView autoTextViewPro;
+
+
+    @BindView(R.id.autoCompleteTextView_doc)
+    AutoCompleteTextView autoTextViewDoc;
+
+
+    @BindView(R.id.include_progres)
+    View includeProgres;
+
+
     NavigationAdapter navigationAdapter;
     public static String tokenID;
     EncryptedPreferences encryptedPreferences;
@@ -77,10 +103,20 @@ public class PharmacyVisitsActivity extends Activity {
     ApiInterface apiService;
 
 
-    ArrayList<Products> productsArrayList = new ArrayList<Products>();
-    ArrayList<Doctor> docArrayList = new ArrayList<Doctor>();
+    ArrayList<Products> allProductsList = new ArrayList<Products>();
+    ArrayList<Pharmacy> allPharmacyList= new ArrayList<Pharmacy>();
+    ArrayList<Doctor> allDoctorsList = new ArrayList<Doctor>();
 
-    ArrayList<Doctor> doctorList= new ArrayList<Doctor>();
+
+
+    PharmacyVisitsPresenter pharmacyVisitsPresenter;
+
+
+
+    int selectedPharmacy = 0;
+    int selectedProduct = 0;
+    int selectedDoctor = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +146,9 @@ public class PharmacyVisitsActivity extends Activity {
         navigationAdapter = new NavigationAdapter(this, navigationItems);
         listViewNavigation.setAdapter(navigationAdapter);
 
+        pharmacyVisitsPresenter =  new PharmacyVisitsPresenterImpli(this);
+
+
         listViewNavigation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,130 +175,26 @@ public class PharmacyVisitsActivity extends Activity {
         });
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerviewProduct.setLayoutManager(layoutManager);
-        recyclerviewProduct.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewProduct.setNestedScrollingEnabled(false);
 
+        pharmacyVisitsPresenter.getPharmacy(PharmacyVisitsActivity.this);
 
-        LinearLayoutManager layoutManagerDoc = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerviewDoc.setLayoutManager(layoutManagerDoc);
-        recyclerviewDoc.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewDoc.setNestedScrollingEnabled(false);
-
-        getProducts();
-        getDoc();
+       // getProducts();
+      //  getDoc();
     }
 
-    private void getProducts() {
-        if (!NetworkAvailability.isNetworkAvailable(this)) {
-            Toast.makeText(this, "No Internet Access, Please try again", Toast.LENGTH_SHORT).show();
-        } else {
-            try {
-                int userId = encryptedPreferences.getInt(USER_ID, 0);
-                apiService.getAllProductsForMR(userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<ArrayList<Products>>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                            }
-
-                            @Override
-                            public void onNext(ArrayList<Products> pro) {
-                                productsArrayList = pro;
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                setProducts(productsArrayList);
-
-                            }
-                        });
-            } catch (Exception ex) {
-                Toast.makeText(this, "Something went wrong, Please try again", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-
-    }
-
-    private void setProducts(ArrayList<Products> pro) {
-        ProductAdapter productAdapter = new ProductAdapter(this, pro);
-        recyclerviewProduct.setAdapter(productAdapter);
-    }
-    private void getDoc() {
-        if (!NetworkAvailability.isNetworkAvailable(this)) {
-            Toast.makeText(this, "No Internet Access, Please try again", Toast.LENGTH_SHORT).show();
-        } else {
-            try {
-                int userId = encryptedPreferences.getInt(USER_ID, 0);
-                apiService.getAllDoctors(tokenID, userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<ArrayList<Doctor>>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                            }
-
-                            @Override
-                            public void onNext(ArrayList<Doctor> doc) {
-                                docArrayList = doc;
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                setDoc(docArrayList);
-
-                            }
-                        });
-            } catch (Exception ex) {
-                Toast.makeText(this, "Something went wrong, Please try again", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-    }
-
-    private void setDoc(ArrayList<Doctor> doc) {
-        if(doc.isEmpty()){
-            doctorList.add(new Doctor(1, "Test","Test", "0796607483", "Test", "Test", "Test",
-                    1, "Test", "Test", true, false
-                    , "Test", "Test", null, null,"true",false));
-
-            doctorList.add(new Doctor(1, "Test","Test", "0796607483", "Test", "Test", "Test",
-                    1, "Test", "Test", true, false
-                    , "Test", "Test", null, null,"true",false));
-
-            doctorList.add(new Doctor(1, "Test","Test", "0796607483", "Test", "Test", "Test",
-                    1, "Test", "Test", true, false
-                    , "Test", "Test", null, null,"true",false));
-
-            doc = doctorList;
-
-        }else {
-
-        }
 
 
-
-        PharmacyDoctorAdapter pharmacyDoctorAdapter = new PharmacyDoctorAdapter(this,doc);
-        recyclerviewDoc.setAdapter(pharmacyDoctorAdapter);
-    }
 
 
     @OnClick(R.id.imageView2)
     public void onClickSliderMenue(View view) {
         dLayout.openDrawer(Gravity.LEFT);
+    }
+
+
+    @OnClick(R.id.imageView_pha_search)
+    public void onClickPhaSerach(View view) {
+        pharmacyVisitsPresenter.searchPharmacy(allPharmacyList,autoTextViewPha.getText().toString());
     }
 
     @Override
@@ -315,4 +250,150 @@ public class PharmacyVisitsActivity extends Activity {
         }
     };
 
+
+
+
+
+    @Override
+    public void pharmacyList(ArrayList<Pharmacy> pharmacyList, ArrayList<String> pharmacyNAmeList) {
+        includeProgres.setVisibility(View.GONE);
+
+        allPharmacyList = pharmacyList;
+
+        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this,pharmacyList,this);
+        recyclerviewPharmacy.setAdapter(pharmacyAdapter);
+
+
+        ArrayAdapter<String> phaAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, pharmacyNAmeList);
+        autoTextViewPha.setAdapter(phaAdapterList);
+
+
+        autoTextViewPha.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                String selectedPha = parent.getItemAtPosition(pos).toString();
+
+                pharmacyVisitsPresenter.searchPharmacy(allPharmacyList,selectedPha);
+
+            }
+        });
+
+
+        pharmacyVisitsPresenter.getProduct(PharmacyVisitsActivity.this);
+
+
+    }
+
+    @Override
+    public void pharmacyFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            pharmacyVisitsPresenter.getPharmacy(PharmacyVisitsActivity.this);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void pharmacyNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void searchPharmacyList(ArrayList<Pharmacy> pharmacyList) {
+
+        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this,pharmacyList,this);
+        recyclerviewPharmacy.setAdapter(pharmacyAdapter);
+
+    }
+
+    @Override
+    public void selectedPharmacyID(int selectedPharmacyId) {
+        selectedPharmacy = selectedPharmacyId;
+    }
+
+    @Override
+    public void productList(ArrayList<Products> productList, ArrayList<String> productNameList) {
+
+        includeProgres.setVisibility(View.GONE);
+
+        allProductsList = productList;
+
+        ProductAdapter productAdapter = new ProductAdapter(this,productList,this);
+        recyclerviewProduct.setAdapter(productAdapter);
+
+
+        ArrayAdapter<String> adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, productNameList);
+        autoTextViewPro.setAdapter(adapterList);
+
+        autoTextViewPro.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                String selectedItem = parent.getItemAtPosition(pos).toString();
+
+               // pharmacyVisitsPresenter.searchPharmacy(allPharmacyList,selectedPha);
+
+            }
+        });
+
+
+      //  pharmacyVisitsPresenter.getProduct(PharmacyVisitsActivity.this);
+
+
+
+
+    }
+
+    @Override
+    public void productFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            pharmacyVisitsPresenter.getProduct(PharmacyVisitsActivity.this);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void productNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
 }

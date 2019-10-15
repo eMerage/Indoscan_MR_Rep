@@ -229,7 +229,7 @@
                                     android:textColor="@color/colorPrimaryDark"
                                     android:layout_centerVertical="true"
                                     android:textSize="14sp"
-                                    android:inputType=""
+                                    android:inputType="numberDecimal"
                                     android:hint="Bill amount"/>
 
                                 <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular

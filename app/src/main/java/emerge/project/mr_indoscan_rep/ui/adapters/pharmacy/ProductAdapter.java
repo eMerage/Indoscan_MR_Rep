@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import emerge.project.mr_indoscan_rep.R;
+import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsPresenter;
+import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsPresenterImpli;
+import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsView;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 
 
@@ -36,10 +39,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
     Context mContext;
     ArrayList<Products> productItems;
 
-
-    public ProductAdapter(Context mContext, ArrayList<Products> item) {
+    PharmacyVisitsPresenter pharmacyVisitsPresenter;
+    public ProductAdapter(Context mContext, ArrayList<Products> item, PharmacyVisitsView view) {
         this.mContext = mContext;
         this.productItems = item;
+
+        pharmacyVisitsPresenter = new PharmacyVisitsPresenterImpli(view);
 
     }
 

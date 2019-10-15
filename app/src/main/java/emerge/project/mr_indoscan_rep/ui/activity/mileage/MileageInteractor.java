@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 
+import emerge.project.mr_indoscan_rep.utils.entittes.DetailsSummary;
 import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
 
 /**
@@ -31,6 +32,27 @@ public interface MileageInteractor {
         void  postDayStartMileageNetworkFail();
     }
     void postDayStartMileage(Context context,int currentOdometerReading,int currentDayOdometerReading,Double latitude,Double longitude,OnpostDayStartMileageFinishedListener onpostDayStartMileageFinishedListener);
+
+
+
+    interface OnPostDayEndMileageFinishedListener {
+        void  postDayEndMileageError(String msg);
+        void  postDayEndMileageSuccess();
+        void  postDayEndMileageFail(String failMsg);
+        void  postDayEndMileageNetworkFail();
+    }
+    void postDayEndMileage(Context context,int dayEndOdometerReading,int mileagePerDay,int privetMileagePerDay, Bitmap image,Double latitude,Double longitude,OnPostDayEndMileageFinishedListener onPostDayEndMileageFinishedListener );
+
+
+    interface OnDetailsSummaryFinishedListener {
+        void detailsSummaryList(DetailsSummary list);
+        void detailsSummaryFail(String failMsg);
+        void detailsSummaryNetworkFail();
+    }
+    void getDetailsSummary(OnDetailsSummaryFinishedListener onDetailsSummaryFinishedListener );
+
+
+
 
 
 

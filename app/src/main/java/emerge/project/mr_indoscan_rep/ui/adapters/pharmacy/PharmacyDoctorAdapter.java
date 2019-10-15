@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import emerge.project.mr_indoscan_rep.R;
+import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsPresenter;
+import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsPresenterImpli;
+import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsView;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 
 
@@ -36,10 +39,13 @@ public class PharmacyDoctorAdapter extends RecyclerView.Adapter<PharmacyDoctorAd
     Context mContext;
     ArrayList<Doctor> docItems;
 
+    PharmacyVisitsPresenter pharmacyVisitsPresenter;
 
-    public PharmacyDoctorAdapter(Context mContext, ArrayList<Doctor> item) {
+    public PharmacyDoctorAdapter(Context mContext, ArrayList<Doctor> item, PharmacyVisitsView view) {
         this.mContext = mContext;
         this.docItems = item;
+
+        pharmacyVisitsPresenter = new PharmacyVisitsPresenterImpli(view);
 
     }
 

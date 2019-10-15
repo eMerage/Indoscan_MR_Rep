@@ -40,15 +40,118 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
-                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
-                            android:id="@+id/textView1"
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp">
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                                android:id="@+id/montserratMedium252"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Select Pharmacy"
+                                android:textColor="@color/colorPrimaryDark" />
+
+
+                            <ImageView
+                                android:id="@+id/imageView_pha_search"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="5dp"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="10dp"
+                                android:paddingRight="10dp"
+                                android:src="@drawable/ic_search_black" />
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularAutoComlete
+                                android:id="@+id/autoCompleteTextView_pha"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_centerVertical="true"
+                                android:completionThreshold="1"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toStartOf="@+id/imageView_pha_search"
+                                android:layout_toLeftOf="@+id/imageView_pha_search"
+                                android:layout_toEndOf="@+id/montserratMedium252"
+                                android:layout_toRightOf="@+id/montserratMedium252"
+                                android:hint="Search Pharmacy"
+                                android:paddingLeft="10dp"
+                                android:textColorHint="@color/colorHint"
+                                android:textSize="14sp"
+                                />
+                        </RelativeLayout>
+
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerview_pharmacy"
+                            android:layout_below="@+id/textView1"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="Select the Product"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="15sp" />
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="10dp" />
+
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp">
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                                android:id="@+id/montserratMedium253"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Select Product"
+                                android:textColor="@color/colorPrimaryDark" />
+
+
+                            <ImageView
+                                android:id="@+id/imageView_pro_search"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="5dp"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="10dp"
+                                android:paddingRight="10dp"
+                                android:src="@drawable/ic_search_black" />
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularAutoComlete
+                                android:id="@+id/autoCompleteTextView_pro"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_centerVertical="true"
+                                android:completionThreshold="1"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toStartOf="@+id/imageView_pro_search"
+                                android:layout_toLeftOf="@+id/imageView_pro_search"
+                                android:layout_toEndOf="@+id/montserratMedium253"
+                                android:layout_toRightOf="@+id/montserratMedium253"
+                                android:hint="Search Product"
+                                android:paddingLeft="10dp"
+                                android:textColorHint="@color/colorHint"
+                                android:textSize="14sp"
+                               />
+                        </RelativeLayout>
+
+
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerview_product"
@@ -56,22 +159,61 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                             android:layout_alignParentLeft="true"
                             android:layout_marginStart="5dp"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="10dp" />
 
 
-                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/recyclerview_product"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="Select the Doctors"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="15sp" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp">
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                                android:id="@+id/montserratMedium254"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Select Doctors"
+                                android:textColor="@color/colorPrimaryDark" />
+
+
+                            <ImageView
+                                android:id="@+id/imageView_doc_search"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="5dp"
+                                android:paddingLeft="10dp"
+                                android:paddingTop="10dp"
+                                android:paddingRight="10dp"
+                                android:src="@drawable/ic_search_black" />
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularAutoComlete
+                                android:id="@+id/autoCompleteTextView_doc"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:layout_centerVertical="true"
+                                android:completionThreshold="1"
+                                android:layout_marginLeft="10dp"
+                                android:layout_toStartOf="@+id/imageView_doc_search"
+                                android:layout_toLeftOf="@+id/imageView_doc_search"
+                                android:layout_toEndOf="@+id/montserratMedium254"
+                                android:layout_toRightOf="@+id/montserratMedium254"
+                                android:hint="Search Doctors"
+                                android:paddingLeft="10dp"
+                                android:textColorHint="@color/colorHint"
+                                android:textSize="14sp"
+                               />
+                        </RelativeLayout>
+
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerview_doc"
@@ -79,6 +221,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                             android:layout_alignParentLeft="true"
                             android:layout_marginStart="5dp"
                             android:layout_marginLeft="5dp"

@@ -17,8 +17,8 @@ public interface MileagePresenter {
     void checkDayStartMileage(Context context);
 
     void postDayStartMileage(Context context,int currentOdometerReading,int currentDayOdometerReading,Double latitude,Double longitude);
-
-
+    void postDayEndMileage(Context context,int dayEndOdometerReading,int mileagePerDay,int privetMileagePerDay, Bitmap image,Double latitude,Double longitude );
+    void getDetailsSummary();
 
 
 

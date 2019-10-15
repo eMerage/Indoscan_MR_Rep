@@ -11,6 +11,7 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Looper;
 import android.provider.MediaStore;
@@ -27,9 +28,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -63,6 +66,7 @@ import emerge.project.mr_indoscan_rep.ui.adapters.mileage.TownsCoverdAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.mileage.VisitsDocsAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.mileage.VisitsPharmacyAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.navigation.NavigationAdapter;
+import emerge.project.mr_indoscan_rep.utils.entittes.DetailsSummary;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
@@ -104,22 +108,22 @@ public class MileageActivity extends Activity implements MileageView {
 
 
     @BindView(R.id.editText22)
-    View editTextDayStartODMeterReading;
+    EditText editTextDayStartODMeterReading;
 
 
     @BindView(R.id.editText1)
-    View editTextCurrentDayODMeterReading;
+    EditText editTextCurrentDayODMeterReading;
 
 
     @BindView(R.id.editText)
-    View editTextDayEndODMeterReading;
+    EditText editTextDayEndODMeterReading;
 
 
     @BindView(R.id.editText3)
-    View editTextMileageForDay;
+    EditText editTextMileageForDay;
 
     @BindView(R.id.editText4)
-    View editTextPrivertMileageForDay;
+    EditText editTextPrivertMileageForDay;
 
 
 
@@ -137,9 +141,15 @@ public class MileageActivity extends Activity implements MileageView {
 
     LatLng currentLocation = new LatLng(0.0, 0.0);
 
+    int codmr = 0;
+    int cdayodmr = 0;
 
 
+    int dayendreading = 0;
+    int dayendmileage = 0;
+    int dayendprivertmileage = 0;
 
+    Bundle imageExtras;
 
 
     @Override
@@ -192,38 +202,15 @@ public class MileageActivity extends Activity implements MileageView {
         });
 
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 makeRequest();
-
             } else {
                 createLocationRequest();
             }
-
         } else {
-
             createLocationRequest();
         }
-
-
-
-
-/*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.WRITE_CALENDAR
-            ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                makeRequest()
-            } else {
-                createLocationRequest()
-            }
-        } else {
-            createLocationRequest()
-        }*/
-
 
         locationCallback = new LocationCallback() {
             @Override
@@ -239,18 +226,52 @@ public class MileageActivity extends Activity implements MileageView {
 
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-
         includeProgres.setVisibility(View.VISIBLE);
         mileagePresenter.checkDayStartMileage(this);
-
     }
+
+    @OnClick(R.id.btn_save_stat)
+    public void onClickDayStartSave(View view) {
+        includeProgres.setVisibility(View.VISIBLE);
+
+        try {
+            codmr =  Integer.parseInt(editTextDayStartODMeterReading.getText().toString());
+        }catch (NumberFormatException num){
+
+        }
+        try {
+            cdayodmr =  Integer.parseInt(editTextCurrentDayODMeterReading.getText().toString());
+        }catch (NumberFormatException num){
+
+        }
+        mileagePresenter.postDayStartMileage(this,codmr,cdayodmr,currentLocation.latitude,currentLocation.longitude);
+    }
+
 
     @OnClick(R.id.btn_save_end)
     public void onClickDayEndSave(View view) {
-        todaySummery();
+        includeProgres.setVisibility(View.VISIBLE);
+        try {
+            dayendreading =  Integer.parseInt(editTextDayEndODMeterReading.getText().toString());
+        }catch (NumberFormatException num){
+
+        }
+        try {
+            dayendmileage =  Integer.parseInt(editTextMileageForDay.getText().toString());
+        }catch (NumberFormatException num){
+
+        }
+        try {
+            dayendprivertmileage =  Integer.parseInt(editTextPrivertMileageForDay.getText().toString());
+        }catch (NumberFormatException num){
+
+        }
+        mileagePresenter.postDayEndMileage(this,dayendreading,dayendmileage,dayendprivertmileage,bitmap,currentLocation.latitude,currentLocation.longitude);
+
 
     }
 
@@ -258,16 +279,13 @@ public class MileageActivity extends Activity implements MileageView {
     @OnClick(R.id.imageView_payment_image_cam_icon)
     public void onClickCamIcon(View view) {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(takePictureIntent, PICK_IMAGE_REQUEST);
             }
-
         } else {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST_ACCESS_CAMERA);
         }
-
 
     }
 
@@ -374,7 +392,7 @@ public class MileageActivity extends Activity implements MileageView {
                 Looper.getMainLooper());
     }
 
-    private void todaySummery(){
+    private void todaySummery(DetailsSummary list){
 
         Dialog dialogFullDetails = new Dialog(this);
         dialogFullDetails.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -388,19 +406,25 @@ public class MileageActivity extends Activity implements MileageView {
         RecyclerView recyclerviewTowns = dialogFullDetails.findViewById(R.id.recyclerview_towns);
 
 
+        TownsCoverdAdapter townsCoverdAdapter =  new TownsCoverdAdapter(this,list.getTownList());
+        recyclerviewTowns.setAdapter(townsCoverdAdapter);
+
+
         ImageView ImageView2 = dialogFullDetails.findViewById(R.id.ImageView2);
         final RelativeLayout relativeLayout3 = dialogFullDetails.findViewById(R.id.relativeLayout3);
         RecyclerView recyclerviewDocs = dialogFullDetails.findViewById(R.id.recyclerview_docs);
 
+
+        VisitsDocsAdapter visitsDocsAdapter =  new VisitsDocsAdapter(this,list.getDoctorList());
+        recyclerviewDocs.setAdapter(visitsDocsAdapter);
 
 
         ImageView ImageView3 = dialogFullDetails.findViewById(R.id.ImageView3);
         final RelativeLayout relativeLayout4 = dialogFullDetails.findViewById(R.id.relativeLayout4);
         RecyclerView recyclerviewPharmacy = dialogFullDetails.findViewById(R.id.recyclerview_pharmacy);
 
-
-
-
+        VisitsPharmacyAdapter visitsPharmacyAdapter =  new VisitsPharmacyAdapter(this,list.getPharmacyList());
+        recyclerviewPharmacy.setAdapter(visitsPharmacyAdapter);
 
 
 
@@ -443,32 +467,47 @@ public class MileageActivity extends Activity implements MileageView {
 
 
 
-        ArrayList<Towns> townsItems =  new ArrayList<>();
-        for(int a =1;a<10;a++){
-            String tw = "Colombo "+a;
-            townsItems.add(new Towns(a,tw));
-        }
-        TownsCoverdAdapter townsCoverdAdapter =  new TownsCoverdAdapter(this,townsItems);
-        recyclerviewTowns.setAdapter(townsCoverdAdapter);
+        TextView textTowncount = dialogFullDetails.findViewById(R.id.MontserratMedium2);
+        textTowncount.setText(String.valueOf(list.getTownCount()));
+
+        TextView textDocVistscount = dialogFullDetails.findViewById(R.id.MontserratMedium4);
+        textDocVistscount.setText(String.valueOf(list.getDoctorCount()));
+
+        TextView textPhaVistscount = dialogFullDetails.findViewById(R.id.MontserratMedium6);
+        textPhaVistscount.setText(String.valueOf(list.getPharmacyCount()));
 
 
-        ArrayList<Doctor> doctorItems =  new ArrayList<>();
-        for(int a =1;a<10;a++){
-            String tw = "Doctor "+a;
-            doctorItems.add(new Doctor(a,tw));
-        }
-        VisitsDocsAdapter visitsDocsAdapter =  new VisitsDocsAdapter(this,doctorItems);
-        recyclerviewDocs.setAdapter(visitsDocsAdapter);
+        TextView textOrderCollectscount = dialogFullDetails.findViewById(R.id.MontserratMedium8);
+        textOrderCollectscount.setText(String.valueOf(list.getCollectedOrdersCount()));
+
+        TextView textOfficalMileage = dialogFullDetails.findViewById(R.id.MontserratMedium10);
+        textOfficalMileage.setText(String.valueOf(list.getOfficialMileage())+" KM");
+
+        TextView textPrivertMileage = dialogFullDetails.findViewById(R.id.MontserratMedium12);
+        textPrivertMileage.setText(String.valueOf(list.getOfficialMileage())+" KM");
+
+        TextView textDailyExpenses = dialogFullDetails.findViewById(R.id.MontserratMedium14);
+        textDailyExpenses.setText(String.valueOf(list.getDailyExpenses())+" LKR");
 
 
+        TextView textAchievementTowns = dialogFullDetails.findViewById(R.id.MontserratMedium16);
+        textAchievementTowns.setText(String.valueOf(list.getTownAchievement())+" %");
 
-        ArrayList<Pharmacy> pharmacyItems =  new ArrayList<>();
-        for(int a =1;a<10;a++){
-            String tw = "Pharmacy "+a;
-            pharmacyItems.add(new Pharmacy(a,tw));
-        }
-        VisitsPharmacyAdapter visitsPharmacyAdapter =  new VisitsPharmacyAdapter(this,pharmacyItems);
-        recyclerviewPharmacy.setAdapter(visitsPharmacyAdapter);
+        TextView textAchievementUpToDate = dialogFullDetails.findViewById(R.id.MontserratMedium18);
+        textAchievementUpToDate.setText(String.valueOf(list.getUptodateAchievement())+" %");
+
+        TextView textBalTarget = dialogFullDetails.findViewById(R.id.MontserratMedium20);
+        textBalTarget.setText(String.valueOf(list.getBalanceTarget()));
+
+
+        TextView textNotVisitedCustomersToday = dialogFullDetails.findViewById(R.id.MontserratMedium22);
+        textNotVisitedCustomersToday.setText(String.valueOf(list.getNotVisitedCustomers()));
+
+
+        TextView textNotVisitedCustomersAll = dialogFullDetails.findViewById(R.id.MontserratMedium24);
+        textNotVisitedCustomersAll.setText(String.valueOf(list.getNotVisitedCustomersAll()));
+
+
 
 
         dialogFullDetails.show();
@@ -484,9 +523,9 @@ public class MileageActivity extends Activity implements MileageView {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         try {
-                            Bundle extras = data.getExtras();
-                            bitmap = (Bitmap) extras.get("data");
-                            imageViewimage.setImageBitmap(bitmap);
+                             imageExtras = data.getExtras();
+
+                            new AddImages().execute();
 
 
                         } catch (Exception e) {
@@ -513,6 +552,38 @@ public class MileageActivity extends Activity implements MileageView {
 
 
     }
+
+
+
+    private class AddImages extends AsyncTask<Void, Void, Void> {
+
+        public AddImages() {
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            bitmap = (Bitmap) imageExtras.get("data");
+            imageViewimage.setImageBitmap(bitmap);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            includeProgres.setVisibility(View.GONE);
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            includeProgres.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+
+
 
     @Override
     public void dayStartMileage() {
@@ -561,6 +632,7 @@ public class MileageActivity extends Activity implements MileageView {
     @Override
     public void postDayStartMileageError(String msg) {
         includeProgres.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.VISIBLE);
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
@@ -568,6 +640,7 @@ public class MileageActivity extends Activity implements MileageView {
     @Override
     public void postDayStartMileageSuccess() {
         includeProgres.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.GONE);
         try {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Success");
@@ -597,7 +670,7 @@ public class MileageActivity extends Activity implements MileageView {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             includeProgres.setVisibility(View.VISIBLE);
-                           // mileagePresenter.dsds
+                            mileagePresenter.postDayStartMileage(MileageActivity.this,codmr,cdayodmr,currentLocation.latitude,currentLocation.longitude);
 
                         }
                     });
@@ -617,7 +690,113 @@ public class MileageActivity extends Activity implements MileageView {
 
     @Override
     public void postDayStartMileageNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void postDayEndMileageError(String msg) {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postDayEndMileageSuccess() {
+        includeProgres.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.VISIBLE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setCancelable(false);
+            alertDialogBuilder.setMessage("Day start mileage adding success");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    includeProgres.setVisibility(View.VISIBLE);
+                    mileagePresenter.getDetailsSummary();
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, "Day start mileage adding success", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postDayEndMileageFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            mileagePresenter.postDayEndMileage(MileageActivity.this,dayendreading,dayendmileage,dayendprivertmileage,bitmap,currentLocation.latitude,currentLocation.longitude);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postDayEndMileageNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    @Override
+    public void detailsSummaryList(DetailsSummary list) {
+        includeProgres.setVisibility(View.GONE);
+        todaySummery(list);
+
+    }
+
+    @Override
+    public void detailsSummaryFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                           mileagePresenter.getDetailsSummary();
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void detailsSummaryNetworkFail() {
         includeProgres.setVisibility(View.GONE);
         Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
     }

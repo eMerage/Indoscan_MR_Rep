@@ -114,7 +114,7 @@
                                             android:textColor="@color/colorPrimaryDark"
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
-                                            android:inputType=""
+                                            android:inputType="number"
                                             android:hint="Meter reading"/>
 
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
@@ -162,7 +162,7 @@
                                             android:textColor="@color/colorPrimaryDark"
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
-                                            android:inputType=""
+                                            android:inputType="number"
                                             android:hint="Meter reading"/>
 
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
@@ -253,7 +253,7 @@
                                             android:textColor="@color/colorPrimaryDark"
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
-                                            android:inputType=""
+                                            android:inputType="number"
                                             android:hint="Meter reading"/>
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
                                             android:id="@+id/montserratRegular11"
@@ -325,7 +325,7 @@
                                             android:textColor="@color/colorPrimaryDark"
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
-                                            android:inputType=""
+                                            android:inputType="number"
                                             android:hint="Mileage(Km)"/>
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
                                             android:id="@+id/montserratRegular13"
@@ -357,7 +357,7 @@
                                             android:textColor="@color/colorPrimaryDark"
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
-                                            android:inputType=""
+                                            android:inputType="number"
                                             android:hint="Mileage(Km)"/>
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
                                             android:id="@+id/montserratRegular14"

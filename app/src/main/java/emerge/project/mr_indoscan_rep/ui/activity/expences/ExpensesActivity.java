@@ -127,6 +127,7 @@ public class ExpensesActivity extends Activity implements ExpensesView {
     View includeProgres;
 
 
+    Bundle imageExtras;
 
     ExpensesImagesAdapter expensesImagesAdapter;
 
@@ -370,11 +371,11 @@ public class ExpensesActivity extends Activity implements ExpensesView {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         try {
-                            Bundle extras = data.getExtras();
-                            bitmap = (Bitmap) extras.get("data");
+                            bitmap = (Bitmap) data.getExtras().get("data");
+                            imagelist.add(bitmap);
                             imageViewimage.setImageBitmap(bitmap);
 
-                            new AddImages().execute();
+                            showImages();
 
                         } catch (Exception e) {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -395,37 +396,11 @@ public class ExpensesActivity extends Activity implements ExpensesView {
                         break;
                 }
 
-
         }
-
 
     }
 
 
-    private class AddImages extends AsyncTask<Void, Void, Void> {
-
-        public AddImages() {
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            imagelist.add(bitmap);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            includeProgres.setVisibility(View.GONE);
-            showImages();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            includeProgres.setVisibility(View.VISIBLE);
-        }
-    }
 
 
     private void showImages() {
@@ -557,6 +532,30 @@ public class ExpensesActivity extends Activity implements ExpensesView {
     @Override
     public void postExpensesSuccess() {
         includeProgres.setVisibility(View.GONE);
+        filterDateStart = "";
+        editTextRef.setText("");
+        editTextDes.setText("");
+        editTextAmount.setText("");
+        imagelist.clear();
+        showImages();
+
+        imageViewimage.setImageDrawable(getResources().getDrawable(R.drawable.noimage));
+
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setMessage("Expenses adding success");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, "Expenses adding success", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     @Override

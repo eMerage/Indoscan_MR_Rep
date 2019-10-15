@@ -1,12 +1,14 @@
 package emerge.project.mr_indoscan_rep.services.api;
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
 import emerge.project.mr_indoscan_rep.utils.entittes.District;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
+import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.LoginUser;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
@@ -79,6 +81,20 @@ public interface ApiInterface {
     @GET("TargetAchievement/GetTargetAchievement")
     Observable<TargetDetails> getTargetAchievement(@Query("mrid") int mrID);
 
+
+
+    @GET("Expense/GetExpenseCategories")
+    Observable<ArrayList<ExpencesCategorys>> getExpenseCategories(@Query("TokenID") String tokenID);
+
+    @GET("Expense/GetExpenseSubCategories")
+    Observable<ArrayList<ExpencesCategorys>> getExpenseSubCategories(@Query("TokenID") String tokenID);
+
+
+    @POST("Expense/SaveExpense")
+    Observable<Boolean> saveExpense(@Body JsonObject expenseInfo);
+
+    @POST("Expense/SaveExpenseImages")
+    Observable<Boolean> saveExpenseImages(@Body JsonObject expenseImageInfo);
 
 
 
