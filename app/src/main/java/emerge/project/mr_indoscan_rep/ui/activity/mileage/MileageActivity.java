@@ -586,9 +586,13 @@ public class MileageActivity extends Activity implements MileageView {
 
 
     @Override
-    public void dayStartMileage() {
+    public void dayStartMileage(Boolean availability) {
         includeProgres.setVisibility(View.GONE);
-        relativelayoutDayEnd.setVisibility(View.GONE);
+        if(availability){
+            relativelayoutDayEnd.setVisibility(View.GONE);
+        }else {
+            relativelayoutDayEnd.setVisibility(View.VISIBLE);
+        }
 
     }
 

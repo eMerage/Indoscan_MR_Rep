@@ -68,7 +68,7 @@ public class Doctor implements Serializable {
     String specialization;
     String location;
 
-    Boolean isSelect;
+    Boolean isSelect =false;
 
 
 

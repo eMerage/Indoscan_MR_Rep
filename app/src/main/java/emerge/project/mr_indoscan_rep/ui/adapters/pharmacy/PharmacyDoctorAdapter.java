@@ -64,8 +64,6 @@ public class PharmacyDoctorAdapter extends RecyclerView.Adapter<PharmacyDoctorAd
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Doctor doc =docItems.get(position);
 
-
-
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.ic_doctor);
         requestOptions.error(R.drawable.ic_doctor);
@@ -81,11 +79,11 @@ public class PharmacyDoctorAdapter extends RecyclerView.Adapter<PharmacyDoctorAd
 
         holder.textviewName.setText(doc.getName());
 
-      /*  if (doc.isSelect()) {
+        if (doc.isSelect()) {
             holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorgold));
         } else {
             holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));
-        }*/
+        }
 
 
 
@@ -110,7 +108,7 @@ public class PharmacyDoctorAdapter extends RecyclerView.Adapter<PharmacyDoctorAd
                 docItems.get(position).setSelect(true);
                 notifyDataSetChanged();
 
-
+                pharmacyVisitsPresenter.getSelectedDoctorID(doc);
 
             }
         });

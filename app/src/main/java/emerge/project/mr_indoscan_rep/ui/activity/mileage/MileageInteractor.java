@@ -17,7 +17,7 @@ public interface MileageInteractor {
 
 
     interface OnDayStartMileageFinishedListener {
-        void dayStartMileage();
+        void dayStartMileage(Boolean availability);
         void dayStartMileageFail(String failMsg);
         void dayStartMileageNetworkFail();
     }

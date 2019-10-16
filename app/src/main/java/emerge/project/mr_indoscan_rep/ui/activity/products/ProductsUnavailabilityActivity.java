@@ -283,11 +283,11 @@ public class ProductsUnavailabilityActivity extends Activity {
     }
 
     private void setProducts(ArrayList<Products> pro) {
-        ProductAdapter productAdapter = new ProductAdapter(this, pro);
+        /*ProductAdapter productAdapter = new ProductAdapter(this, pro);
         recyclerviewProduct.setAdapter(productAdapter);
 
         ProductAdapter productAdapterEx = new ProductAdapter(this, pro);
-        recyclerviewExpiryproduct.setAdapter(productAdapterEx);
+        recyclerviewExpiryproduct.setAdapter(productAdapterEx);*/
 
 
 

@@ -59,6 +59,12 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
             try {
                 list = new ArrayList<ExpencesCategorys>();
 
+                encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
+                int userId = encryptedPreferences.getInt(USER_ID, 0);
+
+                System.out.println("vvvvvvvvvvv : "+userId);
+
+
                 apiService.getExpenseCategories(tokenID)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import emerge.project.mr_indoscan_rep.BuildConfig;
 import emerge.project.mr_indoscan_rep.R;
 import emerge.project.mr_indoscan_rep.services.api.ApiClient;
@@ -78,7 +80,6 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
     RecyclerView recyclerviewPharmacy;
 
 
-
     @BindView(R.id.autoCompleteTextView_pha)
     AutoCompleteTextView autoTextViewPha;
 
@@ -95,6 +96,31 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
     View includeProgres;
 
 
+    @BindView(R.id.editText2)
+    EditText editTextMonthly;
+
+    @BindView(R.id.editText3)
+    EditText editTextWeekly;
+
+
+    @BindView(R.id.editText4)
+    EditText editTextDaily;
+
+
+    @BindView(R.id.editText_com_montly)
+    EditText editTextComMonthly;
+
+    @BindView(R.id.editText_com_weekly)
+    EditText editTextComWeekly;
+
+
+    @BindView(R.id.editText_com_daily)
+    EditText editTextComDaily;
+
+    @BindView(R.id.editText_competitor_product)
+    EditText editTextCompetitorProduct;
+
+
     NavigationAdapter navigationAdapter;
     public static String tokenID;
     EncryptedPreferences encryptedPreferences;
@@ -104,19 +130,22 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
 
 
     ArrayList<Products> allProductsList = new ArrayList<Products>();
-    ArrayList<Pharmacy> allPharmacyList= new ArrayList<Pharmacy>();
+    ArrayList<Pharmacy> allPharmacyList = new ArrayList<Pharmacy>();
     ArrayList<Doctor> allDoctorsList = new ArrayList<Doctor>();
 
 
-
     PharmacyVisitsPresenter pharmacyVisitsPresenter;
-
 
 
     int selectedPharmacy = 0;
     int selectedProduct = 0;
     int selectedDoctor = 0;
 
+    String prescriptionType = "";
+    int prescriptionCount = 0;
+
+    String competitorPrescriptionType = "";
+    int competitorPrescriptionCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +175,7 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
         navigationAdapter = new NavigationAdapter(this, navigationItems);
         listViewNavigation.setAdapter(navigationAdapter);
 
-        pharmacyVisitsPresenter =  new PharmacyVisitsPresenterImpli(this);
+        pharmacyVisitsPresenter = new PharmacyVisitsPresenterImpli(this);
 
 
         listViewNavigation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -165,7 +194,7 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
                     finish();
                 } else if (position == 2) {
 
-                }else if(position==3){
+                } else if (position == 3) {
                     Intent intent = new Intent(PharmacyVisitsActivity.this, ProductsUnavailabilityActivity.class);
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(PharmacyVisitsActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
                     startActivity(intent, bndlanimation);
@@ -176,14 +205,17 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
 
 
 
-        pharmacyVisitsPresenter.getPharmacy(PharmacyVisitsActivity.this);
 
-       // getProducts();
-      //  getDoc();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        includeProgres.setVisibility(View.VISIBLE);
+        pharmacyVisitsPresenter.getPharmacy(PharmacyVisitsActivity.this);
 
+    }
 
 
     @OnClick(R.id.imageView2)
@@ -194,8 +226,190 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
 
     @OnClick(R.id.imageView_pha_search)
     public void onClickPhaSerach(View view) {
-        pharmacyVisitsPresenter.searchPharmacy(allPharmacyList,autoTextViewPha.getText().toString());
+        pharmacyVisitsPresenter.searchPharmacy(allPharmacyList, autoTextViewPha.getText().toString());
     }
+
+    @OnClick(R.id.imageView_pro_search)
+    public void onClickProductSerach(View view) {
+        pharmacyVisitsPresenter.searchProduct(allProductsList, autoTextViewPro.getText().toString());
+    }
+
+    @OnClick(R.id.imageView_doc_search)
+    public void onClickDoctorSerach(View view) {
+        pharmacyVisitsPresenter.searchDoctors(allDoctorsList, autoTextViewDoc.getText().toString());
+    }
+
+
+    @OnClick(R.id.btn_save_pha_visits)
+    public void onClickAdd(View view) {
+        includeProgres.setVisibility(View.VISIBLE);
+
+        if(!editTextMonthly.getText().toString().equals("")){
+            try {
+                prescriptionCount = Integer.parseInt(editTextMonthly.getText().toString());
+                prescriptionType = "M";
+            } catch (NumberFormatException num) {
+
+            }
+        }else if(!editTextWeekly.getText().toString().equals("")){
+            try {
+                prescriptionCount = Integer.parseInt(editTextWeekly.getText().toString());
+                prescriptionType = "W";
+            } catch (NumberFormatException num) {
+
+            }
+
+        }else if(!editTextDaily.getText().toString().equals("")){
+            try {
+                prescriptionCount = Integer.parseInt(editTextDaily.getText().toString());
+                prescriptionType = "D";
+            } catch (NumberFormatException num) {
+
+            }
+        }else {
+            prescriptionCount = 0;
+        }
+
+
+
+        if(!editTextComMonthly.getText().toString().equals("")){
+            try {
+                competitorPrescriptionCount = Integer.parseInt(editTextComMonthly.getText().toString());
+                competitorPrescriptionType = "M";
+            } catch (NumberFormatException num) {
+
+            }
+        }else if(!editTextComWeekly.getText().toString().equals("")){
+            try {
+                competitorPrescriptionCount = Integer.parseInt(editTextComWeekly.getText().toString());
+                competitorPrescriptionType = "W";
+            } catch (NumberFormatException num) {
+
+            }
+
+        }else if(!editTextComDaily.getText().toString().equals("")){
+            try {
+                competitorPrescriptionCount = Integer.parseInt(editTextComDaily.getText().toString());
+                competitorPrescriptionType = "D";
+            } catch (NumberFormatException num) {
+
+            }
+        }else {
+            competitorPrescriptionCount = 0;
+        }
+
+
+
+        pharmacyVisitsPresenter.postPharmacyVisits(this,selectedPharmacy,selectedProduct,selectedDoctor,prescriptionCount,
+                prescriptionType,editTextCompetitorProduct.getText().toString(),competitorPrescriptionCount,competitorPrescriptionType);
+    }
+
+
+    @OnTextChanged(R.id.editText2)
+    protected void onTextChangedMonthly(CharSequence text) {
+        int montlyRate = 0;
+        try {
+            montlyRate = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        if(montlyRate<=0){
+
+        }else {
+            editTextWeekly.setText("");
+            editTextDaily.setText("");
+        }
+    }
+
+    @OnTextChanged(R.id.editText3)
+    protected void onTextChangedWeekly(CharSequence text) {
+        int weeklyRate = 0;
+        try {
+            weeklyRate = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        if(weeklyRate<=0){
+
+        }else {
+            editTextMonthly.setText("");
+            editTextDaily.setText("");
+        }
+    }
+
+
+    @OnTextChanged(R.id.editText4)
+    protected void onTextChangedDaily(CharSequence text) {
+        int dailyRate = 0;
+        try {
+            dailyRate = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        if(dailyRate<=0){
+
+        }else {
+            editTextMonthly.setText("");
+            editTextWeekly.setText("");
+        }
+    }
+
+
+
+
+    @OnTextChanged(R.id.editText_com_montly)
+    protected void onTextChangedCommMontly(CharSequence text) {
+        int montlyRate = 0;
+        try {
+            montlyRate = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        if(montlyRate<=0){
+        }else {
+            editTextComDaily.setText("");
+            editTextComWeekly.setText("");
+        }
+    }
+
+
+    @OnTextChanged(R.id.editText_com_weekly)
+    protected void onTextChangedCommWeekly(CharSequence text) {
+        int weeklyRate = 0;
+        try {
+            weeklyRate = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        if(weeklyRate<=0){
+        }else {
+            editTextComMonthly.setText("");
+            editTextComDaily.setText("");
+        }
+    }
+
+
+    @OnTextChanged(R.id.editText_com_daily)
+    protected void onTextChangedCommDaily(CharSequence text) {
+        int dailyRate = 0;
+        try {
+            dailyRate = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+        if(dailyRate<=0){
+
+        }else {
+            editTextComMonthly.setText("");
+            editTextComWeekly.setText("");
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -251,16 +465,13 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
     };
 
 
-
-
-
     @Override
     public void pharmacyList(ArrayList<Pharmacy> pharmacyList, ArrayList<String> pharmacyNAmeList) {
         includeProgres.setVisibility(View.GONE);
 
         allPharmacyList = pharmacyList;
 
-        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this,pharmacyList,this);
+        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this, pharmacyList, this);
         recyclerviewPharmacy.setAdapter(pharmacyAdapter);
 
 
@@ -273,7 +484,7 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
             public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                 String selectedPha = parent.getItemAtPosition(pos).toString();
 
-                pharmacyVisitsPresenter.searchPharmacy(allPharmacyList,selectedPha);
+                pharmacyVisitsPresenter.searchPharmacy(allPharmacyList, selectedPha);
 
             }
         });
@@ -321,7 +532,7 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
     @Override
     public void searchPharmacyList(ArrayList<Pharmacy> pharmacyList) {
 
-        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this,pharmacyList,this);
+        PharmacyAdapter pharmacyAdapter = new PharmacyAdapter(this, pharmacyList, this);
         recyclerviewPharmacy.setAdapter(pharmacyAdapter);
 
     }
@@ -338,7 +549,7 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
 
         allProductsList = productList;
 
-        ProductAdapter productAdapter = new ProductAdapter(this,productList,this);
+        ProductAdapter productAdapter = new ProductAdapter(this, productList, this);
         recyclerviewProduct.setAdapter(productAdapter);
 
 
@@ -349,16 +560,13 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
             @Override
             public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                 String selectedItem = parent.getItemAtPosition(pos).toString();
-
-               // pharmacyVisitsPresenter.searchPharmacy(allPharmacyList,selectedPha);
+                pharmacyVisitsPresenter.searchProduct(allProductsList, selectedItem);
 
             }
         });
 
 
-      //  pharmacyVisitsPresenter.getProduct(PharmacyVisitsActivity.this);
-
-
+        pharmacyVisitsPresenter.getDoctors(this);
 
 
     }
@@ -393,6 +601,166 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
 
     @Override
     public void productNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void searchProductList(ArrayList<Products> productList) {
+        ProductAdapter productAdapter = new ProductAdapter(this, productList, this);
+        recyclerviewProduct.setAdapter(productAdapter);
+    }
+
+    @Override
+    public void selectedProductID(int selectedProductId) {
+        selectedProduct = selectedProductId;
+    }
+
+
+    @Override
+    public void doctorsList(ArrayList<Doctor> doctorsList, ArrayList<String> doctorsNameList) {
+
+
+        includeProgres.setVisibility(View.GONE);
+
+        allDoctorsList = doctorsList;
+
+
+        PharmacyDoctorAdapter pharmacyDoctorAdapter = new PharmacyDoctorAdapter(this, doctorsList, this);
+        recyclerviewDoc.setAdapter(pharmacyDoctorAdapter);
+
+
+        ArrayAdapter<String> adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, doctorsNameList);
+        autoTextViewDoc.setAdapter(adapterList);
+
+        autoTextViewDoc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                String selectedItem = parent.getItemAtPosition(pos).toString();
+                pharmacyVisitsPresenter.searchDoctors(allDoctorsList, selectedItem);
+
+            }
+        });
+
+    }
+
+    @Override
+    public void doctorsFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            pharmacyVisitsPresenter.getDoctors(PharmacyVisitsActivity.this);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void doctorsNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void searchDoctorsList(ArrayList<Doctor> doctorsList) {
+        PharmacyDoctorAdapter pharmacyDoctorAdapter = new PharmacyDoctorAdapter(this, doctorsList, this);
+        recyclerviewDoc.setAdapter(pharmacyDoctorAdapter);
+    }
+
+    @Override
+    public void selectedDoctorID(int selectedDoctorId) {
+        selectedDoctor = selectedDoctorId;
+    }
+
+
+
+
+    @Override
+    public void postPharmacyVisitsError(String msg) {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postPharmacyVisitsSuccess() {
+
+        editTextComMonthly.setText("");
+        editTextComWeekly.setText("");
+        editTextComDaily.setText("");
+
+        editTextWeekly.setText("");
+        editTextDaily.setText("");
+        editTextMonthly.setText("");
+
+
+        includeProgres.setVisibility(View.GONE);
+
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setMessage("Pharmacy Visits adding success");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, "Pharmacy Visits adding success", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postPharmacyVisitsFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            pharmacyVisitsPresenter.postPharmacyVisits(PharmacyVisitsActivity.this,selectedPharmacy,selectedProduct,selectedDoctor,prescriptionCount,
+                                    prescriptionType,editTextCompetitorProduct.getText().toString(),competitorPrescriptionCount,competitorPrescriptionType);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postPharmacyVisitsNetworkFail() {
         includeProgres.setVisibility(View.GONE);
         Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
     }

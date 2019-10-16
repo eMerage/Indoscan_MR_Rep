@@ -111,6 +111,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
                 }
                 productItems.get(position).setSelect(true);
                 notifyDataSetChanged();
+
+                pharmacyVisitsPresenter.getSelectedProductID(products);
             }
         });
 

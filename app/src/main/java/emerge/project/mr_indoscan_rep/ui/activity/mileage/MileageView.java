@@ -13,7 +13,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
 
 public interface MileageView {
 
-    void dayStartMileage();
+    void dayStartMileage(Boolean availability);
 
     void dayStartMileageFail(String failMsg);
 

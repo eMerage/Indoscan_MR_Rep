@@ -42,8 +42,8 @@ MileageInteractor.OnpostDayStartMileageFinishedListener,
     }
 
     @Override
-    public void dayStartMileage() {
-        mileageView.dayStartMileage();
+    public void dayStartMileage(Boolean availability) {
+        mileageView.dayStartMileage( availability);
     }
 
     @Override

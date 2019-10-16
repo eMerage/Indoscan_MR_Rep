@@ -11,6 +11,7 @@ import emerge.project.mr_indoscan_rep.ui.activity.mileage.MileageInteractorImpil
 import emerge.project.mr_indoscan_rep.ui.activity.mileage.MileagePresenter;
 import emerge.project.mr_indoscan_rep.ui.activity.mileage.MileageView;
 import emerge.project.mr_indoscan_rep.utils.entittes.DetailsSummary;
+import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 
@@ -23,7 +24,13 @@ public class PharmacyVisitsPresenterImpli implements PharmacyVisitsPresenter,
         PharmacyVisitsInteractor.OnPharmacyFinishedListener,
         PharmacyVisitsInteractor.OnSearchPharmacyFinishedListener,
         PharmacyVisitsInteractor.OnSelectedPharmacyIDFinishedListener,
-        PharmacyVisitsInteractor.OnProductFinishedListener{
+        PharmacyVisitsInteractor.OnProductFinishedListener,
+        PharmacyVisitsInteractor.OnSearchProductFinishedListener,
+        PharmacyVisitsInteractor.OnSelectedProductIDFinishedListener,
+        PharmacyVisitsInteractor.OnDoctorsFinishedListener,
+        PharmacyVisitsInteractor.OnSearchDoctorsFinishedListener,
+        PharmacyVisitsInteractor.OnSelectedDoctorIDFinishedListener,
+        PharmacyVisitsInteractor.OnPostPharmacyVisitsFinishedListener{
 
 
     private PharmacyVisitsView pharmacyVisitsView;
@@ -93,6 +100,8 @@ public class PharmacyVisitsPresenterImpli implements PharmacyVisitsPresenter,
         pharmacyVisitsInteractor.getProduct(con,this);
     }
 
+
+
     @Override
     public void productList(ArrayList<Products> productList, ArrayList<String> productNameList) {
         pharmacyVisitsView.productList(productList,productNameList);
@@ -106,5 +115,105 @@ public class PharmacyVisitsPresenterImpli implements PharmacyVisitsPresenter,
     @Override
     public void productNetworkFail() {
         pharmacyVisitsView.productNetworkFail();
+    }
+
+
+    @Override
+    public void searchProduct(ArrayList<Products> productList, String productName) {
+        pharmacyVisitsInteractor.searchProduct(productList,productName,this);
+    }
+    @Override
+    public void searchProductList(ArrayList<Products> productList) {
+        pharmacyVisitsView.searchProductList(productList);
+    }
+
+
+
+    @Override
+    public void getSelectedProductID(Products product) {
+        pharmacyVisitsInteractor.getSelectedProductID(product,this);
+    }
+
+    @Override
+    public void selectedProductID(int selectedProductId) {
+        pharmacyVisitsView.selectedProductID(selectedProductId);
+    }
+
+
+    @Override
+    public void getDoctors(Context con) {
+        pharmacyVisitsInteractor.getDoctors(con,this);
+    }
+
+
+    @Override
+    public void doctorsList(ArrayList<Doctor> doctorsList, ArrayList<String> doctorsNameList) {
+        pharmacyVisitsView.doctorsList(doctorsList,doctorsNameList);
+    }
+
+    @Override
+    public void doctorsFail(String failMsg) {
+        pharmacyVisitsView.doctorsFail(failMsg);
+    }
+
+    @Override
+    public void doctorsNetworkFail() {
+        pharmacyVisitsView.doctorsNetworkFail();
+    }
+
+
+
+    @Override
+    public void searchDoctors(ArrayList<Doctor> doctorList, String doctorsName) {
+        pharmacyVisitsInteractor.searchDoctors(doctorList,doctorsName,this);
+    }
+
+
+    @Override
+    public void searchDoctorsList(ArrayList<Doctor> doctorsList) {
+        pharmacyVisitsView.searchDoctorsList(doctorsList);
+    }
+
+
+    @Override
+    public void getSelectedDoctorID(Doctor doctor) {
+        pharmacyVisitsInteractor.getSelectedDoctorID(doctor,this);
+    }
+
+
+
+
+    @Override
+    public void selectedDoctorID(int selectedDoctorId) {
+        pharmacyVisitsView.selectedDoctorID(selectedDoctorId);
+    }
+
+
+
+
+    @Override
+    public void postPharmacyVisits(Context context, int pharmacyID, int productID, int doctorID, int noOfprescription, String prescriptionType, String comProductName, int noOfComprescription, String comPrescriptionType) {
+        pharmacyVisitsInteractor.postPharmacyVisits( context,  pharmacyID,  productID,  doctorID,  noOfprescription,  prescriptionType,  comProductName,  noOfComprescription,  comPrescriptionType,this);
+    }
+
+
+    @Override
+    public void postPharmacyVisitsError(String msg) {
+        pharmacyVisitsView. postPharmacyVisitsError( msg);
+    }
+
+    @Override
+    public void postPharmacyVisitsSuccess() {
+        pharmacyVisitsView.postPharmacyVisitsSuccess();
+    }
+
+    @Override
+    public void postPharmacyVisitsFail(String failMsg) {
+        pharmacyVisitsView.postPharmacyVisitsFail( failMsg);
+    }
+
+    @Override
+    public void postPharmacyVisitsNetworkFail() {
+        pharmacyVisitsView.postPharmacyVisitsNetworkFail();
     }
 }

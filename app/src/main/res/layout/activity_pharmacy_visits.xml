@@ -257,7 +257,7 @@
                                 android:textSize="13sp" />
 
 
-                            <EditText
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightEdittext
                                 android:id="@+id/editText2"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
                                 android:inputType="number"
                                 android:textSize="13sp"
                                 android:text=""
-                                android:hint="100"
+                                
                                 android:layout_toRightOf="@+id/textView4" />
 
 
@@ -285,7 +285,7 @@
                                 android:layout_toRightOf="@+id/editText2" />
 
 
-                            <EditText
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightEdittext
                                 android:id="@+id/editText3"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
@@ -296,7 +296,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:inputType="number"
                                 android:text=""
-                                android:hint="100"
+                               
                                 android:layout_toRightOf="@+id/textView5" />
 
 
@@ -313,7 +313,7 @@
                                 android:layout_toRightOf="@+id/editText3" />
 
 
-                            <EditText
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightEdittext
                                 android:id="@+id/editText4"
                                 android:layout_width="40dp"
                                 android:layout_height="wrap_content"
@@ -324,7 +324,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:inputType="number"
                                 android:text=""
-                                android:hint="100"
+                               
                                 android:layout_toRightOf="@+id/textView6" />
 
 
@@ -333,11 +333,149 @@
 
                         </RelativeLayout>
 
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="Competitor Product"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <RelativeLayout
+                            android:id="@+id/relativeLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="50dp">
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightEdittext
+                                android:id="@+id/editText_competitor_product"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerVertical="true"
+                                android:ems="10"
+                                android:textSize="14sp"
+                                android:inputType="text"
+                                android:text=""
+                                android:hint="competitor product Name" />
+
+
+                        </RelativeLayout>
+
+                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/recyclerview_doc"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="No Of Prescription Competitor Products"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="15sp" />
+
+                        <RelativeLayout
+
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_below="@+id/textView3">
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                                android:id="@+id/textView44"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="Monthly"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="13sp" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightEdittext
+                                android:id="@+id/editText_com_montly"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/textView44"
+                                android:ems="10"
+                                android:layout_marginLeft="5dp"
+                                android:inputType="number"
+                                android:textSize="13sp"
+                                android:text=""
+                                
+                                android:layout_toRightOf="@+id/textView44" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                                android:id="@+id/textView55"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toEndOf="@+id/editText_com_montly"
+                                android:text="Weekly"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="13sp"
+                                android:layout_toRightOf="@+id/editText_com_montly" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightEdittext
+                                android:id="@+id/editText_com_weekly"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/textView55"
+                                android:ems="10"
+                                android:textSize="13sp"
+                                android:layout_marginLeft="10dp"
+                                android:inputType="number"
+                                android:text=""
+                                
+                                android:layout_toRightOf="@+id/textView55" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLight
+                                android:id="@+id/textView66"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toEndOf="@+id/editText_com_weekly"
+                                android:text="Daily"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textSize="13sp"
+                                android:layout_toRightOf="@+id/editText_com_weekly" />
+
+
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularEdittext
+                                android:id="@+id/editText_com_daily"
+                                android:layout_width="40dp"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/textView66"
+                                android:ems="10"
+                                android:textSize="13sp"
+                                android:layout_marginLeft="10dp"
+                                android:inputType="number"
+                                android:text=""
+                                
+                                android:layout_toRightOf="@+id/textView66" />
+
+
+
+
+
+                        </RelativeLayout>
+
+
+
                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightButton
-                            android:id="@+id/btn_save_stat"
+                            android:id="@+id/btn_save_pha_visits"
                             android:layout_width="100dp"
                             android:layout_height="35dp"
-                            android:layout_below="@+id/relativeLayout1"
+                            android:layout_below="@+id/relativeLayout2"
                             android:textSize="13sp"
                             android:layout_alignParentRight="true"
                             android:layout_marginBottom="10dp"
