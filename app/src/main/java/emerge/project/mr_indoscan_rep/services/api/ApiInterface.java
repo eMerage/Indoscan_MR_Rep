@@ -12,6 +12,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.LoginUser;
 import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
+import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 import emerge.project.mr_indoscan_rep.utils.entittes.Specialization;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
@@ -97,8 +98,13 @@ public interface ApiInterface {
     @POST("Expense/SaveExpenseImages")
     Observable<Boolean> saveExpenseImages(@Body JsonObject expenseImageInfo);
 
-    @GET("Mileage/GetUnfinishedMileageByUser")
-    Observable<Mileage> getUnfinishedMileageByUser(@Query("userID") int userID);
+
+
+
+    @GET("Mileage/GetPreviousMileageByUser")
+    Observable<Mileage> getPreviousMileageByUser(@Query("userID") int userID);
+
+
 
 
     @POST("Mileage/SaveDayStartMileage")
@@ -122,6 +128,11 @@ public interface ApiInterface {
 
     @POST("Product/SaveProductShortExpiry")
     Observable<Boolean> saveProductShortExpiry(@Body JsonObject proInfo);
+
+
+    @GET("Location/GetPharmaciesForUser")
+    Observable<ArrayList<Pharmacy>> getPharmaciesForUser(@Query("userID") int userID);
+
 
 
 }

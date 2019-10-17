@@ -18,6 +18,7 @@ import emerge.project.mr_indoscan_rep.services.api.ApiInterface;
 import emerge.project.mr_indoscan_rep.services.network.NetworkAvailability;
 import emerge.project.mr_indoscan_rep.ui.activity.mileage.MileageInteractor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
+import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 import emerge.project.mr_indoscan_rep.utils.entittes.Specialization;
@@ -42,38 +43,67 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
 
     ArrayList<Products> productsArrayList;
     ArrayList<Doctor> doctorsArrayList;
+    ArrayList<Pharmacy> phaArrayList;
 
     Boolean pharmacyVisitsSaveStatus = false;
 
      String code;
 
     @Override
-    public void getPharmacy(Context con, OnPharmacyFinishedListener onPharmacyFinishedListener) {
+    public void getPharmacy(Context con, final OnPharmacyFinishedListener onPharmacyFinishedListener) {
         if (!NetworkAvailability.isNetworkAvailable(con)) {
             onPharmacyFinishedListener.pharmacyNetworkFail();
         } else {
 
-            encryptedPreferences = new EncryptedPreferences.Builder(con).withEncryptionPassword("122547895511").build();
-            int userId = encryptedPreferences.getInt(USER_ID, 0);
 
-           code = genaratePharmacyVisitCode(String.valueOf(userId));
+            try {
+                encryptedPreferences = new EncryptedPreferences.Builder(con).withEncryptionPassword("122547895511").build();
+                int userId = encryptedPreferences.getInt(USER_ID, 0);
 
-            ArrayList<Pharmacy> pha = new ArrayList<>();
-            pha.add(new Pharmacy(1, "New Phama"));
-            pha.add(new Pharmacy(2, "Uniq"));
-            pha.add(new Pharmacy(4, "Nawalako"));
-            pha.add(new Pharmacy(5, "Asiri"));
-            pha.add(new Pharmacy(9, "Hemas"));
+                code = genaratePharmacyVisitCode(String.valueOf(userId));
 
 
-            ArrayList<String> phaName = new ArrayList<>();
-            phaName.add("New Phama");
-            phaName.add("Uniq");
-            phaName.add("Nawalako");
-            phaName.add("Asiri");
-            phaName.add("Hemas");
 
-            onPharmacyFinishedListener.pharmacyList(pha, phaName);
+                phaArrayList = new ArrayList<Pharmacy>();
+
+                final ArrayList<String> phaNameList = new ArrayList<String>();
+
+
+
+                apiService.getPharmaciesForUser(userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ArrayList<Pharmacy>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(ArrayList<Pharmacy> products) {
+                                phaArrayList = products;
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                onPharmacyFinishedListener.pharmacyFail("Something went wrong, Please try again");
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                for (Pharmacy pr : phaArrayList) {
+                                    phaNameList.add(pr.getName());
+                                }
+                                onPharmacyFinishedListener.pharmacyList(phaArrayList, phaNameList);
+
+                            }
+                        });
+
+
+            } catch (Exception ex) {
+                onPharmacyFinishedListener.pharmacyFail("Something went wrong, Please try again");
+            }
+
 
         }
 
@@ -281,8 +311,8 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
             onPostPharmacyVisitsFinishedListener.postPharmacyVisitsNetworkFail();
         } else if (pharmacyID == 0) {
             onPostPharmacyVisitsFinishedListener.postPharmacyVisitsError("Please select the Pharmacy");
-        } else if ((productID==0) && (doctorID==0)) {
-            onPostPharmacyVisitsFinishedListener.postPharmacyVisitsError("Please select at least product or doctor");
+        } else if (productID==0) {
+            onPostPharmacyVisitsFinishedListener.postPharmacyVisitsError("Please select product");
         } else if (noOfprescription <=0) {
             onPostPharmacyVisitsFinishedListener.postPharmacyVisitsError("Please add number of prescriptions");
         } else if ((comProductName.equals("")) && (noOfComprescription !=0)) {

@@ -244,58 +244,109 @@ public class PharmacyVisitsActivity extends Activity implements PharmacyVisitsVi
     public void onClickAdd(View view) {
         includeProgres.setVisibility(View.VISIBLE);
 
-        if(!editTextMonthly.getText().toString().equals("")){
-            try {
-                prescriptionCount = Integer.parseInt(editTextMonthly.getText().toString());
+        int count = 0;
+        int countCom = 0;
+
+        try {
+            count = Integer.parseInt(editTextMonthly.getText().toString());
+
+            if(count == 0){
+
+            }else {
+                prescriptionCount = count;
                 prescriptionType = "M";
-            } catch (NumberFormatException num) {
-
             }
-        }else if(!editTextWeekly.getText().toString().equals("")){
-            try {
-                prescriptionCount = Integer.parseInt(editTextWeekly.getText().toString());
+
+
+        }catch (NumberFormatException num){
+
+
+        }
+
+
+        try {
+            count = Integer.parseInt(editTextWeekly.getText().toString());
+            if(count == 0){
+
+            }else {
+                prescriptionCount = count;
                 prescriptionType = "W";
-            } catch (NumberFormatException num) {
-
             }
 
-        }else if(!editTextDaily.getText().toString().equals("")){
-            try {
-                prescriptionCount = Integer.parseInt(editTextDaily.getText().toString());
+
+
+        }catch (NumberFormatException num){
+
+
+        }
+
+        try {
+            count = Integer.parseInt(editTextDaily.getText().toString());
+
+            if(count == 0){
+
+            }else {
+                prescriptionCount = count;
                 prescriptionType = "D";
-            } catch (NumberFormatException num) {
-
             }
-        }else {
-            prescriptionCount = 0;
+
+
+        }catch (NumberFormatException num){
+
+
         }
 
 
 
-        if(!editTextComMonthly.getText().toString().equals("")){
-            try {
-                competitorPrescriptionCount = Integer.parseInt(editTextComMonthly.getText().toString());
+
+
+        try {
+            countCom = Integer.parseInt(editTextComMonthly.getText().toString());
+
+            if(countCom == 0){
+
+            }else {
+                competitorPrescriptionCount = countCom;
                 competitorPrescriptionType = "M";
-            } catch (NumberFormatException num) {
-
             }
-        }else if(!editTextComWeekly.getText().toString().equals("")){
-            try {
-                competitorPrescriptionCount = Integer.parseInt(editTextComWeekly.getText().toString());
+
+
+        }catch (NumberFormatException num){
+
+
+        }
+
+
+        try {
+            countCom = Integer.parseInt(editTextComWeekly.getText().toString());
+            if(countCom == 0){
+
+            }else {
+                competitorPrescriptionCount = countCom;
                 competitorPrescriptionType = "W";
-            } catch (NumberFormatException num) {
-
             }
 
-        }else if(!editTextComDaily.getText().toString().equals("")){
-            try {
-                competitorPrescriptionCount = Integer.parseInt(editTextComDaily.getText().toString());
+
+
+        }catch (NumberFormatException num){
+
+
+        }
+
+        try {
+            countCom = Integer.parseInt(editTextComDaily.getText().toString());
+
+            if(countCom == 0){
+
+            }else {
+                competitorPrescriptionCount = countCom;
                 competitorPrescriptionType = "D";
-            } catch (NumberFormatException num) {
-
             }
-        }else {
-            competitorPrescriptionCount = 0;
+
+
+        }catch (NumberFormatException num){
+
+
         }
 
 

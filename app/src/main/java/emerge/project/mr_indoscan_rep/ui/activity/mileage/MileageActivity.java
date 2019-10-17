@@ -68,6 +68,7 @@ import emerge.project.mr_indoscan_rep.ui.adapters.mileage.VisitsPharmacyAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.navigation.NavigationAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.DetailsSummary;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
+import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Towns;
@@ -574,15 +575,19 @@ public class MileageActivity extends Activity implements MileageView {
 
 
     @Override
-    public void dayStartMileage(Boolean availability) {
+    public void dayStartMileage(Mileage availability) {
         includeProgres.setVisibility(View.GONE);
-        if (availability) {
-            relativelayoutDayStart.setVisibility(View.GONE);
-            relativelayoutDayEnd.setVisibility(View.VISIBLE);
-        } else {
+
+        if (!availability.getDayEndOdometerReading().equals("0")) {
             relativelayoutDayStart.setVisibility(View.VISIBLE);
             relativelayoutDayEnd.setVisibility(View.GONE);
+        } else {
+            relativelayoutDayStart.setVisibility(View.GONE);
+            relativelayoutDayEnd.setVisibility(View.VISIBLE);
         }
+
+        editTextDayStartODMeterReading.setText(availability.getDayEndOdometerReading());
+
 
     }
 
@@ -708,6 +713,11 @@ public class MileageActivity extends Activity implements MileageView {
         editTextDayEndODMeterReading.setText("");
         editTextMileageForDay.setText("");
         editTextPrivertMileageForDay.setText("");
+
+
+        bitmap = null;
+        imageViewimage.setImageDrawable(getResources().getDrawable(R.drawable.noimage));
+
 
 
         includeProgres.setVisibility(View.GONE);

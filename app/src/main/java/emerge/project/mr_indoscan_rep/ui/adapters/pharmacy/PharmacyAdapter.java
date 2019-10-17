@@ -60,8 +60,21 @@ public class PharmacyAdapter extends RecyclerView.Adapter<PharmacyAdapter.MyView
         final Pharmacy loc = locItems.get(position);
         holder.textviewLocation.setText(loc.getName());
 
+        Boolean select = false;
+        try {
+            select = loc.isSelect();
+        }catch (Exception ex){
+            select = false;
+        }
 
-        if (loc.isSelect()) {
+        if(select == null){
+            select = false;
+        }else {
+
+        }
+
+
+       if (select) {
             holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorgold));
         } else {
             holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorWhite));

@@ -57,7 +57,9 @@ public class MileageInteractorImpil implements MileageInteractor {
                 encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
                 int userId = encryptedPreferences.getInt(USER_ID, 0);
                 mileageAvalability = new Mileage();
-                apiService.getUnfinishedMileageByUser(userId)
+
+
+                apiService.getPreviousMileageByUser(userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Mileage>() {
@@ -77,11 +79,13 @@ public class MileageInteractorImpil implements MileageInteractor {
 
                             @Override
                             public void onComplete() {
-                                if (mileageAvalability.getMileageID()==0) {
+                                onDayStartMileageFinishedListener.dayStartMileage(mileageAvalability);
+
+                                /*if (mileageAvalability.getMileageID()==0) {
                                     onDayStartMileageFinishedListener.dayStartMileage(false);
                                 } else {
                                     onDayStartMileageFinishedListener.dayStartMileage(true);
-                                }
+                                }*/
 
                             }
                         });
@@ -317,7 +321,6 @@ public class MileageInteractorImpil implements MileageInteractor {
         onDetailsSummaryFinishedListener.detailsSummaryList(detailsSummary);
     }
 
-
     public String genarateMileageImageCode(String userID) {
         Calendar c = Calendar.getInstance();
         String numberFromTime = String.valueOf(c.get(Calendar.YEAR)).substring(1) + String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DATE)) + String.valueOf(c.get(Calendar.HOUR)) + String.valueOf(c.get(Calendar.MINUTE)) + String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(c.get(Calendar.MILLISECOND));
@@ -335,7 +338,6 @@ public class MileageInteractorImpil implements MileageInteractor {
         String expCode ="MIL"+userID + numberFromTime;
         return expCode;
     }
-
 
 }
 

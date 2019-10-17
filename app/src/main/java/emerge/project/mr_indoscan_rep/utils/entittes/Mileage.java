@@ -13,6 +13,14 @@ public class Mileage implements Serializable {
     int userID;
 
 
+    @SerializedName("dayEndOdometerReading")
+    String dayEndOdometerReading="";
+
+
+
+
+
+
     public int getMileageID() {
         return mileageID;
     }
@@ -27,5 +35,13 @@ public class Mileage implements Serializable {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getDayEndOdometerReading() {
+        return dayEndOdometerReading;
+    }
+
+    public void setDayEndOdometerReading(String dayEndOdometerReading) {
+        this.dayEndOdometerReading = dayEndOdometerReading;
     }
 }

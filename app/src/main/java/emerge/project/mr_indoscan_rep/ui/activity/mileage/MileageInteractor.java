@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import emerge.project.mr_indoscan_rep.utils.entittes.DetailsSummary;
 import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
+import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
 
 /**
  * Created by Himanshu on 4/4/2017.
@@ -17,7 +18,7 @@ public interface MileageInteractor {
 
 
     interface OnDayStartMileageFinishedListener {
-        void dayStartMileage(Boolean availability);
+        void dayStartMileage(Mileage availability);
         void dayStartMileageFail(String failMsg);
         void dayStartMileageNetworkFail();
     }

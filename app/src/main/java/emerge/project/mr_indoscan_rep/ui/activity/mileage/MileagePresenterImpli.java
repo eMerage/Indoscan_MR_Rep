@@ -12,6 +12,7 @@ import emerge.project.mr_indoscan_rep.ui.activity.expences.ExpensesPresenter;
 import emerge.project.mr_indoscan_rep.ui.activity.expences.ExpensesView;
 import emerge.project.mr_indoscan_rep.utils.entittes.DetailsSummary;
 import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
+import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
 
 
 /**
@@ -42,7 +43,7 @@ MileageInteractor.OnpostDayStartMileageFinishedListener,
     }
 
     @Override
-    public void dayStartMileage(Boolean availability) {
+    public void dayStartMileage(Mileage availability) {
         mileageView.dayStartMileage( availability);
     }
 
