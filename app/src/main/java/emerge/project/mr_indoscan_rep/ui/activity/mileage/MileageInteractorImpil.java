@@ -12,6 +12,7 @@ import com.pddstudio.preferences.encrypted.EncryptedPreferences;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import emerge.project.mr_indoscan_rep.BuildConfig;
 import emerge.project.mr_indoscan_rep.services.api.ApiClient;
@@ -101,7 +102,6 @@ public class MileageInteractorImpil implements MileageInteractor {
         } else if (currentDayOdometerReading == 0) {
             onpostDayStartMileageFinishedListener.postDayStartMileageError("Please add current day Odometer reading");
         } else {
-            onpostDayStartMileageFinishedListener.postDayStartMileageSuccess();
 
             encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
             int userId = encryptedPreferences.getInt(USER_ID, 0);
@@ -113,6 +113,8 @@ public class MileageInteractorImpil implements MileageInteractor {
             jsonObject.addProperty("DayStartOdometerReading",currentDayOdometerReading);
             jsonObject.addProperty("StartLatitude", latitude);
             jsonObject.addProperty("StartLongitude", longitude);
+
+
 
             try {
                 apiService.saveDayStartMileage(jsonObject)
@@ -141,8 +143,6 @@ public class MileageInteractorImpil implements MileageInteractor {
                                     onpostDayStartMileageFinishedListener.postDayStartMileageFail("already have unfinished start mileage details");
                                 }
 
-
-
                             }
                         });
             } catch (Exception ex) {
@@ -155,7 +155,7 @@ public class MileageInteractorImpil implements MileageInteractor {
 
     @Override
     public void postDayEndMileage(Context context, int dayEndOdometerReading, int mileagePerDay, int privetMileagePerDay,
-                                  Bitmap image, Double latitude, Double longitude,
+                                  final Bitmap image, Double latitude, Double longitude,
                                   final OnPostDayEndMileageFinishedListener onPostDayEndMileageFinishedListener) {
         if (!NetworkAvailability.isNetworkAvailable(context)) {
             onPostDayEndMileageFinishedListener.postDayEndMileageNetworkFail();
@@ -168,13 +168,13 @@ public class MileageInteractorImpil implements MileageInteractor {
         } else if (image == null) {
             onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add image of the meeter");
         } else {
-            onPostDayEndMileageFinishedListener.postDayEndMileageSuccess();
-
 
             encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
             int userId = encryptedPreferences.getInt(USER_ID, 0);
 
             final JsonObject jsonObject = new JsonObject();
+
+            final String code = genarateMileageImageCode(String.valueOf(userId));
 
             jsonObject.addProperty("UserID", userId);
             jsonObject.addProperty("DayEndOdometerReading",dayEndOdometerReading);
@@ -182,37 +182,79 @@ public class MileageInteractorImpil implements MileageInteractor {
             jsonObject.addProperty("PrivateMileage", privetMileagePerDay);
             jsonObject.addProperty("EndLatitude", latitude);
             jsonObject.addProperty("EndLongitude", longitude);
+            jsonObject.addProperty("ImageCode", code);
 
-            new AddDayEndMileageWithImage(image,jsonObject,onPostDayEndMileageFinishedListener).execute();
+
+            try {
+                apiService.saveDayEndMileage(jsonObject)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Boolean>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(Boolean mileage) {
+                                mileageDayEnd = mileage;
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                onPostDayEndMileageFinishedListener.postDayEndMileageFail("Something went wrong, Please try again");
+
+                            }
+                            @Override
+                            public void onComplete() {
+                                if(mileageDayEnd){
+                                    new AddDayEndMileageWithImage(image,code,onPostDayEndMileageFinishedListener).execute();
+
+
+                                }else {
+                                    onPostDayEndMileageFinishedListener.postDayEndMileageFail("already have unfinished start mileage details");
+
+                                }
+                            }
+                        });
+            } catch (Exception ex) {
+                onPostDayEndMileageFinishedListener.postDayEndMileageFail("Something went wrong, Please try again");
+            }
 
         }
 
     }
 
+
+
     private class AddDayEndMileageWithImage extends AsyncTask<Void, Void, Void> {
 
         Bitmap bitmapImage;
         OnPostDayEndMileageFinishedListener finishedListener;
-        JsonObject endMileagejsonObject ;
+        String imageCode ;
 
-        public AddDayEndMileageWithImage(Bitmap image, JsonObject json,
-                                         OnPostDayEndMileageFinishedListener listener) {
+        JsonObject jsonObject ;
+
+        public AddDayEndMileageWithImage(Bitmap image, String imagecode, OnPostDayEndMileageFinishedListener listener) {
             bitmapImage = image;
-            endMileagejsonObject = json;
+            imageCode = imagecode;
             finishedListener = listener;
 
+            jsonObject = new JsonObject();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            endMileagejsonObject.addProperty("ImageBase64", bitMapToString(bitmapImage));
+
+            jsonObject.addProperty("ImageCode", imageCode);
+            jsonObject.addProperty("ImageBase64", bitMapToString(bitmapImage));
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            postEndMilageWithImage(endMileagejsonObject,finishedListener);
+            postEndMilageWithImage(jsonObject,finishedListener);
         }
 
         @Override
@@ -222,11 +264,12 @@ public class MileageInteractorImpil implements MileageInteractor {
         }
     }
 
-    private void postEndMilageWithImage(JsonObject json,
-                                        final OnPostDayEndMileageFinishedListener listener){
+
+
+    private void postEndMilageWithImage(JsonObject json, final OnPostDayEndMileageFinishedListener listener){
 
         try {
-            apiService.saveDayEndMileage(json)
+            apiService.saveMileageImage(json)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<Boolean>() {
@@ -272,6 +315,25 @@ public class MileageInteractorImpil implements MileageInteractor {
     public void getDetailsSummary(OnDetailsSummaryFinishedListener onDetailsSummaryFinishedListener) {
         DetailsSummary detailsSummary = new DetailsSummary();
         onDetailsSummaryFinishedListener.detailsSummaryList(detailsSummary);
+    }
+
+
+    public String genarateMileageImageCode(String userID) {
+        Calendar c = Calendar.getInstance();
+        String numberFromTime = String.valueOf(c.get(Calendar.YEAR)).substring(1) + String.valueOf(c.get(Calendar.MONTH)) + String.valueOf(c.get(Calendar.DATE)) + String.valueOf(c.get(Calendar.HOUR)) + String.valueOf(c.get(Calendar.MINUTE)) + String.valueOf(c.get(Calendar.SECOND)) + String.valueOf(c.get(Calendar.MILLISECOND));
+        if (numberFromTime.length() == 16) {
+        } else {
+            if (numberFromTime.length() > 16) {
+                numberFromTime = numberFromTime.substring(0, 16);
+            } else {
+                int len = 16 - numberFromTime.length();
+                for (int i = 0; i < len; i++) {
+                    numberFromTime = numberFromTime + "0";
+                }
+            }
+        }
+        String expCode ="MIL"+userID + numberFromTime;
+        return expCode;
     }
 
 

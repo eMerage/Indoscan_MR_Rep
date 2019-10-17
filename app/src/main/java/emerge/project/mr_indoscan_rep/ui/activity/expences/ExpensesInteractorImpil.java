@@ -167,6 +167,7 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
             jsonObject.addProperty("References", ref);
             jsonObject.addProperty("Description", description);
             jsonObject.addProperty("Amount", billamount);
+            jsonObject.addProperty("ImageCode", code);
 
 
             try {
@@ -185,8 +186,6 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
 
                             @Override
                             public void onError(Throwable e) {
-                                System.out.println("xxxxxxxxxxxxxxxxxxxx : 1 "+e.toString());
-
                                 onPostExpensesFinishedListener.postExpensesFail("Something went wrong, Please try again");
                             }
                             @Override
@@ -196,7 +195,6 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
                             }
                         });
             } catch (Exception ex) {
-                System.out.println("xxxxxxxxxxxxxxxxxxxx : 2 "+ex.toString());
                 onPostExpensesFinishedListener.postExpensesFail("Something went wrong, Please try again");
             }
 
@@ -221,7 +219,6 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
 
                         @Override
                         public void onError(Throwable e) {
-                            System.out.println("xxxxxxxxxxxxxxxxxxxx : 3 "+e.toString());
                             onPostExpensesFinishedListener.postExpensesFail("Something went wrong, Please try again");
                         }
 
@@ -237,7 +234,6 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
                     });
 
         } catch (Exception ex) {
-            System.out.println("xxxxxxxxxxxxxxxxxxxx : 4 "+ex.toString());
             onPostExpensesFinishedListener.postExpensesFail("Something went wrong, Please try again");
         }
 

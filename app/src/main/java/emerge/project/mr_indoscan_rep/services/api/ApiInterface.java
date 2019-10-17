@@ -101,15 +101,27 @@ public interface ApiInterface {
     Observable<Mileage> getUnfinishedMileageByUser(@Query("userID") int userID);
 
 
-    @POST("Expense/SaveDayStartMileage")
+    @POST("Mileage/SaveDayStartMileage")
     Observable<Boolean> saveDayStartMileage(@Body JsonObject mileageInfo);
 
-    @POST("Expense/SaveDayEndMileage")
+    @POST("Mileage/SaveDayEndMileage")
     Observable<Boolean> saveDayEndMileage(@Body JsonObject mileageInfo);
+
+
+
+    @POST("Mileage/SaveMileageImage")
+    Observable<Boolean> saveMileageImage(@Body JsonObject mileageImageInfo);
 
 
     @POST("Visit/SavePharmacyVisit")
     Observable<Boolean> savePharmacyVisit(@Body JsonObject pharmacyVisitInfo);
+
+
+    @POST("Product/SaveProductUnavailabilty")
+    Observable<Boolean> saveProductUnavailabilty(@Body JsonObject proInfo);
+
+    @POST("Product/SaveProductShortExpiry")
+    Observable<Boolean> saveProductShortExpiry(@Body JsonObject proInfo);
 
 
 }

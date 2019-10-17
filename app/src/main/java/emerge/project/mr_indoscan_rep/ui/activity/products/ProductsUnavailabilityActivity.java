@@ -17,8 +17,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,6 +52,8 @@ import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsA
 import emerge.project.mr_indoscan_rep.ui.activity.visits.VisitsActivity;
 import emerge.project.mr_indoscan_rep.ui.adapters.navigation.NavigationAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.pharmacy.ProductAdapter;
+import emerge.project.mr_indoscan_rep.ui.adapters.products.ProductExpAdapter;
+import emerge.project.mr_indoscan_rep.ui.adapters.products.ProductUnavilableAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 import io.reactivex.Observer;
@@ -57,7 +61,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ProductsUnavailabilityActivity extends Activity {
+public class ProductsUnavailabilityActivity extends Activity implements ProductsUnavailabilityView {
 
 
     @BindView(R.id.drawer_layout)
@@ -79,9 +83,20 @@ public class ProductsUnavailabilityActivity extends Activity {
     RecyclerView recyclerviewExpiryproduct;
 
 
+    @BindView(R.id.include_progres)
+    View includeProgres;
+
 
     @BindView(R.id.textView24)
     TextView textViewselectedDate;
+
+
+    @BindView(R.id.autoCompleteTextView_unavailability)
+    AutoCompleteTextView autoTextViewUnPro;
+
+
+    @BindView(R.id.autoCompleteTextView_exp)
+    AutoCompleteTextView autoTextViewExpDoc;
 
 
     NavigationAdapter navigationAdapter;
@@ -93,9 +108,15 @@ public class ProductsUnavailabilityActivity extends Activity {
 
     Dialog dialogCalander;
     String filterDateStart = "";
+    String selectedReason = "";
 
-    ArrayList<Products> productsArrayList = new ArrayList<Products>();
+    ArrayList<Products> allProductsList = new ArrayList<Products>();
 
+    ProductsUnavailabilityPresenter productsUnavailabilityPresenter;
+
+
+    int selectedUnProduct = 0;
+    int selectedExpProduct = 0;
 
 
     @Override
@@ -121,6 +142,7 @@ public class ProductsUnavailabilityActivity extends Activity {
 
         encryptedPreferences = new EncryptedPreferences.Builder(this).withEncryptionPassword("122547895511").build();
 
+        productsUnavailabilityPresenter = new ProductsUnavailabilityPresenterImpli(this);
 
         navigationAdapter = new NavigationAdapter(this, navigationItems);
         listViewNavigation.setAdapter(navigationAdapter);
@@ -144,14 +166,22 @@ public class ProductsUnavailabilityActivity extends Activity {
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(ProductsUnavailabilityActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
                     startActivity(intent, bndlanimation);
                     finish();
-                }else if(position == 3){
+                } else if (position == 3) {
 
                 }
             }
         });
 
 
+    }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        includeProgres.setVisibility(View.VISIBLE);
+        productsUnavailabilityPresenter.getProduct(this);
 
 
         List<String> list = new ArrayList<String>();
@@ -159,22 +189,48 @@ public class ProductsUnavailabilityActivity extends Activity {
         list.add("Reason 2");
         list.add("Reason 3");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_bg_spinner,list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_bg_spinner, list);
         spinner.setAdapter(adapter);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedReason = parent.getItemAtPosition(position).toString();
+            }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerviewProduct.setLayoutManager(layoutManager);
-        recyclerviewProduct.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewProduct.setNestedScrollingEnabled(false);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
-        LinearLayoutManager layoutManagerExpiryp = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerviewExpiryproduct.setLayoutManager(layoutManagerExpiryp);
-        recyclerviewExpiryproduct.setItemAnimator(new DefaultItemAnimator());
-        recyclerviewExpiryproduct.setNestedScrollingEnabled(false);
+    }
 
-        getProducts();
+
+    @OnClick(R.id.autoCompleteTextView_unavailability)
+    public void onClickUnProSerach(View view) {
+        productsUnavailabilityPresenter.searchUnProduct(allProductsList, autoTextViewUnPro.getText().toString());
+    }
+
+    @OnClick(R.id.autoCompleteTextView_exp)
+    public void onClickExpProSerach(View view) {
+        productsUnavailabilityPresenter.searchUnProduct(allProductsList, autoTextViewExpDoc.getText().toString());
+    }
+
+
+    @OnClick(R.id.btn_save_unproduct)
+    public void onClickAddUnPro(View view) {
+        includeProgres.setVisibility(View.VISIBLE);
+
+        productsUnavailabilityPresenter.postUnProduct(this, selectedUnProduct, selectedReason);
+    }
+
+
+    @OnClick(R.id.btn_save_exproduct)
+    public void onClickAddExPro(View view) {
+        includeProgres.setVisibility(View.VISIBLE);
+        productsUnavailabilityPresenter.postExProduct(this, selectedExpProduct,filterDateStart);
 
     }
 
@@ -188,7 +244,6 @@ public class ProductsUnavailabilityActivity extends Activity {
 
 
         final DateRangeCalendarView calendarView = (DateRangeCalendarView) dialogCalander.findViewById(R.id.calendarView);
-
 
 
         String date = "";
@@ -235,7 +290,6 @@ public class ProductsUnavailabilityActivity extends Activity {
             public void onDateRangeSelected(Calendar startDate, Calendar endDate) {
 
 
-
             }
         });
 
@@ -244,61 +298,9 @@ public class ProductsUnavailabilityActivity extends Activity {
     }
 
 
-    private void getProducts() {
-        if (!NetworkAvailability.isNetworkAvailable(this)) {
-            Toast.makeText(this, "No Internet Access, Please try again", Toast.LENGTH_SHORT).show();
-        } else {
-            try {
-                int userId = encryptedPreferences.getInt(USER_ID, 0);
-                apiService.getAllProductsForMR(userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<ArrayList<Products>>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                            }
-
-                            @Override
-                            public void onNext(ArrayList<Products> pro) {
-                                productsArrayList = pro;
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                setProducts(productsArrayList);
-
-                            }
-                        });
-            } catch (Exception ex) {
-                Toast.makeText(this, "Something went wrong, Please try again", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-
-    }
-
-    private void setProducts(ArrayList<Products> pro) {
-        /*ProductAdapter productAdapter = new ProductAdapter(this, pro);
-        recyclerviewProduct.setAdapter(productAdapter);
-
-        ProductAdapter productAdapterEx = new ProductAdapter(this, pro);
-        recyclerviewExpiryproduct.setAdapter(productAdapterEx);*/
-
-
-
-    }
-
-
-
-
     @OnClick(R.id.imageView1)
     public void onClickCalanderIcon(View view) {
-      showCalanderDilog();
+        showCalanderDilog();
     }
 
 
@@ -359,4 +361,233 @@ public class ProductsUnavailabilityActivity extends Activity {
             return false;
         }
     };
+
+
+    @Override
+    public void productList(ArrayList<Products> productList, ArrayList<String> productNameList) {
+        includeProgres.setVisibility(View.GONE);
+
+        allProductsList = productList;
+
+        ProductUnavilableAdapter productUnavilableAdapter = new ProductUnavilableAdapter(this, productList, this);
+        recyclerviewProduct.setAdapter(productUnavilableAdapter);
+
+
+        ProductExpAdapter productExpAdapter = new ProductExpAdapter(this, productList, this);
+        recyclerviewExpiryproduct.setAdapter(productExpAdapter);
+
+
+        ArrayAdapter<String> phaAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, productNameList);
+        autoTextViewUnPro.setAdapter(phaAdapterList);
+        autoTextViewExpDoc.setAdapter(phaAdapterList);
+
+
+        autoTextViewUnPro.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                String selectedPha = parent.getItemAtPosition(pos).toString();
+                productsUnavailabilityPresenter.searchUnProduct(allProductsList, selectedPha);
+
+            }
+        });
+
+
+        autoTextViewExpDoc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                String selectedPha = parent.getItemAtPosition(pos).toString();
+                productsUnavailabilityPresenter.searchExpProduct(allProductsList, selectedPha);
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void productFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            productsUnavailabilityPresenter.getProduct(ProductsUnavailabilityActivity.this);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void productNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void searchUnProductList(ArrayList<Products> productList) {
+        ProductUnavilableAdapter productUnavilableAdapter = new ProductUnavilableAdapter(this, productList, this);
+        recyclerviewProduct.setAdapter(productUnavilableAdapter);
+
+    }
+
+    @Override
+    public void searchExpProductList(ArrayList<Products> productList) {
+        ProductExpAdapter productExpAdapter = new ProductExpAdapter(this, productList, this);
+        recyclerviewExpiryproduct.setAdapter(productExpAdapter);
+    }
+
+    @Override
+    public void selectedUnProductID(int selectedProductId) {
+        selectedUnProduct = selectedProductId;
+    }
+
+    @Override
+    public void selectedExpProductID(int selectedProductId) {
+        selectedExpProduct = selectedProductId;
+    }
+
+
+    @Override
+    public void postUnProductError(String msg) {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postUnProductSuccess() {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setMessage("Unavailable Products adding success");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, "Unavailable Products adding success", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postUnProductFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            productsUnavailabilityPresenter.postUnProduct(ProductsUnavailabilityActivity.this, selectedUnProduct, selectedReason);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postUnProductNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+
+
+    @Override
+    public void postExProductError(String msg) {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void postExProductSuccess() {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Success");
+            alertDialogBuilder.setMessage("Short Expiry Products adding success");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, "Short Expiry Products adding success", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postExProductFail(String failMsg) {
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            includeProgres.setVisibility(View.VISIBLE);
+                            productsUnavailabilityPresenter.postExProduct(ProductsUnavailabilityActivity.this, selectedExpProduct,filterDateStart);
+
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void postExProductNetworkFail() {
+        includeProgres.setVisibility(View.GONE);
+        Toast.makeText(this, "No Internet access,Please try again", Toast.LENGTH_SHORT).show();
+    }
 }

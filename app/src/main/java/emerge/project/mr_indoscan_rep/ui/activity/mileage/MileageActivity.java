@@ -106,7 +106,6 @@ public class MileageActivity extends Activity implements MileageView {
     View includeProgres;
 
 
-
     @BindView(R.id.editText22)
     EditText editTextDayStartODMeterReading;
 
@@ -124,8 +123,6 @@ public class MileageActivity extends Activity implements MileageView {
 
     @BindView(R.id.editText4)
     EditText editTextPrivertMileageForDay;
-
-
 
 
     MileagePresenter mileagePresenter;
@@ -168,8 +165,6 @@ public class MileageActivity extends Activity implements MileageView {
         request = new LocationRequest();
 
 
-
-
         ArrayList<Navigation> navigationItems = new ArrayList<Navigation>();
         navigationItems.add(new Navigation("Expenses", R.drawable.ic_product_defult_small));
         navigationItems.add(new Navigation("Mileage", R.drawable.ic_product_defult_small));
@@ -192,7 +187,7 @@ public class MileageActivity extends Activity implements MileageView {
                     finish();
                 } else if (position == 1) {
 
-                } else if(position==2){
+                } else if (position == 2) {
                     Intent intent = new Intent(MileageActivity.this, PharmacyVisitsActivity.class);
                     Bundle bndlanimation = ActivityOptions.makeCustomAnimation(MileageActivity.this, R.anim.fade_in, R.anim.fade_out).toBundle();
                     startActivity(intent, bndlanimation);
@@ -219,7 +214,7 @@ public class MileageActivity extends Activity implements MileageView {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
-                    currentLocation =  new LatLng(location.getLatitude(),location.getLongitude());
+                    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 }
             }
         };
@@ -232,6 +227,8 @@ public class MileageActivity extends Activity implements MileageView {
         super.onStart();
         includeProgres.setVisibility(View.VISIBLE);
         mileagePresenter.checkDayStartMileage(this);
+
+
     }
 
     @OnClick(R.id.btn_save_stat)
@@ -239,16 +236,16 @@ public class MileageActivity extends Activity implements MileageView {
         includeProgres.setVisibility(View.VISIBLE);
 
         try {
-            codmr =  Integer.parseInt(editTextDayStartODMeterReading.getText().toString());
-        }catch (NumberFormatException num){
+            codmr = Integer.parseInt(editTextDayStartODMeterReading.getText().toString());
+        } catch (NumberFormatException num) {
 
         }
         try {
-            cdayodmr =  Integer.parseInt(editTextCurrentDayODMeterReading.getText().toString());
-        }catch (NumberFormatException num){
+            cdayodmr = Integer.parseInt(editTextCurrentDayODMeterReading.getText().toString());
+        } catch (NumberFormatException num) {
 
         }
-        mileagePresenter.postDayStartMileage(this,codmr,cdayodmr,currentLocation.latitude,currentLocation.longitude);
+        mileagePresenter.postDayStartMileage(this, codmr, cdayodmr, currentLocation.latitude, currentLocation.longitude);
     }
 
 
@@ -256,21 +253,21 @@ public class MileageActivity extends Activity implements MileageView {
     public void onClickDayEndSave(View view) {
         includeProgres.setVisibility(View.VISIBLE);
         try {
-            dayendreading =  Integer.parseInt(editTextDayEndODMeterReading.getText().toString());
-        }catch (NumberFormatException num){
+            dayendreading = Integer.parseInt(editTextDayEndODMeterReading.getText().toString());
+        } catch (NumberFormatException num) {
 
         }
         try {
-            dayendmileage =  Integer.parseInt(editTextMileageForDay.getText().toString());
-        }catch (NumberFormatException num){
+            dayendmileage = Integer.parseInt(editTextMileageForDay.getText().toString());
+        } catch (NumberFormatException num) {
 
         }
         try {
-            dayendprivertmileage =  Integer.parseInt(editTextPrivertMileageForDay.getText().toString());
-        }catch (NumberFormatException num){
+            dayendprivertmileage = Integer.parseInt(editTextPrivertMileageForDay.getText().toString());
+        } catch (NumberFormatException num) {
 
         }
-        mileagePresenter.postDayEndMileage(this,dayendreading,dayendmileage,dayendprivertmileage,bitmap,currentLocation.latitude,currentLocation.longitude);
+        mileagePresenter.postDayEndMileage(this, dayendreading, dayendmileage, dayendprivertmileage, bitmap, currentLocation.latitude, currentLocation.longitude);
 
 
     }
@@ -298,6 +295,7 @@ public class MileageActivity extends Activity implements MileageView {
     public void onClickSliderMenue(View view) {
         dLayout.openDrawer(Gravity.LEFT);
     }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -392,7 +390,7 @@ public class MileageActivity extends Activity implements MileageView {
                 Looper.getMainLooper());
     }
 
-    private void todaySummery(DetailsSummary list){
+    private void todaySummery(DetailsSummary list) {
 
         Dialog dialogFullDetails = new Dialog(this);
         dialogFullDetails.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -406,7 +404,7 @@ public class MileageActivity extends Activity implements MileageView {
         RecyclerView recyclerviewTowns = dialogFullDetails.findViewById(R.id.recyclerview_towns);
 
 
-        TownsCoverdAdapter townsCoverdAdapter =  new TownsCoverdAdapter(this,list.getTownList());
+        TownsCoverdAdapter townsCoverdAdapter = new TownsCoverdAdapter(this, list.getTownList());
         recyclerviewTowns.setAdapter(townsCoverdAdapter);
 
 
@@ -415,7 +413,7 @@ public class MileageActivity extends Activity implements MileageView {
         RecyclerView recyclerviewDocs = dialogFullDetails.findViewById(R.id.recyclerview_docs);
 
 
-        VisitsDocsAdapter visitsDocsAdapter =  new VisitsDocsAdapter(this,list.getDoctorList());
+        VisitsDocsAdapter visitsDocsAdapter = new VisitsDocsAdapter(this, list.getDoctorList());
         recyclerviewDocs.setAdapter(visitsDocsAdapter);
 
 
@@ -423,17 +421,16 @@ public class MileageActivity extends Activity implements MileageView {
         final RelativeLayout relativeLayout4 = dialogFullDetails.findViewById(R.id.relativeLayout4);
         RecyclerView recyclerviewPharmacy = dialogFullDetails.findViewById(R.id.recyclerview_pharmacy);
 
-        VisitsPharmacyAdapter visitsPharmacyAdapter =  new VisitsPharmacyAdapter(this,list.getPharmacyList());
+        VisitsPharmacyAdapter visitsPharmacyAdapter = new VisitsPharmacyAdapter(this, list.getPharmacyList());
         recyclerviewPharmacy.setAdapter(visitsPharmacyAdapter);
-
 
 
         ImageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(relativeLayout2.getVisibility() == View.VISIBLE) {
+                if (relativeLayout2.getVisibility() == View.VISIBLE) {
                     relativeLayout2.setVisibility(View.GONE);
-                }else {
+                } else {
                     relativeLayout2.setVisibility(View.VISIBLE);
                 }
             }
@@ -443,28 +440,25 @@ public class MileageActivity extends Activity implements MileageView {
         ImageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(relativeLayout3.getVisibility() == View.VISIBLE) {
+                if (relativeLayout3.getVisibility() == View.VISIBLE) {
                     relativeLayout3.setVisibility(View.GONE);
-                }else {
+                } else {
                     relativeLayout3.setVisibility(View.VISIBLE);
                 }
             }
         });
 
 
-
         ImageView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(relativeLayout4.getVisibility() == View.VISIBLE) {
+                if (relativeLayout4.getVisibility() == View.VISIBLE) {
                     relativeLayout4.setVisibility(View.GONE);
-                }else {
+                } else {
                     relativeLayout4.setVisibility(View.VISIBLE);
                 }
             }
         });
-
-
 
 
         TextView textTowncount = dialogFullDetails.findViewById(R.id.MontserratMedium2);
@@ -481,20 +475,20 @@ public class MileageActivity extends Activity implements MileageView {
         textOrderCollectscount.setText(String.valueOf(list.getCollectedOrdersCount()));
 
         TextView textOfficalMileage = dialogFullDetails.findViewById(R.id.MontserratMedium10);
-        textOfficalMileage.setText(String.valueOf(list.getOfficialMileage())+" KM");
+        textOfficalMileage.setText(String.valueOf(list.getOfficialMileage()) + " KM");
 
         TextView textPrivertMileage = dialogFullDetails.findViewById(R.id.MontserratMedium12);
-        textPrivertMileage.setText(String.valueOf(list.getOfficialMileage())+" KM");
+        textPrivertMileage.setText(String.valueOf(list.getOfficialMileage()) + " KM");
 
         TextView textDailyExpenses = dialogFullDetails.findViewById(R.id.MontserratMedium14);
-        textDailyExpenses.setText(String.valueOf(list.getDailyExpenses())+" LKR");
+        textDailyExpenses.setText(String.valueOf(list.getDailyExpenses()) + " LKR");
 
 
         TextView textAchievementTowns = dialogFullDetails.findViewById(R.id.MontserratMedium16);
-        textAchievementTowns.setText(String.valueOf(list.getTownAchievement())+" %");
+        textAchievementTowns.setText(String.valueOf(list.getTownAchievement()) + " %");
 
         TextView textAchievementUpToDate = dialogFullDetails.findViewById(R.id.MontserratMedium18);
-        textAchievementUpToDate.setText(String.valueOf(list.getUptodateAchievement())+" %");
+        textAchievementUpToDate.setText(String.valueOf(list.getUptodateAchievement()) + " %");
 
         TextView textBalTarget = dialogFullDetails.findViewById(R.id.MontserratMedium20);
         textBalTarget.setText(String.valueOf(list.getBalanceTarget()));
@@ -506,8 +500,6 @@ public class MileageActivity extends Activity implements MileageView {
 
         TextView textNotVisitedCustomersAll = dialogFullDetails.findViewById(R.id.MontserratMedium24);
         textNotVisitedCustomersAll.setText(String.valueOf(list.getNotVisitedCustomersAll()));
-
-
 
 
         dialogFullDetails.show();
@@ -523,7 +515,7 @@ public class MileageActivity extends Activity implements MileageView {
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         try {
-                             imageExtras = data.getExtras();
+                            imageExtras = data.getExtras();
 
                             new AddImages().execute();
 
@@ -554,7 +546,6 @@ public class MileageActivity extends Activity implements MileageView {
     }
 
 
-
     private class AddImages extends AsyncTask<Void, Void, Void> {
 
         public AddImages() {
@@ -582,16 +573,15 @@ public class MileageActivity extends Activity implements MileageView {
     }
 
 
-
-
-
     @Override
     public void dayStartMileage(Boolean availability) {
         includeProgres.setVisibility(View.GONE);
-        if(availability){
-            relativelayoutDayEnd.setVisibility(View.GONE);
-        }else {
+        if (availability) {
+            relativelayoutDayStart.setVisibility(View.GONE);
             relativelayoutDayEnd.setVisibility(View.VISIBLE);
+        } else {
+            relativelayoutDayStart.setVisibility(View.VISIBLE);
+            relativelayoutDayEnd.setVisibility(View.GONE);
         }
 
     }
@@ -643,8 +633,15 @@ public class MileageActivity extends Activity implements MileageView {
 
     @Override
     public void postDayStartMileageSuccess() {
+
+
+        editTextDayStartODMeterReading.setText("");
+        editTextCurrentDayODMeterReading.setText("");
+
+
         includeProgres.setVisibility(View.GONE);
-        relativelayoutDayEnd.setVisibility(View.GONE);
+        relativelayoutDayStart.setVisibility(View.GONE);
+        relativelayoutDayEnd.setVisibility(View.VISIBLE);
         try {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Success");
@@ -674,7 +671,7 @@ public class MileageActivity extends Activity implements MileageView {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             includeProgres.setVisibility(View.VISIBLE);
-                            mileagePresenter.postDayStartMileage(MileageActivity.this,codmr,cdayodmr,currentLocation.latitude,currentLocation.longitude);
+                            mileagePresenter.postDayStartMileage(MileageActivity.this, codmr, cdayodmr, currentLocation.latitude, currentLocation.longitude);
 
                         }
                     });
@@ -706,24 +703,32 @@ public class MileageActivity extends Activity implements MileageView {
 
     @Override
     public void postDayEndMileageSuccess() {
+
+
+        editTextDayEndODMeterReading.setText("");
+        editTextMileageForDay.setText("");
+        editTextPrivertMileageForDay.setText("");
+
+
         includeProgres.setVisibility(View.GONE);
-        relativelayoutDayEnd.setVisibility(View.VISIBLE);
+        relativelayoutDayStart.setVisibility(View.VISIBLE);
+        relativelayoutDayEnd.setVisibility(View.GONE);
         try {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Success");
-            alertDialogBuilder.setCancelable(false);
-            alertDialogBuilder.setMessage("Day start mileage adding success");
+
+            alertDialogBuilder.setMessage("Day end mileage adding success");
             alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    includeProgres.setVisibility(View.VISIBLE);
-                    mileagePresenter.getDetailsSummary();
+                    //includeProgres.setVisibility(View.VISIBLE);
+                    //  mileagePresenter.getDetailsSummary();
                     return;
                 }
             });
             alertDialogBuilder.show();
         } catch (WindowManager.BadTokenException e) {
-            Toast.makeText(this, "Day start mileage adding success", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Day end mileage adding success", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
@@ -739,7 +744,7 @@ public class MileageActivity extends Activity implements MileageView {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             includeProgres.setVisibility(View.VISIBLE);
-                            mileagePresenter.postDayEndMileage(MileageActivity.this,dayendreading,dayendmileage,dayendprivertmileage,bitmap,currentLocation.latitude,currentLocation.longitude);
+                            mileagePresenter.postDayEndMileage(MileageActivity.this, dayendreading, dayendmileage, dayendprivertmileage, bitmap, currentLocation.latitude, currentLocation.longitude);
 
                         }
                     });
@@ -763,7 +768,6 @@ public class MileageActivity extends Activity implements MileageView {
     }
 
 
-
     @Override
     public void detailsSummaryList(DetailsSummary list) {
         includeProgres.setVisibility(View.GONE);
@@ -782,7 +786,7 @@ public class MileageActivity extends Activity implements MileageView {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             includeProgres.setVisibility(View.VISIBLE);
-                           mileagePresenter.getDetailsSummary();
+                            mileagePresenter.getDetailsSummary();
 
                         }
                     });

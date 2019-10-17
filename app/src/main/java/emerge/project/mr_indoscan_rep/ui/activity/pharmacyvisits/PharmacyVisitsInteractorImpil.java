@@ -45,11 +45,18 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
 
     Boolean pharmacyVisitsSaveStatus = false;
 
+     String code;
+
     @Override
     public void getPharmacy(Context con, OnPharmacyFinishedListener onPharmacyFinishedListener) {
         if (!NetworkAvailability.isNetworkAvailable(con)) {
             onPharmacyFinishedListener.pharmacyNetworkFail();
         } else {
+
+            encryptedPreferences = new EncryptedPreferences.Builder(con).withEncryptionPassword("122547895511").build();
+            int userId = encryptedPreferences.getInt(USER_ID, 0);
+
+           code = genaratePharmacyVisitCode(String.valueOf(userId));
 
             ArrayList<Pharmacy> pha = new ArrayList<>();
             pha.add(new Pharmacy(1, "New Phama"));
@@ -288,7 +295,7 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
 
 
             final JsonObject jsonObject = new JsonObject();
-            final String code = genaratePharmacyVisitCode(String.valueOf(userId));
+
 
             jsonObject.addProperty("MobileCode", code);
             jsonObject.addProperty("UserID",userId);
@@ -301,6 +308,8 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
             jsonObject.addProperty("PrescriptionsForCompetitor", noOfComprescription);
             jsonObject.addProperty("CompetitorProductsPrescriptionType", comPrescriptionType);
 
+
+            System.out.println("xxxxxxxxxxxxxxxxxxxx  PharmacyVisit jsonObject :"+jsonObject);
 
             try {
                 apiService.savePharmacyVisit(jsonObject)
