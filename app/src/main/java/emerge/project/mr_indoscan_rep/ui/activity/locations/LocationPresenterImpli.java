@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import emerge.project.mr_indoscan_rep.utils.entittes.District;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
+import emerge.project.mr_indoscan_rep.utils.entittes.LocationType;
 
 
 /**
@@ -17,7 +18,8 @@ public class LocationPresenterImpli implements LocationPresenter,
         LocationInteractor.OnGetLocationFinishedListener,
 LocationInteractor.OnGetDistrictFinishedListener,
 LocationInteractor.OnSelectedDistrictIDFinishedListener,
-LocationInteractor.OnPostLocationFinishedListener{
+LocationInteractor.OnPostLocationFinishedListener,
+        LocationInteractor.OnGetLocationTypeListFinishedListener{
 
 
     private LocationView locationView;
@@ -111,6 +113,8 @@ LocationInteractor.OnPostLocationFinishedListener{
         locationInteractor.postLocation(context,locationEntitie, isAfterSuggestion,this);
     }
 
+
+
     @Override
     public void postLocationError(String msg) {
         locationView.postLocationError(msg);
@@ -134,5 +138,28 @@ LocationInteractor.OnPostLocationFinishedListener{
     @Override
     public void postLocationNetworkFail() {
         locationView.postLocationNetworkFail();
+    }
+
+
+
+    @Override
+    public void getLocationType(Context context) {
+        locationInteractor.getLocationType(context,this);
+    }
+
+
+    @Override
+    public void locationTypeList(ArrayList<LocationType> locationTypeList) {
+        locationView.locationTypeList(locationTypeList);
+    }
+
+    @Override
+    public void locationTypeListgetingFail(String failMsg) {
+        locationView.locationTypeListgetingFail(failMsg);
+    }
+
+    @Override
+    public void locationTypeListNetworkFail() {
+        locationView.locationTypeListNetworkFail();
     }
 }

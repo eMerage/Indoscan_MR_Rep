@@ -55,6 +55,7 @@ import emerge.project.mr_indoscan_rep.ui.adapters.pharmacy.ProductAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.products.ProductExpAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.products.ProductUnavilableAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
+import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -118,6 +119,9 @@ public class ProductsUnavailabilityActivity extends Activity implements Products
     int selectedUnProduct = 0;
     int selectedExpProduct = 0;
 
+
+    ProductUnavilableAdapter productUnavilableAdapter;
+    ProductExpAdapter productExpAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -369,11 +373,11 @@ public class ProductsUnavailabilityActivity extends Activity implements Products
 
         allProductsList = productList;
 
-        ProductUnavilableAdapter productUnavilableAdapter = new ProductUnavilableAdapter(this, productList, this);
+         productUnavilableAdapter = new ProductUnavilableAdapter(this, productList, this);
         recyclerviewProduct.setAdapter(productUnavilableAdapter);
 
 
-        ProductExpAdapter productExpAdapter = new ProductExpAdapter(this, productList, this);
+         productExpAdapter = new ProductExpAdapter(this, productList, this);
         recyclerviewExpiryproduct.setAdapter(productExpAdapter);
 
 
@@ -474,6 +478,12 @@ public class ProductsUnavailabilityActivity extends Activity implements Products
     @Override
     public void postUnProductSuccess() {
         includeProgres.setVisibility(View.GONE);
+        for (Products products : allProductsList) {
+            products.setSelect(false);
+        }
+        productUnavilableAdapter.notifyDataSetChanged();
+
+
         try {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Success");
@@ -540,6 +550,14 @@ public class ProductsUnavailabilityActivity extends Activity implements Products
     @Override
     public void postExProductSuccess() {
         includeProgres.setVisibility(View.GONE);
+
+
+        for (Products products : allProductsList) {
+            products.setSelect(false);
+        }
+        productExpAdapter.notifyDataSetChanged();
+
+
         try {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setTitle("Success");

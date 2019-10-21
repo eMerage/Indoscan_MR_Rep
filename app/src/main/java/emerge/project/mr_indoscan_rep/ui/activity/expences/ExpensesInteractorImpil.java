@@ -143,7 +143,7 @@ public class ExpensesInteractorImpil implements ExpensesInteractor {
 
         if (!NetworkAvailability.isNetworkAvailable(context)) {
             onPostExpensesFinishedListener.postExpensesNetworkFail();
-        } else if ((billdate.isEmpty()) || (billamount.equals(""))) {
+        } else if ((billdate.isEmpty())) {
             onPostExpensesFinishedListener.postExpensesError("Please set the Bill Date");
         } else if (catID == 0) {
             onPostExpensesFinishedListener.postExpensesError("Please select the Category");

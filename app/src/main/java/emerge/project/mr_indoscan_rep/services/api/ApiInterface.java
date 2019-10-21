@@ -10,6 +10,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.District;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.ExpencesCategorys;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
+import emerge.project.mr_indoscan_rep.utils.entittes.LocationType;
 import emerge.project.mr_indoscan_rep.utils.entittes.LoginUser;
 import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
@@ -132,6 +133,9 @@ public interface ApiInterface {
 
     @GET("Location/GetPharmaciesForUser")
     Observable<ArrayList<Pharmacy>> getPharmaciesForUser(@Query("userID") int userID);
+
+    @GET("LocationType/GetAllLocationTypes")
+    Observable<ArrayList<LocationType>> getAllLocationTypes(@Query("TokenID") String tokenID);
 
 
 

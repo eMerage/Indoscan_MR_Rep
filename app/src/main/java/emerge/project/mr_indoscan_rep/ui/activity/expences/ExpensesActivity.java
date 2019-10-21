@@ -187,6 +187,8 @@ public class ExpensesActivity extends Activity implements ExpensesView {
             }
         });
 
+        includeProgres.setVisibility(View.VISIBLE);
+        expensesPresenter.getExpensesCategory(this);
 
     }
 
@@ -195,8 +197,8 @@ public class ExpensesActivity extends Activity implements ExpensesView {
     protected void onStart() {
         super.onStart();
 
-        includeProgres.setVisibility(View.VISIBLE);
-        expensesPresenter.getExpensesCategory(this);
+
+
 
     }
 

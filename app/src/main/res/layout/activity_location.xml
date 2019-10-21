@@ -70,7 +70,7 @@
                 android:layout_marginRight="15dp"
                 android:background="@drawable/bg_background"
                 android:elevation="5dp"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ScrollView
                     android:layout_width="match_parent"
@@ -304,10 +304,34 @@
                                 android:background="@color/colorAccent" />
 
 
+                            <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                                android:id="@+id/text_locationtype_hint"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/divider_floor"
+                                android:layout_marginLeft="40dp"
+                                android:layout_marginTop="10dp"
+                                android:enabled="false"
+                                android:hint="Location Type"
+                                android:textColor="#000000"
+                                android:textSize="12sp"
+                                android:visibility="invisible" />
+
+
+                            <Spinner
+                                android:id="@+id/spinner_location_type"
+                                android:layout_width="match_parent"
+                                android:layout_below="@+id/text_locationtype_hint"
+                                android:layout_marginLeft="40dp"
+                                android:layout_marginRight="40dp"
+                                android:layout_height="35dp" />
+
+
+
 
                             <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularButton
                                 android:id="@+id/btn_addlocation"
-                                android:layout_below="@+id/divider_floor"
+                                android:layout_below="@+id/spinner_location_type"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:layout_centerHorizontal="true"

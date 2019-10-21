@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import emerge.project.mr_indoscan_rep.utils.entittes.District;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
+import emerge.project.mr_indoscan_rep.utils.entittes.LocationType;
 
 /**
  * Created by Himanshu on 4/4/2017.
@@ -47,6 +48,15 @@ public interface LocationInteractor {
         void  postLocationNetworkFail();
     }
     void postLocation(Context context, LocationEntitie locationEntitie,int isAfterSuggestion, OnPostLocationFinishedListener onPostLocationFinishedListener);
+
+
+
+    interface OnGetLocationTypeListFinishedListener {
+        void locationTypeList(ArrayList<LocationType> locationTypeList);
+        void locationTypeListgetingFail(String failMsg);
+        void locationTypeListNetworkFail();
+    }
+    void getLocationType(Context context, OnGetLocationTypeListFinishedListener onGetLocationTypeListFinishedListener);
 
 
 

@@ -114,6 +114,10 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
         try {
             ArrayList<Pharmacy> newPharmacyList = new ArrayList<Pharmacy>();
             if (phaName.isEmpty() || phaName.equals("") || phaName.equalsIgnoreCase("all")) {
+                for (Pharmacy pha : pharmacyList) {
+                    pha.setSelect(false);
+                }
+
                 onSearchPharmacyFinishedListener.searchPharmacyList(pharmacyList);
             } else {
                 for (Pharmacy pha : pharmacyList) {
@@ -129,10 +133,17 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
 
                 }
 
+                for (Pharmacy pha : pharmacyList) {
+                    pha.setSelect(false);
+                }
+
                 onSearchPharmacyFinishedListener.searchPharmacyList(newPharmacyList);
 
             }
         } catch (Exception ex) {
+            for (Pharmacy pha : pharmacyList) {
+                pha.setSelect(false);
+            }
             onSearchPharmacyFinishedListener.searchPharmacyList(pharmacyList);
 
         }
@@ -195,7 +206,15 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
             ArrayList<Products> newProductList = new ArrayList<Products>();
 
             if (productName.isEmpty() || productName.equals("") || productName.equalsIgnoreCase("all")) {
+
+                for (Products pro : productList) {
+                    pro.setSelect(false);
+                }
+
                 onSearchProductFinishedListener.searchProductList(productList);
+
+
+
             } else {
                 for (Products pro : productList) {
                     String text = pro.getName();
@@ -209,10 +228,17 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
                     }
 
                 }
+                for (Products pro : productList) {
+                    pro.setSelect(false);
+                }
+
                 onSearchProductFinishedListener.searchProductList(newProductList);
 
             }
         } catch (Exception ex) {
+            for (Products pro : productList) {
+                pro.setSelect(false);
+            }
             onSearchProductFinishedListener.searchProductList(productList);
         }
 
@@ -274,6 +300,11 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
             ArrayList<Doctor> newdoctorList = new ArrayList<Doctor>();
 
             if (doctorsName.isEmpty() || doctorsName.equals("") || doctorsName.equalsIgnoreCase("all")) {
+
+                for (Doctor doc : doctorList) {
+                    doc.setSelect(false);
+                }
+
                 onSearchDoctorsFinishedListener.searchDoctorsList(doctorList);
             } else {
                 for (Doctor doc : doctorList) {
@@ -288,9 +319,17 @@ public class PharmacyVisitsInteractorImpil implements PharmacyVisitsInteractor {
                     }
 
                 }
+
+                for (Doctor doc : doctorList) {
+                    doc.setSelect(false);
+                }
+
                 onSearchDoctorsFinishedListener.searchDoctorsList(newdoctorList);
             }
         } catch (Exception ex) {
+            for (Doctor doc : doctorList) {
+                doc.setSelect(false);
+            }
             onSearchDoctorsFinishedListener.searchDoctorsList(doctorList);
         }
 

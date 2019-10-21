@@ -15,6 +15,7 @@ import emerge.project.mr_indoscan_rep.services.api.ApiInterface;
 import emerge.project.mr_indoscan_rep.services.network.NetworkAvailability;
 import emerge.project.mr_indoscan_rep.utils.entittes.District;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
+import emerge.project.mr_indoscan_rep.utils.entittes.LocationType;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -36,6 +37,7 @@ public class LocationInteractorImpil implements LocationInteractor {
     ArrayList<LocationEntitie> locationList;
     ArrayList<District> districtList;
 
+    ArrayList<LocationType> locationTypeList;
 
     ArrayList<LocationEntitie> locationArrayListforDuplicate;
 
@@ -173,7 +175,7 @@ public class LocationInteractorImpil implements LocationInteractor {
 
             final JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("name", locationEntitie.getName());
-            jsonObject.addProperty("LocationTypeID", 1);
+            jsonObject.addProperty("LocationTypeID", locationEntitie.getLocationTypeID());
             jsonObject.addProperty("Address", locationEntitie.getAddress());
             jsonObject.addProperty("Town", locationEntitie.getTown());
             jsonObject.addProperty("DistrictID", locationEntitie.getDistrictID());
@@ -244,6 +246,51 @@ public class LocationInteractorImpil implements LocationInteractor {
                 onPostLocationFinishedListener.postLocationFail("Something went wrong, Please try again",locationEntitie,isAfterSuggestion);
             }
         }
+    }
+
+    @Override
+    public void getLocationType(Context context, final OnGetLocationTypeListFinishedListener onGetLocationTypeListFinishedListener) {
+
+
+        if (!NetworkAvailability.isNetworkAvailable(context)) {
+            onGetLocationTypeListFinishedListener.locationTypeListNetworkFail();
+        } else {
+            try {
+
+                   locationTypeList = new ArrayList<LocationType>();
+
+                final ArrayList<LocationType> list = new ArrayList<LocationType>();
+                apiService.getAllLocationTypes(tokenID)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ArrayList<LocationType>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(ArrayList<LocationType> list) {
+                                locationTypeList = list;
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                onGetLocationTypeListFinishedListener.locationTypeListgetingFail("Something went wrong, Please try again ");
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                onGetLocationTypeListFinishedListener.locationTypeList(locationTypeList);
+
+
+                            }
+                        });
+            } catch (Exception ex) {
+                onGetLocationTypeListFinishedListener.locationTypeListgetingFail("Something went wrong, Please try again");
+            }
+        }
+
     }
 }
 

@@ -21,4 +21,9 @@ public interface LocationPresenter {
     void postLocation(Context context, LocationEntitie locationEntitie,int isAfterSuggestion);
 
 
+
+    void getLocationType(Context context);
+
+
+
 }

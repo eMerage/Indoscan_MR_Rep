@@ -43,6 +43,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,10 +94,12 @@ import emerge.project.mr_indoscan_rep.ui.activity.mileage.MileageActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.pharmacyvisits.PharmacyVisitsActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.products.ProductsUnavailabilityActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.visits.VisitsActivity;
+import emerge.project.mr_indoscan_rep.ui.adapters.locations.LocationTypeSpnninerAdaptar;
 import emerge.project.mr_indoscan_rep.ui.adapters.locations.LocationsDuplicateAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.navigation.NavigationAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.District;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
+import emerge.project.mr_indoscan_rep.utils.entittes.LocationType;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 
 public class LocationActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationView ,GoogleApiClient.ConnectionCallbacks,
@@ -155,6 +158,11 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     @BindView(R.id.listview_navigation)
     ListView listViewNavigation;
 
+
+
+    @BindView(R.id.spinner_location_type)
+    Spinner spinnerLocationType;
+
     private GoogleMap mMap;
 
     Marker mapMarker;
@@ -182,6 +190,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     double locationDialogLan, locationDialogLon;
 
     int selectedDistricId;
+    int selectedTypeId=0;
 
     Animation animation, animation2;
 
@@ -193,6 +202,8 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
     LocationEntitie selectLocation;
     EncryptedPreferences encryptedPreferences;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -400,6 +411,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
         bloackUserInteraction();
         includeProgres.setVisibility(View.VISIBLE);
+
         LocationEntitie locationEntitie = new LocationEntitie();
         locationEntitie.setName(edittextName.getText().toString());
         locationEntitie.setAddress(edittextAddres.getText().toString());
@@ -408,6 +420,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         locationEntitie.setDistrictID(selectedDistricId);
         locationEntitie.setLatitude(mLastKnownLocation.getLatitude());
         locationEntitie.setLongitude(mLastKnownLocation.getLongitude());
+        locationEntitie.setLocationTypeID(selectedTypeId);
 
         locationPresenter.postLocation(this, locationEntitie, 0);
 
@@ -472,6 +485,11 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
             alertDialogBuilder.setCancelable(false);
             alertDialogBuilder.show();
+
+
+
+            includeProgres.setVisibility(View.VISIBLE);
+           locationPresenter.getLocationType(this);
         }
 
     }
@@ -1076,6 +1094,82 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
 
     @Override
     public void postLocationNetworkFail() {
+        unBloackUserInteraction();
+        includeProgres.setVisibility(View.GONE);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("No Internet Access, Please try again");
+        alertDialogBuilder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+        alertDialogBuilder.show();
+    }
+
+
+
+
+    @Override
+    public void locationTypeList(ArrayList<LocationType> locationTypeList) {
+
+        unBloackUserInteraction();
+        includeProgres.setVisibility(View.GONE);
+
+        LocationTypeSpnninerAdaptar adapter = new LocationTypeSpnninerAdaptar(this, R.layout.textview_spinner, locationTypeList);
+        spinnerLocationType.setAdapter(adapter); // this will set list of values to spinner
+
+        spinnerLocationType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                LocationType ex = (LocationType) parent.getItemAtPosition(pos);
+                selectedTypeId = ex.getId();
+
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void locationTypeListgetingFail(String failMsg) {
+
+        unBloackUserInteraction();
+        includeProgres.setVisibility(View.GONE);
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(failMsg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            bloackUserInteraction();
+                            includeProgres.setVisibility(View.VISIBLE);
+                            locationPresenter.getLocationType(LocationActivity.this);
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, failMsg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    @Override
+    public void locationTypeListNetworkFail() {
         unBloackUserInteraction();
         includeProgres.setVisibility(View.GONE);
 
