@@ -180,12 +180,47 @@
                                     </RelativeLayout>
 
 
+                                    <RelativeLayout
+                                        android:id="@+id/relativeLayout88"
+                                        android:layout_below="@+id/relativeLayout6"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp">
+
+
+                                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                                            android:id="@+id/editText15"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:ems="10"
+                                            android:layout_marginLeft="130dp"
+                                            android:layout_marginRight="10dp"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:layout_centerVertical="true"
+                                            android:textSize="13sp"
+                                            android:inputType="number"
+                                            android:hint=""/>
+
+                                        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+                                            android:id="@+id/montserratRegular99"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="20dp"
+                                            android:layout_marginTop="5dp"
+                                            android:text="Private Mileage"
+                                            android:layout_centerVertical="true"
+                                            android:textColor="@color/colorPrimaryDark"
+                                            android:textSize="13sp"
+                                            android:visibility="visible" />
+
+                                    </RelativeLayout>
+
+
 
                                     <emerge.project.mr_indoscan_rep.ui.fonts.MontserratLightButton
                                         android:id="@+id/btn_save_stat"
                                         android:layout_width="100dp"
                                         android:layout_height="35dp"
-                                        android:layout_below="@+id/relativeLayout6"
+                                        android:layout_below="@+id/relativeLayout88"
                                         android:textSize="13sp"
                                         android:layout_alignParentRight="true"
                                         android:layout_marginTop="10dp"

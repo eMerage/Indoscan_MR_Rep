@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import emerge.project.mr_indoscan_rep.R;
 import emerge.project.mr_indoscan_rep.ui.activity.doctors.DoctorsActivity;
 import emerge.project.mr_indoscan_rep.ui.activity.expences.ExpensesActivity;
@@ -111,6 +112,11 @@ public class MileageActivity extends Activity implements MileageView {
     EditText editTextDayStartODMeterReading;
 
 
+    @BindView(R.id.editText15)
+    TextView textDayStartPrivertMilage;
+
+
+
     @BindView(R.id.editText1)
     EditText editTextCurrentDayODMeterReading;
 
@@ -125,12 +131,11 @@ public class MileageActivity extends Activity implements MileageView {
     @BindView(R.id.editText4)
     EditText editTextPrivertMileageForDay;
 
-
     MileagePresenter mileagePresenter;
-
-
     NavigationAdapter navigationAdapter;
     LocationRequest request;
+
+
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -232,6 +237,32 @@ public class MileageActivity extends Activity implements MileageView {
 
     }
 
+
+    @OnTextChanged(R.id.editText1)
+    protected void onTextChangedCurrentDay(CharSequence text) {
+        int reading = 0;
+
+        try {
+            reading = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        int readingPrives = 0;
+
+        try {
+            readingPrives = Integer.parseInt(editTextDayStartODMeterReading.getText().toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        int verians = reading - readingPrives;
+
+        textDayStartPrivertMilage.setText(String.valueOf(verians));
+
+
+    }
+
     @OnClick(R.id.btn_save_stat)
     public void onClickDayStartSave(View view) {
         includeProgres.setVisibility(View.VISIBLE);
@@ -269,7 +300,6 @@ public class MileageActivity extends Activity implements MileageView {
 
         }
         mileagePresenter.postDayEndMileage(this, dayendreading, dayendmileage, dayendprivertmileage, bitmap, currentLocation.latitude, currentLocation.longitude);
-
 
     }
 
@@ -586,7 +616,23 @@ public class MileageActivity extends Activity implements MileageView {
             relativelayoutDayEnd.setVisibility(View.VISIBLE);
         }
 
+        int priDay = 0;
+        try {
+            priDay = Integer.parseInt(availability.getDayEndOdometerReading());
+        }catch (NumberFormatException num){
+
+        }
+
+
+        if(priDay==0){
+            editTextDayStartODMeterReading.setEnabled(true);
+        }else {
+            editTextDayStartODMeterReading.setEnabled(false);
+        }
+
+
         editTextDayStartODMeterReading.setText(availability.getDayEndOdometerReading());
+
 
 
     }
