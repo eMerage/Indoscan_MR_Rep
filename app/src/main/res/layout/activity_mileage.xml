@@ -289,6 +289,7 @@
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
                                             android:inputType="number"
+
                                             android:hint="Meter reading"/>
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
                                             android:id="@+id/montserratRegular11"
@@ -361,6 +362,7 @@
                                             android:layout_centerVertical="true"
                                             android:textSize="13sp"
                                             android:inputType="number"
+                                            android:enabled="false"
                                             android:hint="Mileage(Km)"/>
                                         <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
                                             android:id="@+id/montserratRegular13"

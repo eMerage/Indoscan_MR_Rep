@@ -17,7 +17,8 @@ public class Mileage implements Serializable {
     String dayEndOdometerReading="";
 
 
-
+    @SerializedName("dayStartOdometerReading")
+    String dayStartOdometerReading="";
 
 
 
@@ -43,5 +44,13 @@ public class Mileage implements Serializable {
 
     public void setDayEndOdometerReading(String dayEndOdometerReading) {
         this.dayEndOdometerReading = dayEndOdometerReading;
+    }
+
+    public String getDayStartOdometerReading() {
+        return dayStartOdometerReading;
+    }
+
+    public void setDayStartOdometerReading(String dayStartOdometerReading) {
+        this.dayStartOdometerReading = dayStartOdometerReading;
     }
 }

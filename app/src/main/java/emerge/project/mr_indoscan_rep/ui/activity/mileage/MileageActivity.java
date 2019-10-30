@@ -155,6 +155,11 @@ public class MileageActivity extends Activity implements MileageView {
     Bundle imageExtras;
 
 
+    Mileage dayStartMileage;
+
+    int globaleMilageforday = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -233,6 +238,57 @@ public class MileageActivity extends Activity implements MileageView {
         super.onStart();
         includeProgres.setVisibility(View.VISIBLE);
         mileagePresenter.checkDayStartMileage(this);
+
+
+    }
+
+
+    @OnTextChanged(R.id.editText)
+    protected void onTextChangedEndsDay(CharSequence text) {
+
+        int reading = 0;
+
+        try {
+            reading = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        int dayStartOdometerReading = 0;
+
+        try {
+            dayStartOdometerReading = Integer.parseInt(dayStartMileage.getDayStartOdometerReading());
+        } catch (NumberFormatException num) {
+
+        }
+
+        int milageForDay = reading - dayStartOdometerReading;
+        globaleMilageforday = milageForDay;
+        editTextMileageForDay.setText(String.valueOf(globaleMilageforday));
+
+    }
+
+
+
+    @OnTextChanged(R.id.editText4)
+    protected void onTextChangedPriveatMileage(CharSequence text) {
+        int reading = 0;
+
+        try {
+            reading = Integer.parseInt(text.toString());
+        } catch (NumberFormatException num) {
+
+        }
+
+        int mielage = globaleMilageforday - reading;
+
+        if(mielage<0){
+            Toast.makeText(this, "Private mileage is greater than day end odometer", Toast.LENGTH_SHORT).show();
+
+
+        }else {
+            editTextMileageForDay.setText(String.valueOf((globaleMilageforday - reading)));
+        }
 
 
     }
@@ -608,6 +664,11 @@ public class MileageActivity extends Activity implements MileageView {
     public void dayStartMileage(Mileage availability) {
         includeProgres.setVisibility(View.GONE);
 
+
+
+        dayStartMileage = availability;
+
+
         if (!availability.getDayEndOdometerReading().equals("0")) {
             relativelayoutDayStart.setVisibility(View.VISIBLE);
             relativelayoutDayEnd.setVisibility(View.GONE);
@@ -779,6 +840,10 @@ public class MileageActivity extends Activity implements MileageView {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     //includeProgres.setVisibility(View.VISIBLE);
                     //  mileagePresenter.getDetailsSummary();
+
+
+                    includeProgres.setVisibility(View.VISIBLE);
+                    mileagePresenter.checkDayStartMileage(MileageActivity.this);
                     return;
                 }
             });

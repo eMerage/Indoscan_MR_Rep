@@ -81,11 +81,6 @@ public class MileageInteractorImpil implements MileageInteractor {
                             public void onComplete() {
                                 onDayStartMileageFinishedListener.dayStartMileage(mileageAvalability);
 
-                                /*if (mileageAvalability.getMileageID()==0) {
-                                    onDayStartMileageFinishedListener.dayStartMileage(false);
-                                } else {
-                                    onDayStartMileageFinishedListener.dayStartMileage(true);
-                                }*/
 
                             }
                         });
@@ -165,12 +160,15 @@ public class MileageInteractorImpil implements MileageInteractor {
             onPostDayEndMileageFinishedListener.postDayEndMileageNetworkFail();
         } else if (dayEndOdometerReading == 0) {
             onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add day end Odometer reading");
-        } else if (mileagePerDay == 0) {
-            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add mileage per day");
+        } else if (mileagePerDay<0) {
+            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add correct mileage per day");
         } else if (privetMileagePerDay == 0) {
             onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add private mileage per day");
         } else if (image == null) {
             onPostDayEndMileageFinishedListener.postDayEndMileageFail("Please add image of the meeter");
+        } else if (mileagePerDay < privetMileagePerDay) {
+            onPostDayEndMileageFinishedListener.postDayEndMileageFail("Private mileage is greater than day end odometer");
+
         } else {
 
             encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
