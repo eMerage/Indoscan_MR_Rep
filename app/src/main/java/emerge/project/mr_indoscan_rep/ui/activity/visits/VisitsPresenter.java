@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
 import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
 
@@ -41,7 +42,8 @@ public interface VisitsPresenter {
     void addProductsToVisits(ArrayList<Products> productsListGlobal,Products products,boolean addOrRemove);
     void generateImageCode(Context context,String vistisNumber);
 
-    void addVisits(Context context,int docid,String visitsNumber,String imageCode,int locationID,ArrayList<Products> productsArrayList,String comment,Location location);
+    void addVisits(Context context,int docid,String visitsNumber,String imageCode,int locationID,ArrayList<Products> productsArrayList,
+                   String comment,Location location,ArrayList<Sample> sampleArrayList);
 
     void showProductsToVisits(ArrayList<Products> addedProListGlobal,ArrayList<Products> allProcList);
 
@@ -96,6 +98,15 @@ public interface VisitsPresenter {
 
     void getSampleType(Context context);
 
+    void getSelectedSampleType(SampleType sampleType);
+
+
+
+    void getSample(Context context,int sampletypeid,ArrayList<Sample> addedSample);
+    void addSampleToVisit(Sample sample,boolean addOrRemove);
+
+
+    void updateSample(Context context,ArrayList<Sample> allSampleTypes,ArrayList<Sample> addedSampleTypes );
 
 
 

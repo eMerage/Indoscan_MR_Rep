@@ -99,11 +99,15 @@ import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsFilterLocationAda
 import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsFilterProductAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsLocationAdapter;
 import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsProductAdapter;
+import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsSampleAdapter;
+import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsSampleTypesAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.ui.adapters.visits.VisitsAdapter;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
+import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
 
@@ -159,6 +163,12 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
     @BindView(R.id.recyclerView_pro)
     RecyclerView recyclerViewPro;
 
+    @BindView(R.id.recyclerView_sampletype)
+    RecyclerView recyclerViewSampletype;
+
+
+    @BindView(R.id.recyclerView_sample)
+    RecyclerView recyclerViewSample;
 
     @BindView(R.id.autoCompleteTextView_doc)
     AutoCompleteTextView textViewDoc;
@@ -254,6 +264,9 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
     ArrayList<Products> addedvisitsProductsFilterList;
 
 
+    ArrayList<Sample> addedSampleArrayList = new ArrayList<>();
+    ArrayList<Sample> sampleArrayList = new ArrayList<>();
+
     int locationID = 0;
     int doctorID = 0;
     String date = "";
@@ -284,6 +297,13 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
         setVisitsProductRecycalView();
         setVisitsLocationRecycalView();
         setVisitsDocRecycalView();
+
+        setVisitsSampleRecycalView();
+        setVisitsSampleTypeRecycalView();
+
+
+
+
 
         setUserDetails();
 
@@ -439,7 +459,8 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
     public void onAddVisits(View view) {
         bloackUserInteraction();
         includeProgres.setVisibility(View.VISIBLE);
-        visitsPresenter.addVisits(this, selectDoctorID, visitNumber, imageCode, selectLocationID, addedproductsArrayList, edittextNote.getText().toString(), mLastKnownLocation);
+        visitsPresenter.addVisits(this, selectDoctorID, visitNumber, imageCode, selectLocationID, addedproductsArrayList, edittextNote.getText().toString(),
+                mLastKnownLocation,addedSampleArrayList);
     }
 
     @OnClick(R.id.btn_tryagin)
@@ -761,6 +782,7 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
                     }
                 });
         alertDialogBuilder.show();
+
     }
 
     @Override
@@ -998,6 +1020,9 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
         bloackUserInteraction();
         includeProgres.setVisibility(View.VISIBLE);
         visitsPresenter.getLocation(this, docID, mLastKnownLocation);
+
+
+
     }
 
     @Override
@@ -1018,6 +1043,8 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
 
         ArrayAdapter<String> doctorsAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, productNameList);
         textViewPro.setAdapter(doctorsAdapterList);
+
+        visitsPresenter.getSampleType(this);
 
     }
 
@@ -1149,6 +1176,9 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
 
         recyclerViewPro.setAdapter(null);
         recyclerViewLoc.setAdapter(null);
+        recyclerViewSample.setAdapter(null);
+        recyclerViewSampletype.setAdapter(null);
+
 
         imageViewTakenPhoto.setImageBitmap(null);
         edittextNote.setText("");
@@ -1186,7 +1216,8 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
                         public void onClick(DialogInterface dialog, int which) {
                             bloackUserInteraction();
                             includeProgres.setVisibility(View.VISIBLE);
-                            visitsPresenter.addVisits(VisitsActivity.this, selectDoctorID, visitNumber, imageCode, selectLocationID, addedproductsArrayList, edittextNote.getText().toString(), mLastKnownLocation);
+                            visitsPresenter.addVisits(VisitsActivity.this, selectDoctorID, visitNumber, imageCode, selectLocationID,
+                                    addedproductsArrayList, edittextNote.getText().toString(), mLastKnownLocation,addedSampleArrayList);
                         }
                     });
             alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -1452,6 +1483,151 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
     @Override
     public void targetDetailsError(String failMsg) {
         Toast.makeText(this, failMsg, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void sampleTypeListEmpty(String msg) {
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(msg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            visitsPresenter.getSampleType(VisitsActivity.this);
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sampleTypeList(ArrayList<SampleType> sampleTypes) {
+        if ((sampleTypes == null) || (sampleTypes.isEmpty())) {
+            Toast.makeText(this, "No any sample assigned to you", Toast.LENGTH_SHORT).show();
+        } else {
+            VisitsSampleTypesAdapter visitsSampleTypesAdapter = new VisitsSampleTypesAdapter(this, sampleTypes, this);
+            recyclerViewSampletype.setAdapter(visitsSampleTypesAdapter);
+        }
+    }
+
+    @Override
+    public void selectedSampleType(int sampleTypeID) {
+        visitsPresenter.getSample(this,sampleTypeID,addedSampleArrayList);
+    }
+
+
+    @Override
+    public void sampleListEmpty(String msg, final int sampleTypeID) {
+        try {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Warning");
+            alertDialogBuilder.setMessage(msg);
+            alertDialogBuilder.setPositiveButton("Re-Try",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            visitsPresenter.getSample(VisitsActivity.this,sampleTypeID,addedSampleArrayList);
+                        }
+                    });
+            alertDialogBuilder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    return;
+                }
+            });
+            alertDialogBuilder.show();
+        } catch (WindowManager.BadTokenException e) {
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void sampleList(ArrayList<Sample> samples) {
+        sampleArrayList = samples;
+        if ((samples == null) || (samples.isEmpty())) {
+            Toast.makeText(this, "No any sample assigned to you", Toast.LENGTH_SHORT).show();
+        } else {
+            VisitsSampleAdapter visitsSampleAdapter = new VisitsSampleAdapter(this, samples, this);
+            recyclerViewSample.setAdapter(visitsSampleAdapter);
+        }
+    }
+
+    @Override
+    public void sampleToVisit(final Sample sample, boolean status) {
+
+        if(status){
+
+            final Dialog dialogSample = new Dialog(this);
+            dialogSample.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialogSample.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialogSample.setContentView(R.layout.dialog_visits_sample_add);
+            dialogSample.setCancelable(false);
+
+
+            TextView sampleName = dialogSample.findViewById(R.id.textview_sample_name);
+            sampleName.setText(sample.getName());
+
+
+            final EditText sampleQty = dialogSample.findViewById(R.id.edittext_sample_quantity);
+            Button btnAddSamples = dialogSample.findViewById(R.id.btn_add_sample);
+
+            btnAddSamples.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if((sampleQty.getText().toString().isEmpty())  || (sampleQty.getText().toString().equals(""))){
+                        Toast.makeText(VisitsActivity.this, "Please add quantity", Toast.LENGTH_SHORT).show();
+                    }else {
+                        int qty = 0;
+                        try {
+                            qty = Integer.parseInt(sampleQty.getText().toString());
+                        }catch (NumberFormatException num){
+                        }
+                        sample.setRedeemQty(qty);
+                        addedSampleArrayList.add(sample);
+                        visitsPresenter.updateSample(VisitsActivity.this,sampleArrayList,addedSampleArrayList);
+                        dialogSample.dismiss();
+                    }
+
+                }
+            });
+
+            Button btnIgnore = dialogSample.findViewById(R.id.btn_ignore_sample);
+            btnIgnore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    visitsPresenter.updateSample(VisitsActivity.this,sampleArrayList,addedSampleArrayList);
+                    dialogSample.dismiss();
+                }
+            });
+
+
+            dialogSample.show();
+
+        }else {
+
+            addedSampleArrayList.remove(sample);
+            visitsPresenter.updateSample(VisitsActivity.this,sampleArrayList,addedSampleArrayList);
+        }
+
+
+    }
+
+    @Override
+    public void updatedSampleList(ArrayList<Sample> sample) {
+        VisitsSampleAdapter visitsSampleAdapter = new VisitsSampleAdapter(this, sample, this);
+        recyclerViewSample.setAdapter(visitsSampleAdapter);
+
     }
 
 
@@ -1875,6 +2051,24 @@ public class VisitsActivity extends Activity implements VisitsView, GoogleApiCli
         recyclerViewPro.setNestedScrollingEnabled(false);
 
     }
+
+    private void setVisitsSampleTypeRecycalView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewSampletype.setLayoutManager(layoutManager);
+        recyclerViewSampletype.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSampletype.setNestedScrollingEnabled(false);
+
+    }
+
+    private void setVisitsSampleRecycalView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewSample.setLayoutManager(layoutManager);
+        recyclerViewSample.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSample.setNestedScrollingEnabled(false);
+
+    }
+
+
 
 
     private void setVisitsFilterDocRecycalView() {

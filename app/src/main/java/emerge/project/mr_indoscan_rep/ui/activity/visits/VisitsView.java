@@ -9,6 +9,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
 import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
@@ -134,10 +135,17 @@ public interface VisitsView {
     void targetDetailsError(String failMsg);
 
 
-    void SampleTypeListEmpty(String msg);
-    void SampleTypeList(ArrayList<SampleType> sampleTypes);
+    void sampleTypeListEmpty(String msg);
+    void sampleTypeList(ArrayList<SampleType> sampleTypes);
+
+    void selectedSampleType(int sampleTypeID);
 
 
 
+        void sampleListEmpty(String msg,int sampleTypeID);
+        void sampleList(ArrayList<Sample> sampleTypes);
+        void sampleToVisit(Sample sample,boolean addOrRemove);
+
+        void updatedSampleList(ArrayList<Sample> sampleTypes);
 
 }

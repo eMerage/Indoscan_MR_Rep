@@ -7,7 +7,6 @@ import java.io.Serializable;
 public class Products implements Serializable {
 
 
-
     @SerializedName("id")
     int id;
 

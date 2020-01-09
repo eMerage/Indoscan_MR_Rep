@@ -15,6 +15,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LoginUser;
 import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
 import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.Specialization;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
@@ -130,7 +131,10 @@ public interface ApiInterface {
 
 
     @GET("SampleType/GetSampleTypesByMR")
-    Observable<ArrayList<SampleType>> getSampleTypesByMR(@Query("MRID") String ID);
+    Observable<ArrayList<SampleType>> getSampleTypesByMR(@Query("MRID") Integer ID);
+
+    @GET("Sample/GetSamplesByMR")
+    Observable<ArrayList<Sample>> GetSamplesByMR(@Query("MRID") Integer ID,@Query("SampleTypeID") Integer sampleTypeID);
 
 
 }

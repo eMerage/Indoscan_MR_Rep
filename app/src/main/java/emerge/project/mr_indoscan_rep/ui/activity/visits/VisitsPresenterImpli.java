@@ -11,6 +11,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
 import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
@@ -52,9 +53,17 @@ public class VisitsPresenterImpli implements VisitsPresenter,
         VisitsInteractor.OnAddVisitImageFinishedListener,
         VisitsInteractor.OnShowVisitDetailsListener,
         VisitsInteractor.OnSearchDocForFilterFinishedListener,
-VisitsInteractor.OnSearchLocForFilterFinishedListener,
-VisitsInteractor.OnSearchProductsForFilterFinishedListener,
-VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTypeFinishedListener{
+        VisitsInteractor.OnSearchLocForFilterFinishedListener,
+        VisitsInteractor.OnSearchProductsForFilterFinishedListener,
+        VisitsInteractor.OnTargetDetailsFinishedListener,
+        VisitsInteractor.OnGetSampleTypeFinishedListener ,
+        VisitsInteractor.OnSelectedSampleTypeFinishedListener,
+ VisitsInteractor.OnGetSampleFinishedListener,
+        VisitsInteractor.OnAddSampleToVisitFinishedListener,
+        VisitsInteractor.OnGetUpdatedSampleFinishedListener
+{
+
+
 
 
     private VisitsView visitsView;
@@ -66,8 +75,6 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
         this.visitsInteractor = new VisitsInteractorImpil();
 
     }
-
-
 
 
     @Override
@@ -130,7 +137,6 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
     public void visitsProductsNameList(ArrayList<String> productsNameListForFilter) {
         visitsView.visitsProductsNameList(productsNameListForFilter);
     }
-
 
 
     @Override
@@ -320,8 +326,9 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
 
 
     @Override
-    public void addVisits(Context context, int docid, String visitsNumber, String imageCode, int locationID, ArrayList<Products> productsArrayList, String comment, Location location) {
-        visitsInteractor.addVisits(context, docid, visitsNumber, imageCode, locationID, productsArrayList, comment, location, this);
+    public void addVisits(Context context, int docid, String visitsNumber, String imageCode, int locationID, ArrayList<Products> productsArrayList,
+                          String comment, Location location,ArrayList<Sample> sampleArrayList) {
+        visitsInteractor.addVisits(context, docid, visitsNumber, imageCode, locationID, productsArrayList, comment, location, sampleArrayList,this);
     }
 
 
@@ -539,12 +546,10 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
     }
 
 
-
     @Override
     public void visitDetails(Visit visit) {
         visitsView.visitDetails(visit);
     }
-
 
 
     @Override
@@ -556,9 +561,6 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
     public void docListForFilter(ArrayList<Doctor> docArrayList) {
         visitsView.docListForFilter(docArrayList);
     }
-
-
-
 
 
     @Override
@@ -573,16 +575,10 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
     }
 
 
-
-
-
-
-
     @Override
     public void searchProductsForFilter(ArrayList<Products> proArrayList, String productsName) {
         visitsInteractor.searchProductsForFilter(proArrayList, productsName, this);
     }
-
 
 
     @Override
@@ -591,14 +587,10 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
     }
 
 
-
-
-
     @Override
     public void getTargetDetails(Context context) {
-        visitsInteractor.getTargetDetails(context,this);
+        visitsInteractor.getTargetDetails(context, this);
     }
-
 
 
     @Override
@@ -613,21 +605,75 @@ VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTyp
     }
 
 
-
     @Override
     public void getSampleType(Context context) {
-        visitsInteractor.getSampleType(context,this);
+        visitsInteractor.getSampleType(context, this);
+    }
+
+
+    @Override
+    public void sampleTypeListEmpty(String msg) {
+        visitsView.sampleTypeListEmpty(msg);
+    }
+
+    @Override
+    public void sampleTypeList(ArrayList<SampleType> sampleTypes) {
+        visitsView.sampleTypeList(sampleTypes);
     }
 
 
 
     @Override
-    public void SampleTypeListEmpty(String msg) {
+    public void getSelectedSampleType(SampleType sampleType) {
+        visitsInteractor.getSelectedSampleType(sampleType,this);
+    }
 
+
+
+
+
+    @Override
+    public void selectedSampleType(int sampleTypeID) {
+        visitsView.selectedSampleType(sampleTypeID);
+    }
+    @Override
+    public void getSample(Context context, int sampletypeid,ArrayList<Sample> addedSample ) {
+        visitsInteractor.getSample(context,sampletypeid,addedSample,this);
+    }
+    @Override
+    public void sampleListEmpty(String msg,int sampleTypeID) {
+        visitsView.sampleListEmpty( msg, sampleTypeID);
     }
 
     @Override
-    public void SampleTypeList(ArrayList<SampleType> sampleTypes) {
+    public void sampleList(ArrayList<Sample> sampleTypes) {
+        visitsView.sampleList(sampleTypes);
+    }
 
+
+
+    @Override
+    public void addSampleToVisit(Sample sample,boolean addOrRemove) {
+        visitsInteractor.addSampleToVisit(sample,addOrRemove,this);
+    }
+
+
+
+    @Override
+    public void sampleToVisit(Sample sample,boolean addOrRemove) {
+        visitsView.sampleToVisit(sample,addOrRemove);
+    }
+
+
+    @Override
+    public void updateSample(Context context, ArrayList<Sample> allSampleTypes, ArrayList<Sample> addedSampleTypes) {
+        visitsInteractor.updateSample(context,allSampleTypes,addedSampleTypes,this);
+    }
+
+    @Override
+    public void updatedSampleList(ArrayList<Sample> sampleTypes) {
+        visitsView.updatedSampleList(sampleTypes);
     }
 }
+
+

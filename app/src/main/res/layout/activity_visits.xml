@@ -185,7 +185,7 @@
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/recyclerView_loc"
                                 android:layout_width="match_parent"
-                                android:layout_height="100dp"
+                                android:layout_height="70dp"
                                 android:layout_below="@+id/textView9"
                                 android:layout_marginLeft="15dp" />
 
@@ -243,18 +243,81 @@
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/recyclerView_pro"
                                 android:layout_width="match_parent"
-                                android:layout_height="100dp"
+                                android:layout_height="50dp"
                                 android:layout_below="@+id/relativelayout_pro"
                                 android:layout_marginLeft="15dp"
 
                                 />
 
 
+                            <RelativeLayout
+                                android:id="@+id/relativelayout_sampletype"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_below="@+id/recyclerView_pro"
+                                android:layout_marginTop="5dp">
+
+                                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                                    android:id="@+id/montserratMedium_sampletype"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="SAMPLE TYPE"
+                                    android:textColor="@color/colorPrimaryDark" />
+
+                            </RelativeLayout>
+
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerView_sampletype"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_below="@+id/relativelayout_sampletype"
+                                android:layout_marginLeft="15dp"
+
+                                />
+
+
+                            <RelativeLayout
+                                android:id="@+id/relativelayout_sample"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_below="@+id/recyclerView_sampletype"
+                                android:layout_marginTop="5dp">
+
+                                <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+                                    android:id="@+id/montserratMedium_sample"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="20dp"
+                                    android:text="SAMPLE"
+                                    android:textColor="@color/colorPrimaryDark" />
+
+                            </RelativeLayout>
+
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recyclerView_sample"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_below="@+id/relativelayout_sample"
+                                android:layout_marginLeft="15dp"
+
+                                />
+
+
+
                             <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
                                 android:id="@+id/textView11"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/recyclerView_pro"
+                                android:layout_below="@+id/recyclerView_sample"
                                 android:layout_alignStart="@+id/textView_visitnumber"
                                 android:layout_alignLeft="@+id/textView_visitnumber"
                                 android:layout_marginTop="10dp"

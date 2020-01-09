@@ -17,7 +17,7 @@
         android:layout_marginRight="15dp"
         android:background="@drawable/bg_background"
         android:elevation="5dp"
-        android:visibility="visibility">
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"

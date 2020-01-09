@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relativelayoutdailogmain"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/bg_dialog_background">
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/montserratRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="Sample Product"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/montserratRegular10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="Sample : "
+            android:layout_below="@+id/montserratRegular"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegular
+            android:id="@+id/textview_sample_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text=""
+            android:layout_toEndOf="@+id/montserratRegular10"
+            android:layout_toRightOf="@+id/montserratRegular10"
+            android:layout_below="@+id/montserratRegular"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularEdittext
+            android:id="@+id/edittext_sample_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/textview_sample_name"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/color_edittext_background"
+            android:ems="10"
+            android:hint="Sample Quantity"
+            android:inputType="number"
+            android:textColor="#2b2b2b"
+            android:textColorHint="#ababab"
+            android:textSize="16sp" />
+
+
+       <!-- <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularButton
+            android:id="@+id/btn_add_sample"
+            android:layout_below="@+id/edittext_sample_quantity"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:background="@drawable/bg_selector_gold"
+            android:text="ADD SAMPLE" />-->
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularButton
+            android:id="@+id/btn_add_sample"
+            android:layout_below="@+id/edittext_sample_quantity"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/bg_selector_gold"
+            android:textSize="12sp"
+            android:text="ADD"
+            android:layout_alignParentRight="true" />
+
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratRegularButton
+            android:id="@+id/btn_ignore_sample"
+            android:layout_below="@+id/edittext_sample_quantity"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_toStartOf="@+id/btn_add_sample"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/bg_selector_blue"
+            android:textSize="12sp"
+            android:text="IGNORE"
+            android:layout_toLeftOf="@+id/btn_add_sample" />
+
+
+    </RelativeLayout>
+</RelativeLayout>
+
+
+

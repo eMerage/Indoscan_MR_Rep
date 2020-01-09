@@ -11,6 +11,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
 import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
@@ -21,9 +22,6 @@ import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
  */
 
 public interface VisitsInteractor {
-
-
-
 
 
     interface OnsetNavigationFinishedListener {
@@ -146,7 +144,7 @@ public interface VisitsInteractor {
         void addVisitsFail(String failMsg,int docid,String visitsNumber,String imageCode,int locationID,ArrayList<Products> productsArrayList,String comment);
         void addVisitsNetworkFail();
     }
-    void addVisits(Context context,int docid,String visitsNumber,String imageCode,int locationID,ArrayList<Products> productsArrayList,String comment,Location location,OnAddVisitsFinishedListener onAddVisitsFinishedListener);
+    void addVisits(Context context,int docid,String visitsNumber,String imageCode,int locationID,ArrayList<Products> productsArrayList,String comment,Location location,ArrayList<Sample> sampleArrayList,OnAddVisitsFinishedListener onAddVisitsFinishedListener);
 
 
 
@@ -281,12 +279,36 @@ public interface VisitsInteractor {
 
 
     interface OnGetSampleTypeFinishedListener {
-        void SampleTypeListEmpty(String msg);
-        void SampleTypeList(ArrayList<SampleType> sampleTypes);
+        void sampleTypeListEmpty(String msg);
+        void sampleTypeList(ArrayList<SampleType> sampleTypes);
     }
     void getSampleType(Context context,OnGetSampleTypeFinishedListener  onGetSampleTypeFinishedListener);
 
 
+    interface OnSelectedSampleTypeFinishedListener {
+        void selectedSampleType(int sampleTypeID);
+    }
+    void getSelectedSampleType(SampleType sampleType, OnSelectedSampleTypeFinishedListener onSelectedSampleTypeFinishedListener);
+
+
+    interface OnGetSampleFinishedListener {
+        void sampleListEmpty(String msg,int sampleTypeID);
+        void sampleList(ArrayList<Sample> sampleTypes);
+    }
+    void getSample(Context context,int sampletypeid,ArrayList<Sample> addedSample ,OnGetSampleFinishedListener  onGetSampleFinishedListener);
+
+
+    interface OnAddSampleToVisitFinishedListener {
+        void sampleToVisit(Sample sample,boolean addOrRemove);
+    }
+    void addSampleToVisit(Sample sample,boolean addOrRemove, OnAddSampleToVisitFinishedListener onAddSampleToVisitFinishedListener);
+
+
+
+    interface OnGetUpdatedSampleFinishedListener {
+        void updatedSampleList(ArrayList<Sample> sampleTypes);
+    }
+    void updateSample(Context context,ArrayList<Sample> allSampleTypes,ArrayList<Sample> addedSampleTypes ,  OnGetUpdatedSampleFinishedListener onGetUpdatedSampleFinishedListener);
 
 
 

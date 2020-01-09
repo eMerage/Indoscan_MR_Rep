@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -32,6 +33,8 @@ import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.Sample;
+import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
 import emerge.project.mr_indoscan_rep.utils.entittes.VisitProducts;
@@ -59,11 +62,15 @@ public class VisitsInteractorImpil implements VisitsInteractor {
     ArrayList<LocationEntitie> locationList;
     ArrayList<Products> productsList;
 
-   Visit visitsRespond=new Visit();
-    Boolean visitImageRespond=false;
+    Visit visitsRespond = new Visit();
+    Boolean visitImageRespond = false;
 
 
-    TargetDetails targetDetails ;
+    TargetDetails targetDetails;
+
+
+    ArrayList<SampleType> sampleTypeRespond;
+    ArrayList<Sample> sampleRespond;
 
     @Override
     public void setNavigation(OnsetNavigationFinishedListener onsetNavigationFinishedListener) {
@@ -95,7 +102,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                 final ArrayList<String> locNameListForFilter = new ArrayList<String>();
                 final ArrayList<String> proNameListForFilter = new ArrayList<String>();
 
-                System.out.println("cccc : "+userId+" "+locationID+" "+doctorID+" "+date);
+                System.out.println("cccc : " + userId + " " + locationID + " " + doctorID + " " + date);
 
 
                 apiService.getAllVisits(userId, locationID, doctorID, date)
@@ -130,7 +137,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                                         }
 
                                         visitItems.add(new Visit(visit.getId(), visit.getCode(), visit.getVisitNumber(), visit.getLocationID(), visit.getLocation(), visit.getDoctorID(), visit.getDoctorName(),
-                                                visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false,visit.getImageUrl()));
+                                                visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false, visit.getImageUrl()));
                                     }
                                     onGetVisitsFinishedListener.visitsList(visitItems);
 
@@ -208,7 +215,6 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                                     onGetVisitsFinishedListener.visitsDoctorsNameList(docNameListForFilter);
                                     onGetVisitsFinishedListener.visitsLocationNameList(locNameListForFilter);
                                     onGetVisitsFinishedListener.visitsProductsNameList(proNameListForFilter);
-
 
 
                                 }
@@ -582,7 +588,9 @@ public class VisitsInteractorImpil implements VisitsInteractor {
     }
 
     @Override
-    public void addVisits(Context context, final int docid, final String visitsNumber, final String imageCode, final int locationID, final ArrayList<Products> productsArrayList, final String comment, Location location, final OnAddVisitsFinishedListener onAddVisitsFinishedListener) {
+    public void addVisits(Context context, final int docid, final String visitsNumber, final String imageCode, final int locationID,
+                          final ArrayList<Products> productsArrayList, final String comment, Location location,
+                          final ArrayList<Sample> sampleArrayList,final OnAddVisitsFinishedListener onAddVisitsFinishedListener) {
 
         if (!NetworkAvailability.isNetworkAvailable(context)) {
             onAddVisitsFinishedListener.addVisitsNetworkFail();
@@ -619,8 +627,20 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                 ob.addProperty("ProductID", pro.getId());
                 productJsonArr.add(ob);
             }
+            JsonArray sampleJsonArr = new JsonArray();
+            for (Sample sam : sampleArrayList) {
+                JsonObject ob = new JsonObject();
+                ob.addProperty("SampleID", sam.getId());
+                ob.addProperty("Quantity", sam.getRedeemQty());
+                sampleJsonArr.add(ob);
+            }
+
+
 
             jsonObject.add("VisitsProduct", productJsonArr);
+            jsonObject.add("VisitSample", sampleJsonArr);
+
+
             try {
                 apiService.saveVisit(jsonObject)
                         .subscribeOn(Schedulers.io())
@@ -647,7 +667,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                         });
 
             } catch (Exception ex) {
-                onAddVisitsFinishedListener.addVisitsFail("Something went wrong, Please try again"+ex.toString(), docid, visitsNumber, imageCode, locationID, productsArrayList, comment);
+                onAddVisitsFinishedListener.addVisitsFail("Something went wrong, Please try again" + ex.toString(), docid, visitsNumber, imageCode, locationID, productsArrayList, comment);
             }
         }
     }
@@ -892,12 +912,12 @@ public class VisitsInteractorImpil implements VisitsInteractor {
     public void setSelectedFilterLocation(ArrayList<LocationEntitie> totalLocList, ArrayList<LocationEntitie> selectedLocList, OnSetSelectedFilterLocationFinishedListener onSetSelectedFilterLocationFinishedListener) {
         ArrayList<LocationEntitie> newLocList = new ArrayList<LocationEntitie>();
         if (selectedLocList.isEmpty()) {
-            if(!totalLocList.isEmpty()){
+            if (!totalLocList.isEmpty()) {
                 for (LocationEntitie l : totalLocList) {
                     l.setSelect(false);
                 }
                 newLocList = totalLocList;
-            }else {
+            } else {
 
             }
 
@@ -972,7 +992,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
                     }
                     filterdVisitList.add(new Visit(visit.getId(), visit.getCode(), visit.getVisitNumber(), visit.getLocationID(), visit.getLocation(), visit.getDoctorID(), visit.getDoctorName(),
-                            visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false,visit.getImageUrl()));
+                            visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false, visit.getImageUrl()));
 
                 }
 
@@ -1010,7 +1030,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
                         }
                         filterdVisitList.add(new Visit(visit.getId(), visit.getCode(), visit.getVisitNumber(), visit.getLocationID(), visit.getLocation(), visit.getDoctorID(), visit.getDoctorName(),
-                                visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false,visit.getImageUrl()));
+                                visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false, visit.getImageUrl()));
 
                     }
 
@@ -1038,7 +1058,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
                             }
                             filterdVisitList.add(new Visit(visit.getId(), visit.getCode(), visit.getVisitNumber(), visit.getLocationID(), visit.getLocation(), visit.getDoctorID(), visit.getDoctorName(),
-                                    visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false,visit.getImageUrl()));
+                                    visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false, visit.getImageUrl()));
 
                         } else {
 
@@ -1105,7 +1125,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
                             }
                             filterdVisitList.add(new Visit(visit.getId(), visit.getCode(), visit.getVisitNumber(), visit.getLocationID(), visit.getLocation(), visit.getDoctorID(), visit.getDoctorName(),
-                                    visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false,visit.getImageUrl()));
+                                    visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false, visit.getImageUrl()));
 
 
                         } else {
@@ -1162,9 +1182,9 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                         if (status) {
                         } else {
                             for (Products pro : proList) {
-                               int aa =pro.getId();
+                                int aa = pro.getId();
 
-                                int bb =visitProducts.getProductID();
+                                int bb = visitProducts.getProductID();
 
                                 if (pro.getId() == visitProducts.getProductID()) {
                                     status = true;
@@ -1176,14 +1196,14 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                         }
 
                         visitProductsList.add(new VisitProducts(visitProducts.getId(), visitProducts.getProductID(), visitProducts.getVisitID(), visitProducts.getProductName(),
-                                    visitProducts.getImageUrl()));
+                                visitProducts.getImageUrl()));
 
 
                     }
 
                     if (status) {
                         filterdVisitList.add(new Visit(visit.getId(), visit.getCode(), visit.getVisitNumber(), visit.getLocationID(), visit.getLocation(), visit.getDoctorID(), visit.getDoctorName(),
-                                visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false,visit.getImageUrl()));
+                                visit.getRepID(), visit.getRepName(), visit.getComment(), visit.getVisitDate(), visit.getLatitude(), visit.getLongitude(), visit.getVisitsProduct(), false, visit.getImageUrl()));
                     } else {
 
                     }
@@ -1221,7 +1241,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
             }
         }
 
-        if ((startDate.equals("")) & (endDate.equals("")) & (docList.isEmpty()) & (locList.isEmpty()) & (proList.isEmpty()) ) {
+        if ((startDate.equals("")) & (endDate.equals("")) & (docList.isEmpty()) & (locList.isEmpty()) & (proList.isEmpty())) {
             filterdVisitList = visitArrayList;
         } else {
         }
@@ -1241,7 +1261,6 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
             jsonObject.addProperty("imagecode", imageCode);
             jsonObject.addProperty("ImageBase64", BitMapToString(img));
-
 
 
             try {
@@ -1328,7 +1347,6 @@ public class VisitsInteractorImpil implements VisitsInteractor {
         onSearchDocForFilterFinishedListener.docListForFilter(searchArrayList);
 
 
-
     }
 
     @Override
@@ -1407,7 +1425,6 @@ public class VisitsInteractorImpil implements VisitsInteractor {
         onSearchProductsForFilterFinishedListener.productsListForFilter(searchArrayList);
 
 
-
     }
 
     @Override
@@ -1431,12 +1448,12 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
                             @Override
                             public void onNext(TargetDetails respond) {
-                                targetDetails =respond;
+                                targetDetails = respond;
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                onTargetDetailsFinishedListener.targetDetailsError("Something went wrong when getting Target from server , Please try again "+e);
+                                onTargetDetailsFinishedListener.targetDetailsError("Something went wrong when getting Target from server , Please try again " + e);
                             }
 
                             @Override
@@ -1446,7 +1463,7 @@ public class VisitsInteractorImpil implements VisitsInteractor {
                         });
 
             } catch (Exception ex) {
-                onTargetDetailsFinishedListener.targetDetailsError("Something went wrong when getting Target from server , Please try again "+ex);
+                onTargetDetailsFinishedListener.targetDetailsError("Something went wrong when getting Target from server , Please try again " + ex);
             }
 
 
@@ -1455,8 +1472,136 @@ public class VisitsInteractorImpil implements VisitsInteractor {
     }
 
     @Override
-    public void getSampleType(Context context, OnGetSampleTypeFinishedListener onGetSampleTypeFinishedListener) {
+    public void getSampleType(Context context, final OnGetSampleTypeFinishedListener onGetSampleTypeFinishedListener) {
 
+        encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
+        int userId = encryptedPreferences.getInt(USER_ID, 0);
+        if (!NetworkAvailability.isNetworkAvailable(context)) {
+            onGetSampleTypeFinishedListener.sampleTypeListEmpty("No Internet Access, Please try again");
+        } else {
+            try {
+                apiService.getSampleTypesByMR(userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ArrayList<SampleType>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(ArrayList<SampleType> respond) {
+                                sampleTypeRespond = respond;
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                onGetSampleTypeFinishedListener.sampleTypeListEmpty("Something went wrong, Please try again");
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                onGetSampleTypeFinishedListener.sampleTypeList(sampleTypeRespond);
+                            }
+                        });
+
+            } catch (Exception ex) {
+                onGetSampleTypeFinishedListener.sampleTypeListEmpty("Something went wrong, Please try again");
+            }
+        }
+
+    }
+
+    @Override
+    public void getSelectedSampleType(SampleType sampleType, OnSelectedSampleTypeFinishedListener onSelectedSampleTypeFinishedListener) {
+        onSelectedSampleTypeFinishedListener.selectedSampleType(sampleType.getId());
+    }
+
+    @Override
+    public void getSample(Context context, final int sampletypeid, final ArrayList<Sample> addedSample , final OnGetSampleFinishedListener onGetSampleFinishedListener) {
+
+        encryptedPreferences = new EncryptedPreferences.Builder(context).withEncryptionPassword("122547895511").build();
+        int userId = encryptedPreferences.getInt(USER_ID, 0);
+
+        if (!NetworkAvailability.isNetworkAvailable(context)) {
+            onGetSampleFinishedListener.sampleListEmpty("No Internet Access, Please try again", sampletypeid);
+        } else {
+            try {
+                apiService.GetSamplesByMR(userId, sampletypeid)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<ArrayList<Sample>>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(ArrayList<Sample> respond) {
+                                sampleRespond = respond;
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                onGetSampleFinishedListener.sampleListEmpty("Something went wrong, Please try again", sampletypeid);
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                                for(Sample addedSam : addedSample){
+                                    if(sampleRespond.contains(addedSam)){
+                                        for(Sample sam : sampleRespond){
+                                            if(sam.getId() == addedSam.getId()){
+                                                sam.setRedeemQty(addedSam.getRedeemQty());
+                                            }
+
+                                        }
+
+                                    }else {
+                                        sampleRespond.add(addedSam);
+
+                                    }
+
+                                }
+
+                                Collections.sort(sampleRespond);
+                                onGetSampleFinishedListener.sampleList(sampleRespond);
+                            }
+                        });
+
+            } catch (Exception ex) {
+                onGetSampleFinishedListener.sampleListEmpty("Something went wrong, Please try again", sampletypeid);
+            }
+        }
+
+    }
+
+    @Override
+    public void addSampleToVisit(Sample sample, boolean addOrRemove, OnAddSampleToVisitFinishedListener onAddSampleToVisitFinishedListener) {
+        onAddSampleToVisitFinishedListener.sampleToVisit(sample,addOrRemove);
+    }
+
+    @Override
+    public void updateSample(Context context, ArrayList<Sample> allSampleTypes, ArrayList<Sample> addedSampleTypes, OnGetUpdatedSampleFinishedListener onGetUpdatedSampleFinishedListener) {
+        ArrayList<Sample> sampleTypes = new ArrayList<Sample>();
+
+        for(Sample allsam: allSampleTypes){
+            for(Sample addedsam: addedSampleTypes){
+                if(allsam.getId() == addedsam.getId()){
+                    allsam.setSelect(true);
+                    allsam.setRedeemQty(addedsam.getRedeemQty());
+                }else {
+
+
+                }
+
+            }
+
+            sampleTypes.add(allsam);
+        }
+
+        Collections.sort(sampleTypes);
+        onGetUpdatedSampleFinishedListener.updatedSampleList(sampleTypes);
 
 
     }
