@@ -1454,6 +1454,13 @@ public class VisitsInteractorImpil implements VisitsInteractor {
 
     }
 
+    @Override
+    public void getSampleType(Context context, OnGetSampleTypeFinishedListener onGetSampleTypeFinishedListener) {
+
+
+
+    }
+
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

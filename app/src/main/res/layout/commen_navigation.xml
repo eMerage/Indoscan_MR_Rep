@@ -35,16 +35,16 @@
     </RelativeLayout>
 
 
-    <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
-        android:id="@+id/text_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativelayout_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:text="Saman"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16sp" />
+        <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relativelayout_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="Saman"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp" />
 
     <emerge.project.mr_indoscan_rep.ui.fonts.MontserratMedium
         android:id="@+id/text_company"

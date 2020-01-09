@@ -11,6 +11,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
 
@@ -53,7 +54,7 @@ public class VisitsPresenterImpli implements VisitsPresenter,
         VisitsInteractor.OnSearchDocForFilterFinishedListener,
 VisitsInteractor.OnSearchLocForFilterFinishedListener,
 VisitsInteractor.OnSearchProductsForFilterFinishedListener,
-VisitsInteractor.OnTargetDetailsFinishedListener{
+VisitsInteractor.OnTargetDetailsFinishedListener,VisitsInteractor.OnGetSampleTypeFinishedListener{
 
 
     private VisitsView visitsView;
@@ -598,6 +599,8 @@ VisitsInteractor.OnTargetDetailsFinishedListener{
         visitsInteractor.getTargetDetails(context,this);
     }
 
+
+
     @Override
     public void targetDetails(TargetDetails target) {
 
@@ -611,4 +614,20 @@ VisitsInteractor.OnTargetDetailsFinishedListener{
 
 
 
+    @Override
+    public void getSampleType(Context context) {
+        visitsInteractor.getSampleType(context,this);
+    }
+
+
+
+    @Override
+    public void SampleTypeListEmpty(String msg) {
+
+    }
+
+    @Override
+    public void SampleTypeList(ArrayList<SampleType> sampleTypes) {
+
+    }
 }

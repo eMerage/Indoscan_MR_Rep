@@ -15,6 +15,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LoginUser;
 import emerge.project.mr_indoscan_rep.utils.entittes.Mileage;
 import emerge.project.mr_indoscan_rep.utils.entittes.Pharmacy;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.Specialization;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
@@ -38,15 +39,12 @@ public interface ApiInterface {
     Observable<ArrayList<Doctor>> getApprovedDoctorsNearLocation(@Query("MRID") int mrID, @Query("Latitude") double latitude, @Query("Longitude") double longitude);
 
 
-
     @GET("Location/GetNearbyLocationsOfDoctor")
     Observable<ArrayList<LocationEntitie>> getNearbyLocationsOfDoctor(@Query("DoctorID") int docID, @Query("Latitude") double latitude, @Query("Longitude") double longitude);
 
 
     @GET("Product/GetAllProductsForMR")
     Observable<ArrayList<Products>> getAllProductsForMR(@Query("MRID") int mrID);
-
-
 
 
     @POST("Visit/SaveVisit")
@@ -72,7 +70,6 @@ public interface ApiInterface {
     Observable<ArrayList<Specialization>> getApprovedSpecializations(@Query("TokenID") String tokenID);
 
 
-
     @POST("Doctor/SaveDoctor")
     Observable<ArrayList<Doctor>> saveDoctor(@Body JsonObject doctorInfo);
 
@@ -83,7 +80,6 @@ public interface ApiInterface {
 
     @GET("TargetAchievement/GetTargetAchievement")
     Observable<TargetDetails> getTargetAchievement(@Query("mrid") int mrID);
-
 
 
     @GET("Expense/GetExpenseCategories")
@@ -100,12 +96,8 @@ public interface ApiInterface {
     Observable<Boolean> saveExpenseImages(@Body JsonObject expenseImageInfo);
 
 
-
-
     @GET("Mileage/GetPreviousMileageByUser")
     Observable<Mileage> getPreviousMileageByUser(@Query("userID") int userID);
-
-
 
 
     @POST("Mileage/SaveDayStartMileage")
@@ -113,7 +105,6 @@ public interface ApiInterface {
 
     @POST("Mileage/SaveDayEndMileage")
     Observable<Boolean> saveDayEndMileage(@Body JsonObject mileageInfo);
-
 
 
     @POST("Mileage/SaveMileageImage")
@@ -137,6 +128,9 @@ public interface ApiInterface {
     @GET("LocationType/GetAllLocationTypes")
     Observable<ArrayList<LocationType>> getAllLocationTypes(@Query("TokenID") String tokenID);
 
+
+    @GET("SampleType/GetSampleTypesByMR")
+    Observable<ArrayList<SampleType>> getSampleTypesByMR(@Query("MRID") String ID);
 
 
 }

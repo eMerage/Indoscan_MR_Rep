@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
 
 /**
@@ -90,6 +91,14 @@ public interface VisitsPresenter {
 
 
     void getTargetDetails(Context context);
+
+
+
+    void getSampleType(Context context);
+
+
+
+
 
 
 }

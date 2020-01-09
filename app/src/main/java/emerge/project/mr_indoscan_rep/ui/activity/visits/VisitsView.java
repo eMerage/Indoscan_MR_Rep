@@ -9,6 +9,7 @@ import emerge.project.mr_indoscan_rep.utils.entittes.LocationEntitie;
 import emerge.project.mr_indoscan_rep.utils.entittes.Doctor;
 import emerge.project.mr_indoscan_rep.utils.entittes.Navigation;
 import emerge.project.mr_indoscan_rep.utils.entittes.Products;
+import emerge.project.mr_indoscan_rep.utils.entittes.SampleType;
 import emerge.project.mr_indoscan_rep.utils.entittes.TargetDetails;
 import emerge.project.mr_indoscan_rep.utils.entittes.Visit;
 
@@ -131,6 +132,11 @@ public interface VisitsView {
 
     void targetDetails(TargetDetails target);
     void targetDetailsError(String failMsg);
+
+
+    void SampleTypeListEmpty(String msg);
+    void SampleTypeList(ArrayList<SampleType> sampleTypes);
+
 
 
 
